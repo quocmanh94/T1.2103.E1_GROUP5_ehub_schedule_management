@@ -5,72 +5,11 @@
  */
 package com.example.DemoProjectSem04.controller;
 
-import com.example.DemoProjectSem04.DTO.Tbclassdto;
-import com.example.DemoProjectSem04.utils.PasswordGenerator;
-import com.example.DemoProjectSem04.DTO.Tbstaffdto;
-import com.example.DemoProjectSem04.DTO.Tbstudentdto;
-import com.example.DemoProjectSem04.DTO.Tbteachingschedule;
-import com.example.DemoProjectSem04.DTO.Tbuserdto;
-import com.example.DemoProjectSem04.DTO.Tbuserdto2;
-import com.example.DemoProjectSem04.DTO.Tbworkingstafflistdto;
-import com.example.DemoProjectSem04.entities.Tbclass;
-import com.example.DemoProjectSem04.entities.Tbclassroom;
-import com.example.DemoProjectSem04.entities.Tbclassschedule;
-import com.example.DemoProjectSem04.entities.Tbclasstime;
-import com.example.DemoProjectSem04.entities.Tbcourse;
-import com.example.DemoProjectSem04.entities.Tbcourseclass;
-import com.example.DemoProjectSem04.entities.Tbcoursemodule;
-import com.example.DemoProjectSem04.entities.TbcoursemodulePK;
-import com.example.DemoProjectSem04.entities.Tbmodule;
-import com.example.DemoProjectSem04.entities.Tbpositiongroup;
-import com.example.DemoProjectSem04.entities.Tbrole;
-import com.example.DemoProjectSem04.entities.Tbstaff;
-import com.example.DemoProjectSem04.entities.Tbstudent;
-import com.example.DemoProjectSem04.entities.Tbuser;
-import com.example.DemoProjectSem04.entities.Tbworkingschedule;
-import com.example.DemoProjectSem04.interfaces.tbUserInterface;
-import com.example.DemoProjectSem04.services.tbCenterService;
-import com.example.DemoProjectSem04.services.tbClassScheduleService;
-import com.example.DemoProjectSem04.services.tbClassService;
-import com.example.DemoProjectSem04.services.tbClassTimeService;
-import com.example.DemoProjectSem04.services.tbClassroomService;
-import com.example.DemoProjectSem04.services.tbCourseClassService;
-import com.example.DemoProjectSem04.services.tbCourseModuleService;
-import com.example.DemoProjectSem04.services.tbCourseService;
-import com.example.DemoProjectSem04.services.tbModuleService;
-import com.example.DemoProjectSem04.services.tbPositionGroupService;
-import com.example.DemoProjectSem04.services.tbRoleService;
-import com.example.DemoProjectSem04.services.tbStaffService;
-import com.example.DemoProjectSem04.services.tbStudentService;
-import com.example.DemoProjectSem04.services.tbUserService;
-import com.example.DemoProjectSem04.services.tbWorkingScheduleService;
-import com.example.DemoProjectSem04.utils.FileUploadUtil;
-import static com.example.DemoProjectSem04.utils.PasswordGenerator.encryptPassword;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.mail.MessagingException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import com.example.DemoProjectSem04.DTO.*;
+import com.example.DemoProjectSem04.entities.*;
+import com.example.DemoProjectSem04.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -82,15 +21,27 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static com.example.DemoProjectSem04.utils.PasswordGenerator.encryptPassword;
 
 /**
  *
@@ -149,12 +100,12 @@ public class HomeController {
     tbWorkingScheduleService workingScheduleService;
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login(Model model) {
+    public String login() {
         return "admin/login";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         boolean isSecure = false;
         String contextPath = null;
         if (request != null) {
@@ -181,7 +132,7 @@ public class HomeController {
 
     @RequestMapping({"/users"})
     public String usersPage(Model model, @ModelAttribute("messageResult") String messageResult) {
-        if (messageResult != "") {
+        if (messageResult.equals("")) {
             model.addAttribute("messageResult", messageResult);
         }
         List<Tbuser> listTbuser = userService.findAllUser();
@@ -192,7 +143,7 @@ public class HomeController {
     @RequestMapping({"/classrooms"})
     public String classroomsPage(Model model, @ModelAttribute("messageResult") String messageResult) {
         model.addAttribute("classroom", new Tbclassroom());
-        if (messageResult != "") {
+        if (messageResult.equals("")) {
             model.addAttribute("messageResult", messageResult);
         }
         List<Tbclassroom> listTbclassroom = classroomService.findAllClassroom();
@@ -871,11 +822,11 @@ public class HomeController {
         return l;
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("list", userService.findAllUser());
         return "index";
-    }
+    }*/
 
     @GetMapping(value = "/403")
     public String erro403() {

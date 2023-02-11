@@ -6,6 +6,7 @@
 package com.example.DemoProjectSem04.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -41,10 +42,10 @@ public class Tbcourseclass implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "descrip")
     private String descrip;
-    @Column(name = "month")
-    private Integer month;
-    @Column(name = "year")
-    private Integer year;
+    @Column(name = "startdate")
+    private Date startdate;
+    @Column(name = "enddate")
+    private Date enddate;
 
     public Tbcourseclass() {
     }
@@ -81,20 +82,20 @@ public class Tbcourseclass implements Serializable {
         this.descrip = descrip;
     }
 
-    public Integer getMonth() {
-        return month;
+    public Date getStartDate() {
+        return startdate;
     }
 
-    public void setMonth(Integer month) {
-        this.month = month;
+    public void setStartDate(Date startdate) {
+        this.startdate = startdate;
     }
 
-    public Integer getYear() {
-        return year;
+    public Date getEndDate() {
+        return enddate;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setEndDate(Date enddate) {
+        this.enddate = enddate;
     }
 
     @Override

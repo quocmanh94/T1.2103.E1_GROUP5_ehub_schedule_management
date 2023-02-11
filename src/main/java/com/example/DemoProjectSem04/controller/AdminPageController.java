@@ -531,7 +531,7 @@ public class AdminPageController {
         String strClassName = className;
         String strClassContent = classDescription;
         int month = tbcourse.getMonth();
-        int year = tbcourse.getMonth();
+        int year = tbcourse.getYear();
         int centercode = 1;
         int isclock = 0;
         if (tbclass == null) {
@@ -763,8 +763,11 @@ public class AdminPageController {
         tbcourseclass.setTbcourseclassPK(tbcourseclassPK);
         tbcourseclass.setDescrip(strClassContent);
         tbcourseclass.setClassname(strClassName);
-        tbcourseclass.setMonth(month);
-        tbcourseclass.setYear(year);
+        
+        // them du lieu enddate va startdate
+        //tbcourseclass.setMonth(month);
+        //tbcourseclass.setYear(year);
+        
         courseClassService.saveCourseClass(tbcourseclass);
         // end add Tbcourseclass
 

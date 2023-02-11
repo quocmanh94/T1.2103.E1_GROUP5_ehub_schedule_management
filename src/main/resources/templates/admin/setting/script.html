@@ -1,0 +1,51 @@
+<!-- jQuery -->
+<script src="/admin/assets/js/jquery-3.5.1.min.js"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="/admin/assets/js/popper.min.js"></script>
+<script src="/admin/assets/js/bootstrap.min.js"></script>
+<script src="https:/cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Slimscroll JS -->
+<script src="/admin/assets/js/jquery.slimscroll.min.js"></script>
+<script src="/admin/assets/js/jquery.dataTables.min.js"></script>
+<script src="/admin/assets/js/dataTables.bootstrap4.min.js"></script>
+<!-- Select2 JS -->
+<script src="/admin/assets/js/select2.min.js"></script>
+
+<!-- Custom JS -->
+<script src="/admin/assets/js/app.js"></script>
+
+
+
+<script type="text/javascript">
+
+    function editCenterModal(id) {
+        $.ajax({
+            type: "GET",
+            url: "/admin/setting/editCenterModal",
+            data: {id: id},
+            success: function (result) {
+
+                $('#centercodes').val(result.centercode);
+                $('#centernames').val(result.centername);
+                $('#centerphones').val(result.centerphone);
+                $('#centeraddresss').html(result.centeraddress);
+                $('#centernotes').val(result.centernote);
+                $('#centerdefaults').val(result.centerdefault);
+                $('#isdeletes').val(result.isdelete);
+                $('#edit_department').modal("show");
+
+            }
+        });
+    }
+
+    function deleteCenterModal(id) {
+        $('#idcenterDlt').val(id);
+        $('#delete_department').modal("show");
+    }
+
+    $('#leftsidebarMenuSetting li').on('click', function () {
+        localStorage.setItem('active', this.className);
+    });
+
+</script>

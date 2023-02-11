@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/admin_setting_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <!--                <div class="page-header">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h3 class="page-title">Roles & Permissions</h3>
+                                        </div>
+                                    </div>
+                                </div>-->
+                <!-- /Page Header -->
+
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="page-title">Positions & Permissions</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Positions & Permissions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                        <h6 class="card-title m-b-20">Position</h6>
+                        <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add_role"><i class="fa fa-plus"></i> Add Position</a>
+                        <div class="roles-menu" id="dataPositionGroup" style="height: 342px; overflow-y: scroll;overflow-x: hidden">
+                            <ul class="dataPositionGroupList">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8 col-xl-9">
+                        <h6 class="card-title m-b-20">Function</h6>
+                        <div class="m-b-30" id="functionList" style="height: 400px; overflow-y: scroll;overflow-x: hidden">
+                            <ul class="list-group notification-list">
+
+                            </ul>
+                        </div>      	
+                        <div class="table-responsive" style="padding-right: 15px">
+                            <table class="table table-striped custom-table" id="permisionofposision">
+                                <thead id="headPermision">
+<!--                                    <tr>
+                                        <th>Module Permission</th>
+                                        <th class="text-center">Read</th>
+                                        <th class="text-center">Write</th>
+                                        <th class="text-center">Create</th>
+                                        <th class="text-center">Delete</th>
+                                        <th class="text-center">Import</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                        <th class="text-center">Export</th>
+                                    </tr>-->
+                                </thead>
+                                <tbody id="bodyPermision">
+                                    <!--                                    <tr>
+                                                                            <td>Employee</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" >
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Holidays</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Leaves</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Events</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Events</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Events</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Events</td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input type="checkbox" checked="">
+                                                                            </td>
+                                                                        </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Content -->
+
+            <!-- Add Role Modal -->
+            <div id="add_role" class="modal custom-modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Role</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Role Name <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="submit-section">
+                                    <button class="btn btn-primary submit-btn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Add Role Modal -->
+
+            <!-- Edit Role Modal -->
+            <div id="edit_role" class="modal custom-modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-md">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Role</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Role Name <span class="text-danger">*</span></label>
+                                    <input class="form-control" value="Team Leader" type="text">
+                                </div>
+                                <div class="submit-section">
+                                    <button class="btn btn-primary submit-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Edit Role Modal -->
+
+            <!-- Delete Role Modal -->
+            <div class="modal custom-modal fade" id="delete_role" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-header">
+                                <h3>Delete Role</h3>
+                                <p>Are you sure want to delete?</p>
+                            </div>
+                            <div class="modal-btn delete-action">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Delete Role Modal -->
+
+        </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    var abcsd = "";
+    $(document).ready(function () {
+        loadPositionGroup();
+        loadPermisionPosision();
+        loadOnlyFunction();
+//        loadFunction(idPermistion);
+        const active = localStorage.getItem('active');
+        $('#leftsidebarMenuSetting li').removeClass('active');
+        $('#leftsidebarMenuSetting li.' + active).addClass('active');
+    });
+
+    function updatePermision(idPermistion, idPosition) {
+        $.ajax({
+            type: "GET",
+            data: {idPermistion: idPermistion, idPosition: idPosition},
+            url: "/admin/updatePermision",
+            success: function (result) {
+                var title = "";
+                if (result === "true") {
+                    title = "Add Permision Successfully !";
+                } else {
+                    title = "Cancel Permision Successfully!";
+                }
+
+                Swal.fire({
+                    icon: 'success',
+                    title: "Notification !",
+                    text: title
+                });
+
+                loadFunction(idPosition);
+                loadOnlyFunction();
+                loadPermisionPosision();
+            }
+        });
+    }
+
+    function loadOnlyFunction() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/loadOnlyFunction",
+            success: function (result) {
+                $('#headPermision').empty();
+                var headTablePermision = "<tr><th>Module Permission</th>";
+                $.each(result, function (index, value) {
+
+                    headTablePermision += "<th>" + value.functionname + "</th>";
+                    
+                });
+                headTablePermision += "</tr>";
+                $("#headPermision").append(headTablePermision);
+            }
+        });
+    }
+
+    function loadFunction(idPermistion) {
+        $.ajax({
+            type: "GET",
+            data: {idPermistion: idPermistion},
+            url: "/admin/loadFunction",
+            success: function (result) {
+                $('#functionList .notification-list').empty();
+                $.each(result, function (index, value) {
+
+                    var abc = "abc";
+                    var functionDataRow = "";
+                    if (value.permision === "True") {
+                        functionDataRow = "<li class=\"list-group-item\">\n\
+                                                " + value.functionname + "\n\
+                                                <div class=\"status-toggle\">\n\
+                                                    <input type=\"checkbox\" id=\" " + value.functionname + "_module \" class=\"check\" checked/>\n\
+                                                    <label for=\" " + value.functionname + "_module \" class=\"checktoggle\" onclick=\"updatePermision('" + value.functioncode + "','" + value.pgcode + "')\">\n\
+                                                        checkbox\n\
+                                                    </label>\n\
+                                                </div>\n\
+                                            </li>";
+                    } else {
+                        functionDataRow = "<li class=\"list-group-item\">\n\
+                                                " + value.functionname + "\n\
+                                                <div class=\"status-toggle\">\n\
+                                                    <input type=\"checkbox\" id=\" " + value.functionname + "_module \" class=\"check\"/>\n\
+                                                    <label for=\" " + value.functionname + "_module \" class=\"checktoggle\" onclick=\"updatePermision('" + value.functioncode + "','" + value.pgcode + "')\">\n\
+                                                        checkbox\n\
+                                                    </label>\n\
+                                                </div>\n\
+                                            </li>";
+                    }
+
+                    $("#functionList .notification-list").append(functionDataRow);
+                });
+            }
+        });
+    }
+
+    function loadFunction2(idPermistion, namePosision) {
+        $.ajax({
+            type: "GET",
+            data: {idPermistion: idPermistion},
+            url: "/admin/loadFunction",
+            success: function (result) {
+                abcsd = "<tr><td>" + namePosision + "</td>";
+                $.each(result, function (index, value) {
+
+                    if (value.permision === "True") {
+                        abcsd += "<td class=\"text-center\"><input type=\"checkbox\" checked/></td>";
+
+                    } else {
+                        abcsd += "<td class=\"text-center\"><input type=\"checkbox\"/></td>";
+                    }
+
+                });
+                abcsd += "</tr>";
+                $('#permisionofposision tbody').append(abcsd);
+            }
+        });
+    }
+
+    function loadPermisionPosision() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/loadPermisionPosision",
+            success: function (result) {
+                $('#bodyPermision').empty();
+                $.each(result, function (index, values) {
+
+                    loadFunction2(values.pgcode, values.pgname);
+
+                });
+
+            }
+        });
+    }
+
+    function loadPositionGroup() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/loadPositionGroup",
+            success: function (result) {
+                $('#dataPositionGroup ul').empty();
+                $.each(result, function (index, value) {
+                    
+                    if (index === 0) {
+                        var positiongroup = "<li class=\"active\">\n\
+                                                <a href=\"javascript:void(0);\" onclick=\"loadActive();loadFunction('" + value.pgcode + "')\">\n\
+                                                    " + value.pgname + "\
+                                                    <span class=\"role-action\">\n\
+                                                        <span class=\"action-circle large\" data-toggle=\"modal\" data-target=\"#edit_role\"><i class=\"material-icons\">edit</i></span>\n\
+                                                        <span class=\"action-circle large delete-btn\" data-toggle=\"modal\" data-target=\"#delete_role\"><i class=\"material-icons\">delete</i></span>\n\
+                                                    </span>\n\
+                                                </a>\n\
+                                            </li>";
+                    } else {
+                        var positiongroup = "<li>\n\
+                            <a href=\"javascript:void(0);\" onclick=\"loadActive();loadFunction('" + value.pgcode + "')\">" + value.pgname + "<span class=\"role-action\"><span class=\"action-circle large\" data-toggle=\"modal\" data-target=\"#edit_role\"><i class=\"material-icons\">edit</i></span><span class=\"action-circle large delete-btn\" data-toggle=\"modal\" data-target=\"#delete_role\"><i class=\"material-icons\">delete</i></span></span></a></li>";
+                    }
+                    $("#dataPositionGroup .dataPositionGroupList").append(positiongroup);
+
+                    if (index === 0) {
+                        loadFunction(value.pgcode);
+                    }
+
+                });
+            }
+        });
+    }
+
+    function loadActive() {
+        $('.dataPositionGroupList li').on('click', function () {
+            $('.dataPositionGroupList li').removeClass('active');
+            $(this).addClass('active');
+        }
+        );
+    }
+
+</script>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.example_DemoProjectSem04_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.example.DemoProjectSem04.entities.Tbstaff</class>
+    <class>com.example.DemoProjectSem04.entities.Tbpositiongroupfunction</class>
+    <class>com.example.DemoProjectSem04.entities.Tbpositiongroup</class>
+    <class>com.example.DemoProjectSem04.entities.Tbclasstime</class>
+    <class>com.example.DemoProjectSem04.entities.Tbfunction</class>
+    <class>com.example.DemoProjectSem04.entities.Tbstatusclassroom</class>
+    <class>com.example.DemoProjectSem04.entities.Tbsettinggeneral</class>
+    <class>com.example.DemoProjectSem04.entities.Tbuser</class>
+    <class>com.example.DemoProjectSem04.entities.Tbday</class>
+    <class>com.example.DemoProjectSem04.entities.Tbshift</class>
+    <class>com.example.DemoProjectSem04.entities.Tbmodule</class>
+    <class>com.example.DemoProjectSem04.entities.Tbcourse</class>
+    <class>com.example.DemoProjectSem04.entities.Tbrole</class>
+    <class>com.example.DemoProjectSem04.entities.Tbfunctiontype</class>
+    <class>com.example.DemoProjectSem04.entities.Tbcoursemodule</class>
+    <class>com.example.DemoProjectSem04.entities.Tbclassroom</class>
+    <class>com.example.DemoProjectSem04.entities.Tbclasstimelesson</class>
+    <class>com.example.DemoProjectSem04.entities.Tbclass</class>
+    <class>com.example.DemoProjectSem04.entities.Tbcenter</class>
+    <class>com.example.DemoProjectSem04.entities.Tbclassschedule</class>
+    <class>com.example.DemoProjectSem04.entities.Tbclassstudent</class>
+    <class>com.example.DemoProjectSem04.entities.Tbcourseclass</class>
+    <class>com.example.DemoProjectSem04.entities.Tbworkingschedule</class>
+    <class>com.example.DemoProjectSem04.entities.Tbstudent</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=eProjectSem04Test"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="sa"/>
+    </properties>
+  </persistence-unit>
+</persistence>

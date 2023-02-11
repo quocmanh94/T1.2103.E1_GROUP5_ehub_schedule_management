@@ -1,0 +1,23 @@
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div class="sidebar-menu">
+            <ul id="leftsidebarMenuSetting">
+                <li> 
+                    <a href="/admin/dashboard/"><i class="la la-home"></i> <span>Back to Home</span></a>
+                </li>
+                <li class="menu-title">Settings</li>
+                <li class="active abc"> 
+                    <a href="/admin/setting"><i class="la la-building"></i> <span>Center Settings</span></a>
+                </li>
+                <li class="activehome4" sec:authorize='hasAnyAuthority("FUNCT00004")'>
+                    <a href="/admin/classrooms"><i class="la la-columns"></i> <span>Classrooms</span></a>
+                </li>
+                <li class="active3"> 
+                    <a href="/admin/role-permision"><i class="la la-key"></i> <span>Positions & Permissions</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sidebar -->

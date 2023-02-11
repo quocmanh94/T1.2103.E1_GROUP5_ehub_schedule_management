@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/admin_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="align-items-center mt-3">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <!--<h3 class="page-title">Course</h3>-->
+                            <ul class="breadcrumb" style="font-size: 18px">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Course</li>
+                            </ul>
+                        </div>
+                        <!--                        <div class="col-auto float-right ml-auto">
+                                                    <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_Module"><i class="fa fa-plus"></i> Add Course</a>
+                                                </div>-->
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <h4 class="card-title">Solid justified</h4> -->
+                            <ul class="nav nav-tabs nav-tabs-solid nav-justified">
+                                <li class="nav-item"><a class="nav-link " href="/admin/module">Module</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="/admin/course">Course </a></li>
+                                <li class="nav-item"><a class="nav-link" href="/admin/modulecourse">Relationship</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row filter-row">
+                        <div class="col-sm-6 col-md-3"> 
+                            <div class="form-group form-focus select-focus">
+                                <select class="select floating">
+                                    <option value="All">All</option>
+                                    <option value="KL00000001">LG1</option>
+                                    <option value="KL00000002">LG2</option>
+                                    <option value="KL00000003">SC1</option>
+                                    <option value="KL00000004">SC3</option>
+                                    <option value="KL00000005">AS4</option>
+                                    <option value="KL00000006">AS5</option>
+                                    <option value="KL00000007">STA</option>
+                                    <option value="KL00000008">MOV</option>
+                                    <option value="KL00000009">FLY</option>
+                                    <option value="KL00000010">KET</option>
+                                    <option value="KL00000011">PET</option>
+                                    <option value="KL00000012">K06</option>
+                                    <option value="KL00000013">K07</option>
+                                    <option value="KL00000014">K08</option>
+                                    <option value="KL00000015">K09</option>
+                                    <option value="KL00000016">K10</option>
+                                    <option value="KL00000017">K11</option>
+                                    <option value="KL00000018">K12</option>
+                                    <option value="KL00000019">IGE</option>
+                                    <option value="KL00000020">IIN</option>
+                                    <option value="KL00000021">IFO</option>
+                                    <option value="KL00000022">IGR</option>
+                                    <option value="KL00000023">IPT</option>
+                                    <option value="KL00000024">TOE</option>
+                                    <option value="KL00000025">AEF</option>
+                                    <option value="KL00000026">KEM</option>
+                                    <option value="KL00000027">CTY</option>
+                                    <option value="KL00000028">SC2</option>
+                                    <option value="KL00000029">LBG</option>
+                                    <option value="KL00000030">IPR</option>
+                                    <option value="KL00000031">LS2</option>
+                                    <option value="KL00000032">SC4</option>
+                                    <option value="KL00000033">AST</option>
+                                    <option value="KL00000034">AS1</option>
+                                    <option value="KL00000035">IPR</option>
+                                </select>
+                                <label class="focus-label">Class Block</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3"> 
+                            <div class="form-group form-focus select-focus">
+                                <select class="select floating">
+                                    <option>All</option>
+                                    <option>Will Open</option>
+                                    <option>Finished</option>
+                                    <option>In Progress</option>
+                                </select>
+                                <label class="focus-label">Status Course</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a href="#" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#asd"><i class="fa fa-plus"></i> Add Course</a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">  
+                            <a href="#" class="btn btn-success btn-block"> Search </a>  
+                        </div>
+
+                        <!--                        <div class="col-sm-6 col-md-3" sec:authorize='hasAnyAuthority("PG00000007")'>
+                                                    <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-target="#attendance_info"><i class="fa fa-plus"></i> Add Course</a>
+                                                </div>-->
+
+
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="height: 570px; overflow: scroll;overflow-x: hidden">
+                            <table class="table table-striped datatable custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Course Name</th>
+                                        <th>Open Time</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Total of Lesson</th>
+                                        <th>Month of School Year</th>
+                                        <th>School Year</th>
+                                        <th>Status Course</th>
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="e: ${courseList}">
+                                        <td><a href="#" th:text="${e.getCoursecode()}"></a></td>
+                                        <td th:text="${e.getCoursename()}"></td>
+                                        <td th:text="${#dates.format(e.getOpentimecourse(), 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${#dates.format(e.getStartcourse(), 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${#dates.format(e.getEndcourse(), 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${e.getNumberlesson()}"></td>
+                                        <td th:text="${e.getMonth()}"></td>
+                                        <td th:text="${e.getYear()}"></td>
+                                        <!--<i class="fa fa-dot-circle-o text-success" style="margin-top: 2px"> In Progress </i>-->
+                                        <td th:text="${e.getStatus()}"></td>
+                                        <td class="text-right">
+                                            <div class="dropdown dropdown-action">
+                                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" th:onclick="editCenterModal(' + ${e.getCoursecode()} + ')"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" th:onclick="deleteCenterModal(' + ${e.getCoursecode()} + ')"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>                         
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /Page Content -->
+
+            <div id="asd" class="modal custom-modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add New Course</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-sm-6 col-md-12">  
+                                    <div class="form-group form-focus">
+                                        <input type="text" class="form-control floating" id="coursename" name="coursename"/>
+                                        <label class="focus-label">Course Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-12">  
+                                    <div class="form-group form-focus focused">
+                                        <div class="cal-icon">
+                                            <input class="form-control floating datetimepicker" type="text" id="opendate" name="opendate">
+                                        </div>
+                                        <label class="focus-label">Open Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-12">  
+                                    <div class="form-group form-focus focused">
+                                        <div class="cal-icon">
+                                            <input class="form-control floating datetimepicker" type="text" id="startdate" name="startdate">
+                                        </div>
+                                        <label class="focus-label">Start Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-12">  
+                                    <div class="form-group form-focus focused">
+                                        <div class="cal-icon">
+                                            <input class="form-control floating datetimepicker" type="text" id="enddate" name="enddate"/>
+                                        </div>
+                                        <label class="focus-label">End Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-12">  
+                                    <div class="form-group form-focus">
+                                        <input type="text" class="form-control floating" id="numberlesson" name="numberlesson"/>
+                                        <label class="focus-label">Number Lesson</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group form-focus focused">
+                                            <button type="button" class="btn btn-success btn-block">Submit</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">  
+                                        <div class="form-group form-focus focused">
+                                            <button type="button" class="btn btn-primary btn-block">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var active = localStorage.getItem('active');
+        var actives = active.substr(0, 11);
+        $('#leftsidebarMenu li a').removeClass('active');
+        $('#leftsidebarMenu li').removeClass('active');
+        $('#leftsidebarMenu li.' + actives).addClass('active');
+    });
+</script>

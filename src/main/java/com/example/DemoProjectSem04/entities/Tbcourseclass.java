@@ -29,8 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tbcourseclass.findByClasscode", query = "SELECT t FROM Tbcourseclass t WHERE t.tbcourseclassPK.classcode = :classcode"),
     @NamedQuery(name = "Tbcourseclass.findByClassname", query = "SELECT t FROM Tbcourseclass t WHERE t.classname = :classname"),
     @NamedQuery(name = "Tbcourseclass.findByDescrip", query = "SELECT t FROM Tbcourseclass t WHERE t.descrip = :descrip"),
-    @NamedQuery(name = "Tbcourseclass.findByMonth", query = "SELECT t FROM Tbcourseclass t WHERE t.month = :month"),
-    @NamedQuery(name = "Tbcourseclass.findByYear", query = "SELECT t FROM Tbcourseclass t WHERE t.year = :year")})
+    @NamedQuery(name = "Tbcourseclass.findByMonth", query = "SELECT t FROM Tbcourseclass t WHERE t.startdate = :startdate"),
+    @NamedQuery(name = "Tbcourseclass.findByYear", query = "SELECT t FROM Tbcourseclass t WHERE t.enddate = :enddate")})
 public class Tbcourseclass implements Serializable {
 
     private static final long serialVersionUID = 1L;

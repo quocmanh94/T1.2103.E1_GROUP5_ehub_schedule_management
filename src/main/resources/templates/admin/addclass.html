@@ -53,7 +53,11 @@
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-12 col-sm-12 form-group">
+                                                <div class="col-md-6 col-sm-6 form-group">
+                                                    <label for="classStartDate">Start Date</label>
+                                                    <input class="form-control" id="classStartDate" name="classStartDate" type="date" />
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 form-group">
                                                     <label for="classDescription">Description</label>
                                                     <textarea class="form-control" id="classDescription" name="classDescription" rows="1"></textarea>
                                                 </div>  
@@ -407,11 +411,25 @@
         $('#leftsidebarMenu li.' + actives).addClass('active');
     });
 
+     function getEndDate(day) {
+         const startDate = $('#classStartDate').val();
+         const course = $('#sltcourse').val();
+         const checkBox = day;
+         $.ajax({
+             type: "GET",
+             data: {startDate: startDate, course: course, checkBox: checkBox},
+             url: "/admin/getEndDate",
+             success: function (result) {
+                 alert(result);
+             }
+         });
+    }
+
     function loadRoomForMonday() {
         var valueSelectCourse = $('#sltcourse').val();
         var cbDayofWeek = $('#monday').val();
         if (!$('#monday').is(":checked")) {
-
+            getEndDate(cbDayofWeek);
             $.ajax({
                 type: "GET",
                 data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
@@ -444,7 +462,7 @@
         var cbDayofWeek = $('#monday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoom').val();
-
+        getEndDate(cbDayofWeek);
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -1011,7 +1029,6 @@
     }
 
     function reloadcheckbox() {
-
         // monday
         $('#monday').prop('checked', false);
         document.getElementById("sltRoom").options.length = 0;

@@ -8,72 +8,27 @@ package com.example.DemoProjectSem04.controller;
 import com.example.DemoProjectSem04.DTO.Tbcoursedto;
 import com.example.DemoProjectSem04.DTO.Tbfunctionandpositiondto;
 import com.example.DemoProjectSem04.DTO.Tbfunctiondto;
-import com.example.DemoProjectSem04.DTO.Tbteacherdto;
-import com.example.DemoProjectSem04.entities.Tbcenter;
-import com.example.DemoProjectSem04.entities.Tbclass;
-import com.example.DemoProjectSem04.entities.Tbclassroom;
-import com.example.DemoProjectSem04.entities.Tbclassschedule;
-import com.example.DemoProjectSem04.entities.TbclassschedulePK;
-import com.example.DemoProjectSem04.entities.Tbclasstime;
-import com.example.DemoProjectSem04.entities.Tbclasstimelesson;
-import com.example.DemoProjectSem04.entities.Tbcourse;
-import com.example.DemoProjectSem04.entities.Tbcourseclass;
-import com.example.DemoProjectSem04.entities.TbcourseclassPK;
-import com.example.DemoProjectSem04.entities.Tbcoursemodule;
-import com.example.DemoProjectSem04.entities.Tbday;
-import com.example.DemoProjectSem04.entities.Tbfunction;
-import com.example.DemoProjectSem04.entities.Tbmodule;
-import com.example.DemoProjectSem04.entities.Tbpositiongroup;
-import com.example.DemoProjectSem04.entities.Tbpositiongroupfunction;
-import com.example.DemoProjectSem04.entities.TbpositiongroupfunctionPK;
-import com.example.DemoProjectSem04.entities.Tbstaff;
-import com.example.DemoProjectSem04.entities.Tbworkingschedule;
-import com.example.DemoProjectSem04.services.tbCenterService;
-import com.example.DemoProjectSem04.services.tbClassScheduleService;
-import com.example.DemoProjectSem04.services.tbClassService;
-import com.example.DemoProjectSem04.services.tbClassTimeLessonService;
-import com.example.DemoProjectSem04.services.tbClassTimeService;
-import com.example.DemoProjectSem04.services.tbClassroomService;
-import com.example.DemoProjectSem04.services.tbCourseClassService;
-import com.example.DemoProjectSem04.services.tbCourseModuleService;
-import com.example.DemoProjectSem04.services.tbCourseService;
-import com.example.DemoProjectSem04.services.tbDayService;
-import com.example.DemoProjectSem04.services.tbFunctionService;
-import com.example.DemoProjectSem04.services.tbModuleService;
-import com.example.DemoProjectSem04.services.tbPositionGroupFunctionService;
-import com.example.DemoProjectSem04.services.tbPositionGroupService;
-import com.example.DemoProjectSem04.services.tbStaffService;
-import com.example.DemoProjectSem04.services.tbWorkingScheduleService;
-import groovyjarjarantlr4.v4.tool.DOTGenerator;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
+import com.example.DemoProjectSem04.entities.*;
+import com.example.DemoProjectSem04.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
- *
  * @author Admin
  */
 @Controller
@@ -124,10 +79,10 @@ public class AdminPageController {
 
     @Autowired
     tbClassTimeLessonService classTimeLessonService;
-    
+
     @Autowired
     tbDayService dayService;
-    
+
     @RequestMapping({"/dashboard", "/"})
     public String dashboardPage(Model model) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -145,12 +100,12 @@ public class AdminPageController {
 
         return "admin/staffdashboard";
     }
-    
+
     @RequestMapping({"/teacherdashboard"})
     public String teacherdashboard(Model model) {
         return "admin/teacherdashboard";
     }
-    
+
     @RequestMapping({"/timestudying"})
     public String tinestudying(Model model) {
         List<Tbclasstime> giohoc = classTimeService.getListClasstimeByIslock();
@@ -159,7 +114,7 @@ public class AdminPageController {
         model.addAttribute("ca", ca);
         return "admin/timestudying";
     }
-    
+
     @RequestMapping({"/day"})
     public String dayPage(Model model) {
 //        List<Tbclasstime> giohoc = classTimeService.getListClasstimeByIslock();
@@ -168,7 +123,7 @@ public class AdminPageController {
 //        model.addAttribute("ca", ca);
         return "admin/day";
     }
-    
+
     @RequestMapping({"/loadAllDay"})
     public @ResponseBody List<Tbday> loadAllDay(Model model) {
         List<Tbday> dayList = dayService.getAllDay();
@@ -177,21 +132,21 @@ public class AdminPageController {
 //        model.addAttribute("ca", ca);
         return dayList;
     }
-    
+
     @RequestMapping({"/loadAllClasstimeInTimeStudyingPage"})
     public @ResponseBody
     List<Tbclasstime> loadAllClasstimeInTimeStudyingPage(Model model) {
         List<Tbclasstime> dtlClassTime = classTimeService.getListClasstimeByIslock();
         return dtlClassTime;
     }
-    
+
     @RequestMapping({"/loadClasstimeInTimeStudyingPage"})
     public @ResponseBody
     List<Tbclasstime> loadClasstimeInTimeStudyingPage(Model model, @RequestParam("id") String id) {
         List<Tbclasstime> dtlClassTime = classTimeService.getClasstimebyShift(id);
         return dtlClassTime;
     }
-    
+
     @RequestMapping({"/staffdashboardclass"})
     public String staffdashboardclass(Model model) {
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -200,7 +155,7 @@ public class AdminPageController {
 
         return "admin/staffdashboardclass";
     }
-    
+
     @RequestMapping({"/staffdashboardstudent"})
     public String staffdashboardstudent(Model model) {
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -209,7 +164,7 @@ public class AdminPageController {
 
         return "admin/staffdashboardstudent";
     }
-    
+
     @RequestMapping({"/staffdashboardinterviewing"})
     public String staffdashboardinterviewing(Model model) {
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -218,12 +173,12 @@ public class AdminPageController {
 
         return "admin/staffdashboardinterviewing";
     }
-    
+
     @RequestMapping({"/clientsPage"})
     public String clientsPage(Model model) {
         return "admin/clients";
     }
-    
+
     @RequestMapping({"/setting"})
     public String settingPage(Model model, @ModelAttribute("messageResult") String messageResult) {
 
@@ -763,11 +718,11 @@ public class AdminPageController {
         tbcourseclass.setTbcourseclassPK(tbcourseclassPK);
         tbcourseclass.setDescrip(strClassContent);
         tbcourseclass.setClassname(strClassName);
-        
+
         // them du lieu enddate va startdate
         //tbcourseclass.setMonth(month);
         //tbcourseclass.setYear(year);
-        
+
         courseClassService.saveCourseClass(tbcourseclass);
         // end add Tbcourseclass
 
@@ -777,134 +732,61 @@ public class AdminPageController {
         //int a = 1;
         Date newEndDate = new Date();
         List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
-        
+
         for (int i = start, a = 1; a <= tbcourse.getNumberlesson(); i++) {
-            
+
             int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
             LocalDate workingDay = StartLocalDate.plusDays(i - start);
             Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            
-            if(a == tbcourse.getNumberlesson()){
+
+            if (a == tbcourse.getNumberlesson()) {
                 newEndDate = workingDate;
             }
-            
+
             if (sltTeacherVNESE != null && dayOfWeek == 1) {
-                for (String strShift : sltShift) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESE);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoom);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoom, sltShift, sltTeacherVNESE, strClassCode, month, year, workingscheduleList, a, workingDate);
             } else if (sltTeacherVNESETuesday != null && dayOfWeek == 2) {
-                for (String strShift : sltShiftTuesday) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESETuesday);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoomTuesday);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoomTuesday, sltShiftTuesday, sltTeacherVNESETuesday, strClassCode, month, year, workingscheduleList, a, workingDate);
             } else if (sltTeacherVNESEWednesday != null && dayOfWeek == 3) {
-                for (String strShift : sltShiftWednesday) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESEWednesday);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoomWednesday);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoomWednesday, sltShiftWednesday, sltTeacherVNESEWednesday, strClassCode, month, year, workingscheduleList, a, workingDate);
             } else if (sltTeacherVNESEThursday != null && dayOfWeek == 4) {
-                for (String strShift : sltShiftThursday) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESEThursday);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoomThursday);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoomThursday, sltShiftThursday, sltTeacherVNESEThursday, strClassCode, month, year, workingscheduleList, a, workingDate);
             } else if (sltTeacherVNESEFriday != null && dayOfWeek == 5) {
-                for (String strShift : sltShiftFriday) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESEFriday);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoomFriday);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoomFriday, sltShiftFriday, sltTeacherVNESEFriday, strClassCode, month, year, workingscheduleList, a, workingDate);
             } else if (sltTeacherVNESESaturday != null && dayOfWeek == 6) {
-                for (String strShift : sltShiftSaturday) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESESaturday);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoomSaturday);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoomSaturday, sltShiftSaturday, sltTeacherVNESESaturday, strClassCode, month, year, workingscheduleList, a, workingDate);
             } else if (sltTeacherVNESESunday != null && dayOfWeek == 7) {
-                for (String strShift : sltShiftSunday) {
-                    Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
-                    tbworkingschedule.setStaffcode(sltTeacherVNESESunday);
-                    tbworkingschedule.setClasstimecode(strShift);
-                    tbworkingschedule.setClasscode(strClassCode);
-                    tbworkingschedule.setClassroomcode(sltRoomSunday);
-                    tbworkingschedule.setMonth(month);
-                    tbworkingschedule.setYear(year);
-                    tbworkingschedule.setCentercode(1);
-                    tbworkingschedule.setCompleted(0);
-                    tbworkingschedule.setWorkingday(workingDate);
-                    workingscheduleList.add(tbworkingschedule);
-                }
-                a++;
+                a = getShift(sltRoomSunday, sltShiftSunday, sltTeacherVNESESunday, strClassCode, month, year, workingscheduleList, a, workingDate);
             }
         }
-        
+
         for (Tbworkingschedule tbws : workingscheduleList) {
             workingScheduleService.createWorkingSchedule(tbws);
         }
-        
+
         courseModuleService.updateEndDate(newEndDate, sltcourse);
         courseService.updateEndDate(newEndDate, sltcourse);
-        
+
         // end add Tbworkingschedule
         return "redirect:/admin/classes";
+    }
+
+    private int getShift(@RequestParam(required = false, value = "sltRoomSaturday") String sltRoomSaturday, @RequestParam(required = false, value = "sltShiftSaturday") ArrayList<String> sltShiftSaturday, @RequestParam(required = false, value = "sltTeacherVNESESaturday") String sltTeacherVNESESaturday, String strClassCode, int month, int year, List<Tbworkingschedule> workingscheduleList, int a, Date workingDate) {
+        for (String strShift : sltShiftSaturday) {
+            Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
+            tbworkingschedule.setStaffcode(sltTeacherVNESESaturday);
+            tbworkingschedule.setClasstimecode(strShift);
+            tbworkingschedule.setClasscode(strClassCode);
+            tbworkingschedule.setClassroomcode(sltRoomSaturday);
+            tbworkingschedule.setMonth(month);
+            tbworkingschedule.setYear(year);
+            tbworkingschedule.setCentercode(1);
+            tbworkingschedule.setCompleted(0);
+            tbworkingschedule.setWorkingday(workingDate);
+            workingscheduleList.add(tbworkingschedule);
+        }
+        a++;
+        return a;
     }
 
     @RequestMapping({"/loadModulePermission"})
@@ -984,4 +866,46 @@ public class AdminPageController {
 
     }
 
+    @RequestMapping(value = "/getEndDate", method = RequestMethod.GET)
+    public @ResponseBody Date getEndDate(@RequestParam("startDate") String startDate, @RequestParam("course") String course, @RequestParam("checkBox") String checkBox) {
+        Date newEndDate = new Date();
+
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+            List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
+            Tbcourse tbcourse = courseService.findCourseByCode(course);
+            Date std = df.parse(startDate);
+            LocalDate StartLocalDate = std.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int start = StartLocalDate.getDayOfMonth();
+            for (int i = start, a = 1; a <= tbcourse.getNumberlesson(); i++) {
+
+                int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
+                LocalDate workingDay = StartLocalDate.plusDays(i - start);
+                Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                if (a == tbcourse.getNumberlesson()) {
+                    newEndDate = workingDate;
+                }
+
+                if ("DAY0000002".equals(checkBox) && dayOfWeek == 1) {
+                    a++;
+                } else if ("DAY0000003".equals(checkBox) && dayOfWeek == 2) {
+                    a++;
+                } else if ("DAY0000004".equals(checkBox) && dayOfWeek == 3) {
+                    a++;
+                } else if ("DAY0000005".equals(checkBox) && dayOfWeek == 4) {
+                    a++;
+                } else if ("DAY0000006".equals(checkBox) && dayOfWeek == 5) {
+                    a++;
+                } else if ("DAY0000007".equals(checkBox) && dayOfWeek == 6) {
+                    a++;
+                } else if ("DAY0000008".equals(checkBox) && dayOfWeek == 7) {
+                    a++;
+                }
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return newEndDate;
+    }
 }

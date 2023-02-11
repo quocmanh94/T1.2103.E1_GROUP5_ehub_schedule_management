@@ -15,10 +15,12 @@ import com.example.DemoProjectSem04.entities.Tbclassroom;
 import com.example.DemoProjectSem04.entities.Tbclassschedule;
 import com.example.DemoProjectSem04.entities.TbclassschedulePK;
 import com.example.DemoProjectSem04.entities.Tbclasstime;
+import com.example.DemoProjectSem04.entities.Tbclasstimelesson;
 import com.example.DemoProjectSem04.entities.Tbcourse;
 import com.example.DemoProjectSem04.entities.Tbcourseclass;
 import com.example.DemoProjectSem04.entities.TbcourseclassPK;
 import com.example.DemoProjectSem04.entities.Tbcoursemodule;
+import com.example.DemoProjectSem04.entities.Tbday;
 import com.example.DemoProjectSem04.entities.Tbfunction;
 import com.example.DemoProjectSem04.entities.Tbmodule;
 import com.example.DemoProjectSem04.entities.Tbpositiongroup;
@@ -29,11 +31,13 @@ import com.example.DemoProjectSem04.entities.Tbworkingschedule;
 import com.example.DemoProjectSem04.services.tbCenterService;
 import com.example.DemoProjectSem04.services.tbClassScheduleService;
 import com.example.DemoProjectSem04.services.tbClassService;
+import com.example.DemoProjectSem04.services.tbClassTimeLessonService;
 import com.example.DemoProjectSem04.services.tbClassTimeService;
 import com.example.DemoProjectSem04.services.tbClassroomService;
 import com.example.DemoProjectSem04.services.tbCourseClassService;
 import com.example.DemoProjectSem04.services.tbCourseModuleService;
 import com.example.DemoProjectSem04.services.tbCourseService;
+import com.example.DemoProjectSem04.services.tbDayService;
 import com.example.DemoProjectSem04.services.tbFunctionService;
 import com.example.DemoProjectSem04.services.tbModuleService;
 import com.example.DemoProjectSem04.services.tbPositionGroupFunctionService;
@@ -118,6 +122,12 @@ public class AdminPageController {
     @Autowired
     tbWorkingScheduleService workingScheduleService;
 
+    @Autowired
+    tbClassTimeLessonService classTimeLessonService;
+    
+    @Autowired
+    tbDayService dayService;
+    
     @RequestMapping({"/dashboard", "/"})
     public String dashboardPage(Model model) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -134,6 +144,52 @@ public class AdminPageController {
 //        model.addAttribute("userLogin", user.getUsername());
 
         return "admin/staffdashboard";
+    }
+    
+    @RequestMapping({"/teacherdashboard"})
+    public String teacherdashboard(Model model) {
+        return "admin/teacherdashboard";
+    }
+    
+    @RequestMapping({"/timestudying"})
+    public String tinestudying(Model model) {
+        List<Tbclasstime> giohoc = classTimeService.getListClasstimeByIslock();
+        List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
+        model.addAttribute("giohoc", giohoc);
+        model.addAttribute("ca", ca);
+        return "admin/timestudying";
+    }
+    
+    @RequestMapping({"/day"})
+    public String dayPage(Model model) {
+//        List<Tbclasstime> giohoc = classTimeService.getListClasstimeByIslock();
+//        List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
+//        model.addAttribute("giohoc", giohoc);
+//        model.addAttribute("ca", ca);
+        return "admin/day";
+    }
+    
+    @RequestMapping({"/loadAllDay"})
+    public @ResponseBody List<Tbday> loadAllDay(Model model) {
+        List<Tbday> dayList = dayService.getAllDay();
+//        List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
+//        model.addAttribute("giohoc", giohoc);
+//        model.addAttribute("ca", ca);
+        return dayList;
+    }
+    
+    @RequestMapping({"/loadAllClasstimeInTimeStudyingPage"})
+    public @ResponseBody
+    List<Tbclasstime> loadAllClasstimeInTimeStudyingPage(Model model) {
+        List<Tbclasstime> dtlClassTime = classTimeService.getListClasstimeByIslock();
+        return dtlClassTime;
+    }
+    
+    @RequestMapping({"/loadClasstimeInTimeStudyingPage"})
+    public @ResponseBody
+    List<Tbclasstime> loadClasstimeInTimeStudyingPage(Model model, @RequestParam("id") String id) {
+        List<Tbclasstime> dtlClassTime = classTimeService.getClasstimebyShift(id);
+        return dtlClassTime;
     }
     
     @RequestMapping({"/staffdashboardclass"})
@@ -263,13 +319,17 @@ public class AdminPageController {
             i2++;
         }
         Tbclasstime classtime = classTimeService.getCLassTimeByCode(shift);
-        List<Tbstaff> tbstaffTemp = staffService.findTeacherCreateClass(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom);
-        List<Tbstaff> tbstaffHaveClassInTime = staffService.findTeacherHaveClassInTime(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom, classtime.getClasstimelesson().getCtlcode());
-        if (tbstaffHaveClassInTime != null) {
-            for (Tbstaff tbsf : tbstaffHaveClassInTime) {
-                tbstaffTemp.add(tbsf);
-            }
-        }
+//        List<Tbstaff> tbstaffTemp = staffService.findTeacherCreateClass(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom);
+        List<Tbstaff> tbstaffTemp = staffService.findTeacherCreateClass(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, classtime.getClasstimelesson().getCtlcode());
+//        List<Tbstaff> tbstaffHaveClassInTime = staffService.findTeacherHaveClassInTime(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom, classtime.getClasstimelesson().getCtlcode());
+        List<Tbstaff> tbstaffHaveClassInTime = staffService.findTeacherHaveClassInTime(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, classtime.getClasstimelesson().getCtlcode());
+
+//        if (tbstaffHaveClassInTime != null) {
+//            for (Tbstaff tbsf : tbstaffHaveClassInTime) {
+//                tbstaffTemp.add(tbsf);
+//            }
+//        }
+
 //        for (String str : selectedValues) {
 //            for (Tbclassschedule cs : tbstaffHaveClassInTime) {
 //                if(str == "CLT0000001"){
@@ -334,8 +394,8 @@ public class AdminPageController {
 
     @RequestMapping({"/course"})
     public String coursePage(Model model) {
-
-//        model.addAttribute("module", new Tbmodule());
+        List<Tbmodule> moduleList = moduleService.findAllModule();
+        model.addAttribute("moduleList", moduleList);
         List<Tbcoursedto> courseDTO = new ArrayList<>();
         List<Tbcourse> course = courseService.findAllCourse();
         for (Tbcourse tbc : course) {
@@ -712,7 +772,7 @@ public class AdminPageController {
         int start = StartLocalDate.getDayOfMonth();
         int end = start + tbcourse.getNumberlesson();
         //int a = 1;
-        
+        Date newEndDate = new Date();
         List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
         
         for (int i = start, a = 1; a <= tbcourse.getNumberlesson(); i++) {
@@ -720,6 +780,11 @@ public class AdminPageController {
             int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
             LocalDate workingDay = StartLocalDate.plusDays(i - start);
             Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            
+            if(a == tbcourse.getNumberlesson()){
+                newEndDate = workingDate;
+            }
+            
             if (sltTeacherVNESE != null && dayOfWeek == 1) {
                 for (String strShift : sltShift) {
                     Tbworkingschedule tbworkingschedule = new Tbworkingschedule();
@@ -827,11 +892,14 @@ public class AdminPageController {
                 a++;
             }
         }
-
+        
         for (Tbworkingschedule tbws : workingscheduleList) {
             workingScheduleService.createWorkingSchedule(tbws);
         }
-
+        
+        courseModuleService.updateEndDate(newEndDate, sltcourse);
+        courseService.updateEndDate(newEndDate, sltcourse);
+        
         // end add Tbworkingschedule
         return "redirect:/admin/classes";
     }

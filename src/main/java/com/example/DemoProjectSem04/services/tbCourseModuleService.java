@@ -8,6 +8,7 @@ package com.example.DemoProjectSem04.services;
 import com.example.DemoProjectSem04.entities.Tbcoursemodule;
 import com.example.DemoProjectSem04.interfaces.tbCourseModuleInterface;
 import com.example.DemoProjectSem04.repositories.tbCourseModuleRepository;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,16 @@ public class tbCourseModuleService implements tbCourseModuleInterface{
     @Override
     public List<Tbcoursemodule> findCourseModuleByCourse(String course) {
         return courseModuleRepository.getListCourseModuleByCourse(course);
+    }
+
+    @Override
+    public void save(Tbcoursemodule tbcoursemodule) {
+        courseModuleRepository.save(tbcoursemodule);
+    }
+
+    @Override
+    public void updateEndDate(Date enddate, String coursecode) {
+        courseModuleRepository.updateEndDate(enddate, coursecode);
     }
     
 }

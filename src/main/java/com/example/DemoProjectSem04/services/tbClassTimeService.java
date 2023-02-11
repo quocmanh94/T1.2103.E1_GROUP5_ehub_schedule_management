@@ -37,5 +37,15 @@ public class tbClassTimeService implements tbClassTimeInterface{
     public Tbclasstime getCLassTimeByCode(String code) {
         return classTimeRepository.getCLassTimeByCode(code);
     }
+
+    @Override
+    public List<Tbclasstime> getListClasstimeByIslock() {
+        return classTimeRepository.getListClassTimeByIslock0();
+    }
+
+    @Override
+    public List<Tbclasstime> getClasstimebyShift(String id) {
+        return classTimeRepository.getClassTimeByShift(id);
+    }
     
 }

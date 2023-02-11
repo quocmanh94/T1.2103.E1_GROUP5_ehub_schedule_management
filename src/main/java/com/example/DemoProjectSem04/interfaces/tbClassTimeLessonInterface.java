@@ -5,14 +5,13 @@
  */
 package com.example.DemoProjectSem04.interfaces;
 
-import com.example.DemoProjectSem04.entities.Tbworkingschedule;
+import com.example.DemoProjectSem04.entities.Tbclasstimelesson;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public interface tbWorkingScheduleInterface {
-    public void createWorkingSchedule(Tbworkingschedule tbworkingschedule);
-    public List<Tbworkingschedule> getWorkingDateByStaffCode(String staffcode);
+public interface tbClassTimeLessonInterface {
+    List<Tbclasstimelesson> getListClassTimeLesson();
 }

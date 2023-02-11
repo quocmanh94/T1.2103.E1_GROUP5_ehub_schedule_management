@@ -8,6 +8,7 @@ package com.example.DemoProjectSem04.services;
 import com.example.DemoProjectSem04.entities.Tbworkingschedule;
 import com.example.DemoProjectSem04.interfaces.tbWorkingScheduleInterface;
 import com.example.DemoProjectSem04.repositories.tbWorkingScheduleRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,11 @@ public class tbWorkingScheduleService implements tbWorkingScheduleInterface{
     @Override
     public void createWorkingSchedule(Tbworkingschedule tbworkingschedule) {
         workingScheduleRepository.save(tbworkingschedule);
+    }
+
+    @Override
+    public List<Tbworkingschedule> getWorkingDateByStaffCode(String staffcode) {
+        return workingScheduleRepository.getWorkingDateByUserCode(staffcode);
     }
     
 }

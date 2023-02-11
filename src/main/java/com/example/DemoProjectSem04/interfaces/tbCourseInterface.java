@@ -6,6 +6,7 @@
 package com.example.DemoProjectSem04.interfaces;
 
 import com.example.DemoProjectSem04.entities.Tbcourse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,4 +16,7 @@ import java.util.List;
 public interface tbCourseInterface {
     public List<Tbcourse> findAllCourse();
     public Tbcourse findCourseByCode(String code);
+    public Tbcourse getMaxCode();
+    public void save(Tbcourse tbcourse);
+    public void updateEndDate(Date enddate, String coursecode);
 }

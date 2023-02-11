@@ -62,12 +62,15 @@ public class Tbcourse implements Serializable {
     private String coursename;
     @Column(name = "opentimecourse")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date opentimecourse;
     @Column(name = "startcourse")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startcourse;
     @Column(name = "endcourse")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endcourse;
     @Column(name = "isactive")
     private Integer isactive;

@@ -19,67 +19,49 @@
                         <!--<h3 class="page-title">Staff</h3>-->
                         <ul class="breadcrumb" style="font-size: 18px">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Working Schedule</li>
+                            <li class="breadcrumb-item active">Teaching Timetable</li>
                         </ul>
                     </div>
                 </div>
                 <!-- /Page Header -->
 
                 <!-- Search Filter -->
+                <!--<form action="/admin/getWorkingScheduleByTime" method="GET">-->
                 <div class="row filter-row">
 
-                    <div class="col-sm-6 col-md-2">  
-                        <div class="form-group form-focus">
-                            <input type="text" class="form-control floating"/>
-                            <label class="focus-label">Staff Name</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-2"> 
-                        <div class="form-group form-focus select-focus">
-                            <select class="select floating" id="sltPosition"> 
-                                <option value="">Select Department</option>
-                                <option value="PG00000001">Advise</option>
-                                <option value="PG00000002">Cashier</option>
-                                <option value="PG00000003">Consultant</option>
-                                <option value="PG00000004">Teacher</option>
-                                <option value="PG00000005">Student</option>
-                                <option value="PG00000006">Branch Admin</option>
-                                <option value="PG00000007">System Admin</option>
-                                <option value="PG00000008">Training</option>
-                            </select>
-                            <label class="focus-label">Department</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-2">  
+                    <div class="col-sm-6 col-md-3">  
                         <div class="form-group form-focus focused">
                             <div class="cal-icon">
-                                <input class="form-control floating datetimepicker" type="text">
+                                <input class="form-control floating datetimepicker" type="text" id="fromD" name="fromD"/>
                             </div>
                             <label class="focus-label">From</label>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-2">  
+                    <div class="col-sm-6 col-md-3">  
                         <div class="form-group form-focus focused">
                             <div class="cal-icon">
-                                <input class="form-control floating datetimepicker" type="text">
+                                <input class="form-control floating datetimepicker" type="text" id="toD" name="toD"/>
                             </div>
                             <label class="focus-label">To</label>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-2">  
-                        <a href="#" class="btn btn-success btn-block"> Search </a>  
+                    <div class="col-sm-6 col-md-3">  
+
                     </div>
-                    <div class="col-sm-6 col-md-2">
-                        <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-target="#add_schedule"><i class="fa fa-plus"></i> Assign</a>
+                    <div class="col-sm-6 col-md-3">
+                        <!--<button class="btn btn-success btn-block" type="submit">Search</button>-->
+                        <a href="#" class="btn btn-success btn-block" onclick="getWorkingScheduleByTime()"> Search </a>  
                     </div>
+
                 </div>
+                <!--</form>-->
                 <!-- Search Filter -->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table table-striped custom-table datatable">
-                                <thead>
-                                    <tr>
+                            <table class="table table-striped custom-table">
+                                <thead id="thTeachingTimetable">
+<!--                                    <tr>
                                         <th>Scheduled Shift</th>
                                         <th>Fri 21</th>
                                         <th>Sat 22</th>
@@ -90,21 +72,21 @@
                                         <th>Thu 27</th>
                                         <th>Fri 28</th>
                                         <th>Sat 29</th>
-                                    </tr>
+                                    </tr>-->
                                 </thead>
-                                <tbody>
-                                    <tr>
+                                <tbody id="tbTeachingTimetable">
+<!--                                    <tr>
                                         <td>
                                             <h2 class="table-avatar">
-                                                <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                                <a href="profile.html">John Doe <span>Web Designer</span></a>
+                                                <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-02.jpg"/></a>
+                                                <a href="profile.html">John Doe</a>
                                             </h2>
                                         </td>
                                         <td>
                                             <div class="user-add-shedule-list">
                                                 <h2>
                                                     <a href="#" data-toggle="modal" data-target="#edit_schedule" style="border:2px dashed #1eb53a">
-                                                        <span class="username-info m-b-10">6:30 am - 9:30 pm ( 14 hrs 15 mins)</span>
+                                                        <span class="username-info m-b-10">6:30 am - 9:30 pm( 14 hrs 15 mins)</span>
                                                         <span class="userrole-info">Web Designer - SMARTHR</span>
                                                     </a>
                                                 </h2>
@@ -174,7 +156,7 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                                <a href="profile.html">Richard Miles <span>Web Developer</span></a>
+                                                <a href="profile.html">Richard Miles</a>
                                             </h2>
                                         </td>
 
@@ -253,7 +235,7 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                                <a href="profile.html">John Smith <span>Android Developer</span></a>
+                                                <a href="profile.html">John Smith</a>
                                             </h2>
                                         </td>
 
@@ -331,7 +313,7 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                                                <a href="profile.html">Mike Litorus <span>IOS Developer</span></a>
+                                                <a href="profile.html">Mike Litorus</a>
                                             </h2>
                                         </td>
 
@@ -410,7 +392,7 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-11.jpg"></a>
-                                                <a href="profile.html">Wilmer Deluna <span>Team Leader</span></a>
+                                                <a href="profile.html">Wilmer Deluna</a>
                                             </h2>
                                         </td>
 
@@ -488,7 +470,7 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-12.jpg"></a>
-                                                <a href="profile.html">Jeffrey Warden <span>Web Developer</span></a>
+                                                <a href="profile.html">Jeffrey Warden</a>
                                             </h2>
                                         </td>
 
@@ -567,7 +549,7 @@
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-13.jpg"></a>
-                                                <a href="profile.html">Bernardo Galaviz <span>Web Developer</span></a>
+                                                <a href="profile.html">Bernardo Galaviz</a>
                                             </h2>
                                         </td>
                                         <td>
@@ -639,7 +621,7 @@
                                                 </a>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                             </table>
                         </div>
@@ -966,10 +948,131 @@
     </body>
 </html>
 <script type="text/javascript">
+
+    function getWorkingScheduleByTime() {
+        getTHeadWorkingScheduleByTime();
+        getTBodyWorkingScheduleByTime();
+    }
+
+    function getTBodyWorkingScheduleByTime() {
+
+        var vlTo = $('#toD').val();
+        var vlFrom = $('#fromD').val();
+        var toDateSplit = vlTo.split("/");
+        var fromDateSplit = vlFrom.split("/");
+
+        var dayT = toDateSplit[0];
+        var monthT = toDateSplit[1];
+        var yearT = toDateSplit[2];
+
+        var dayF = fromDateSplit[0];
+        var monthF = fromDateSplit[1];
+        var yearF = fromDateSplit[2];
+
+        $.ajax({
+            type: "GET",
+            data: {fromD: vlFrom, toD: vlTo},
+            url: "/admin/getTBodyWorkingScheduleByTime",
+            success: function (result) {
+
+                $('#tbTeachingTimetable').empty();
+                var tbody = "";
+                $.each(result, function (index, value) {
+                    tbody = "<tr>";
+                    tbody += "<td><h2 class=\"table-avatar\"><a href=\"profile.html\" class=\"avatar\"><img alt=\"\" src=\"assets/img/user.jpg\"/></a><a href=\"profile.html\">" + value.staffname + "</a></h2></td>";
+
+                    var fromdate = new Date(yearF + "-" + monthF + "-" + dayF);
+                    var todate = new Date(yearT + "-" + monthT + "-" + dayT);
+                    var loop = new Date(fromdate);
+                    while (loop <= todate) {
+
+                        var dd = String(loop.getDate()).padStart(2, '0');
+                        var mm = String(loop.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = loop.getFullYear().toString();
+                        let check = 0;
+
+                        for (var i = 0; i < value.listworkingschedule.length; i++) {
+
+                            if (dd === value.listworkingschedule[i].day && mm === value.listworkingschedule[i].month && yyyy === value.listworkingschedule[i].year) {
+                                check = check + 1;
+                            }
+
+                            if (dd === value.listworkingschedule[i].day && mm === value.listworkingschedule[i].month && yyyy === value.listworkingschedule[i].year && check === 1) {
+//                                tbody += "<td><div class=\"user-add-shedule-list\"><h2><a href=\"#\" data-toggle=\"modal\" data-target=\"#edit_schedule\" style=\"border:2px dashed #1eb53a\" th:attr=\"onclick=|addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')|\">";
+                                tbody += "<td><div class=\"user-add-shedule-list\"><h2><a href=\"#\" style=\"border:2px dashed #1eb53a\" onclick=\"addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')\">";
+                                tbody += "<span class=\"username-info m-b-10\"> Room : " + value.listworkingschedule[i].classroomname + " - Class Time : " + value.listworkingschedule[i].classtimename + "</span>";
+                            } else if (dd === value.listworkingschedule[i].day && mm === value.listworkingschedule[i].month && yyyy === value.listworkingschedule[i].year && check > 1) {
+                                tbody += "<span class=\"username-info m-b-10\"> Room : " + value.listworkingschedule[i].classroomname + " - Class Time : " + value.listworkingschedule[i].classtimename + "</span>";
+                            }
+
+                        }
+                        //var rowValue = "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"ac\"/>";
+                        if (check === 1) {
+//                            tbody += "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"ac\"/>";
+                            tbody += "</a></h2></div></td>";
+                        }
+
+                        if (check === 0) {
+                            tbody += "<td><div class=\"user-add-shedule-list\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#add_schedule\"><span><i class=\"fa fa-plus\"></i></span></a></div></td>";
+//                            tbody += "<td><div class=\"user-add-shedule-list\"><a onclick=\"addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')\" href=\"#\"><span><i class=\"fa fa-plus\"></i></span></a></div></td>";
+                        }
+
+                        var newDate = loop.setDate(loop.getDate() + 1);
+                        loop = new Date(newDate);
+                    }
+                    
+                    tbody += "</tr>";
+                    $("#tbTeachingTimetable").append(tbody);
+                });
+            }
+        });
+    }
+
+    function addEven(code){
+        alert(code);
+    }
+
+    function getTHeadWorkingScheduleByTime() {
+
+        var vlTo = $('#toD').val();
+        var vlFrom = $('#fromD').val();
+        $.ajax({
+            type: "GET",
+            data: {fromD: vlFrom, toD: vlTo},
+            url: "/admin/getTHeadWorkingScheduleByTime",
+            success: function (result) {
+                $('#thTeachingTimetable').empty();
+                var thead = "<tr>";
+                $.each(result, function (index, value) {
+
+                    thead += "<th>" + value + "</th>";
+
+                });
+                thead += "</tr>";
+                $("#thTeachingTimetable").append(thead);
+            }
+        });
+    }
+
+    function getTHeadTeachingWorkingByCurrentMonth(){
+        
+    }
+    function getTBodyTeachingWorkingByCurrentMonth(){
+        
+    }
+    
+    function loadTeachingWorkingByCurrentMonth(){
+        getTHeadTeachingWorkingByCurrentMonth();
+        getTBodyTeachingWorkingByCurrentMonth();
+    }
+
     $(document).ready(function () {
         var active = localStorage.getItem('active');
         var actives = active.substr(0, 11);
-        //loadStaffList();
+        //loadTeachingWorkingByCurrentMonth();
+//        var date = new Date();
+//var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+//var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         $('#leftsidebarMenu li a').removeClass('active');
         $('#leftsidebarMenu li').removeClass('active');
         $('#leftsidebarMenu li.' + actives).addClass('active');

@@ -28,6 +28,12 @@ public interface tbClassTimeRepository extends JpaRepository<Tbclasstime, String
     @Query("SELECT t FROM Tbclasstime t WHERE t.classtimecode = :classtimecode")
     public Tbclasstime getCLassTimeLessonByCode(@Param("classtimecode") String classtimecode);
     
+    @Query("SELECT t FROM Tbclasstime t WHERE t.islock = 0")
+    public List<Tbclasstime> getListClassTimeByIslock0();
+    
     @Query("SELECT t FROM Tbclasstime t WHERE t.classtimecode = :classtimecode")
     public Tbclasstime getCLassTimeByCode(@Param("classtimecode") String classtimecode);
+    
+    @Query("SELECT t FROM Tbclasstime t WHERE t.classtimelesson.ctlcode = :classtimelesson and t.islock = 0")
+    public List<Tbclasstime> getClassTimeByShift(@Param("classtimelesson") String classtimelesson);
 }

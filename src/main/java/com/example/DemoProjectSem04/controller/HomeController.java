@@ -9,24 +9,30 @@ import com.example.DemoProjectSem04.DTO.Tbclassdto;
 import com.example.DemoProjectSem04.utils.PasswordGenerator;
 import com.example.DemoProjectSem04.DTO.Tbstaffdto;
 import com.example.DemoProjectSem04.DTO.Tbstudentdto;
+import com.example.DemoProjectSem04.DTO.Tbteachingschedule;
 import com.example.DemoProjectSem04.DTO.Tbuserdto;
 import com.example.DemoProjectSem04.DTO.Tbuserdto2;
+import com.example.DemoProjectSem04.DTO.Tbworkingstafflistdto;
 import com.example.DemoProjectSem04.entities.Tbclass;
 import com.example.DemoProjectSem04.entities.Tbclassroom;
 import com.example.DemoProjectSem04.entities.Tbclassschedule;
+import com.example.DemoProjectSem04.entities.Tbclasstime;
 import com.example.DemoProjectSem04.entities.Tbcourse;
 import com.example.DemoProjectSem04.entities.Tbcourseclass;
 import com.example.DemoProjectSem04.entities.Tbcoursemodule;
+import com.example.DemoProjectSem04.entities.TbcoursemodulePK;
 import com.example.DemoProjectSem04.entities.Tbmodule;
 import com.example.DemoProjectSem04.entities.Tbpositiongroup;
 import com.example.DemoProjectSem04.entities.Tbrole;
 import com.example.DemoProjectSem04.entities.Tbstaff;
 import com.example.DemoProjectSem04.entities.Tbstudent;
 import com.example.DemoProjectSem04.entities.Tbuser;
+import com.example.DemoProjectSem04.entities.Tbworkingschedule;
 import com.example.DemoProjectSem04.interfaces.tbUserInterface;
 import com.example.DemoProjectSem04.services.tbCenterService;
 import com.example.DemoProjectSem04.services.tbClassScheduleService;
 import com.example.DemoProjectSem04.services.tbClassService;
+import com.example.DemoProjectSem04.services.tbClassTimeService;
 import com.example.DemoProjectSem04.services.tbClassroomService;
 import com.example.DemoProjectSem04.services.tbCourseClassService;
 import com.example.DemoProjectSem04.services.tbCourseModuleService;
@@ -37,6 +43,7 @@ import com.example.DemoProjectSem04.services.tbRoleService;
 import com.example.DemoProjectSem04.services.tbStaffService;
 import com.example.DemoProjectSem04.services.tbStudentService;
 import com.example.DemoProjectSem04.services.tbUserService;
+import com.example.DemoProjectSem04.services.tbWorkingScheduleService;
 import com.example.DemoProjectSem04.utils.FileUploadUtil;
 import static com.example.DemoProjectSem04.utils.PasswordGenerator.encryptPassword;
 import java.io.File;
@@ -47,8 +54,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,6 +71,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,7 +111,7 @@ public class HomeController {
 
     @Autowired
     tbCourseModuleService courseModuleService;
-    
+
     @Autowired
     tbUserService userService;
 
@@ -130,6 +141,12 @@ public class HomeController {
 
     @Autowired
     tbClassScheduleService classScheduleService;
+
+    @Autowired
+    tbClassTimeService classTimeService;
+    
+    @Autowired
+    tbWorkingScheduleService workingScheduleService;
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login(Model model) {
@@ -312,6 +329,148 @@ public class HomeController {
         return "admin/workingschedule";
     }
 
+    @RequestMapping({"/getTHeadWorkingScheduleByTime"})
+    public @ResponseBody
+    List<String> getTHeadWorkingScheduleByTime(Model model, @RequestParam(required = false, value = "fromD") String fromD, @RequestParam(required = false, value = "toD") String toD) {
+        List<String> theadList = new ArrayList<>();
+        try {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            Date fromDate = df.parse(fromD);
+
+            DateFormat dff = new SimpleDateFormat("dd/MM/yyyy");
+            Date toDate = dff.parse(toD);
+
+            LocalDate FromLocalDate = fromDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate ToLocalDate = toDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            //Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Tbworkingschedule listPermission = new Tbworkingschedule();
+
+            int check = 1;
+            for (LocalDate date = FromLocalDate; date.isBefore(ToLocalDate.plusDays(1)); date = date.plusDays(1)) {
+
+                if (check == 1) {
+                    theadList.add("Scheduled Shift");
+                }
+
+                String dow = date.getDayOfWeek().toString().substring(0, 3);
+
+                Date d = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                String todayAsStrings = df.format(d);
+                String dayss = todayAsStrings.substring(0, 2);
+                String month = todayAsStrings.substring(3, 5);
+                theadList.add(dow + " " + dayss + "/" + month);
+
+                check++;
+            }
+        } catch (Exception e) {
+            //The handling for the code
+        }
+
+//        List<Tbworkingschedule> listTbworkingschedule = functionService.findAllFunction();
+//        listPermission.setListFunction(listFunct);
+//        model.addAttribute("theadList", theadList);
+        return theadList;
+
+    }
+
+    @RequestMapping({"/getTBodyWorkingScheduleByTime"})
+    public @ResponseBody
+    List<Tbworkingstafflistdto> getTBodyWorkingScheduleByTime(Model model, @RequestParam(required = false, value = "fromD") String fromD, @RequestParam(required = false, value = "toD") String toD) {
+//        List<String> theadList = new ArrayList<>();
+        List<Tbstaff> stafflist = staffService.getStaffListStillWorking();
+        List<Tbworkingstafflistdto> workingList = new ArrayList<>();
+        try {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            Date fromDate = df.parse(fromD);
+
+            DateFormat dff = new SimpleDateFormat("dd/MM/yyyy");
+            Date toDate = dff.parse(toD);
+
+            for (Tbstaff m : stafflist) {
+                List<Tbworkingschedule> wsList = workingScheduleService.getWorkingDateByStaffCode(m.getStaffcode());
+                LocalDate FromLocalDate = fromDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate ToLocalDate = toDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                //Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Tbworkingschedule listPermission = new Tbworkingschedule();
+                List<Tbteachingschedule> lNew = new ArrayList<>();
+                Tbworkingstafflistdto wsldto = new Tbworkingstafflistdto();
+                for (Tbworkingschedule u : wsList) {
+
+                    String todayAsStrings = df.format(u.getWorkingday());
+                    String dayss = todayAsStrings.substring(0, 2);
+                    String monthss = todayAsStrings.substring(3, 5);
+                    String yearss = todayAsStrings.substring(6, 10);
+                    
+                    Tbclassroom crWD = classroomService.findClassroomByCode(u.getClassroomcode());
+                    Tbclass clWD = classService.findClassByCode(u.getClasscode());
+                    Tbclasstime ctWD = classTimeService.getCLassTimeByCode(u.getClasstimecode());
+                    
+                    Tbteachingschedule tbTmp = new Tbteachingschedule();
+                    tbTmp.setClasscode(u.getClasscode());
+                    tbTmp.setClassroomcode(u.getClassroomcode());
+                    tbTmp.setClasstimecode(u.getClasstimecode());
+                    tbTmp.setDay(dayss);
+                    tbTmp.setMonth(monthss);
+                    tbTmp.setStaffcode(u.getStaffcode());
+                    tbTmp.setWorkingday(u.getWorkingday());
+                    tbTmp.setYear(yearss);
+                    tbTmp.setClassname(clWD.getClassname());
+                    tbTmp.setClassroomname(crWD.getRoomname());
+                    tbTmp.setClasstimename(ctWD.getClasstimename());
+                    lNew.add(tbTmp);
+
+                }
+                wsldto.setStaffcode(m.getStaffcode());
+                wsldto.setStaffname(m.getStaffname());
+                wsldto.setStaffimg(m.getStaffimg());
+                wsldto.setListworkingschedule(lNew);
+                workingList.add(wsldto);
+//            int check = 1;
+//                for (LocalDate date = FromLocalDate; date.isBefore(ToLocalDate.plusDays(1)); date = date.plusDays(1)) {
+//                    Date d = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                    String todayAsStrings = df.format(d);
+//                    String dayss = todayAsStrings.substring(0, 2);
+//                    String month = todayAsStrings.substring(3, 5);
+//                    for (Tbworkingschedule u : wsList) {
+//                        LocalDate workingday = u.getWorkingday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                        Date workingday2 = Date.from(workingday.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                        String working = df.format(d);
+//
+//                        String dayssworking = working.substring(0, 2);
+//                        String monthworking = working.substring(3, 5);
+//
+//                    }
+//                if (check == 1) {
+//                    theadList.add("Scheduled Shift");
+//                }
+//                String dow = date.getDayOfWeek().toString().substring(0, 3);
+//
+
+//                theadList.add(dow + " " + dayss + "/" + month);
+//
+//                check++;
+//                }
+//                Tbteachingschedule tsdto = new Tbteachingschedule();
+//                Tbworkingstafflistdto wsldto = new Tbworkingstafflistdto();
+//                wsldto.setStaffcode(m.getStaffcode());
+//                wsldto.setStaffname(m.getStaffname());
+//                for (Tbworkingschedule u : wsList) {
+//
+//                }
+//                wsldto.setListworkingschedule(listworkingschedule);
+            }
+
+        } catch (Exception e) {
+            //The handling for the code
+        }
+
+//        List<Tbworkingschedule> listTbworkingschedule = functionService.findAllFunction();
+//        listPermission.setListFunction(listFunct);
+//        model.addAttribute("theadList", theadList);
+        return workingList;
+
+    }
+
     @RequestMapping({"/student"})
     public String studentPage(Model model) {
         List<Tbstudent> listStudent = studentService.getStudentList();
@@ -380,6 +539,78 @@ public class HomeController {
         return "redirect:/admin/student";
     }
 
+    @RequestMapping(value = "/createNewCourse", method = RequestMethod.POST)
+    public String createNewCourse(Model model, @RequestParam(required = false, value = "coursename") String coursename, @RequestParam(required = false, value = "opendates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date opendates, @RequestParam(required = false, value = "startdates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startdates, @RequestParam(required = false, value = "enddates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date enddates, @RequestParam(required = false, value = "sltModule") ArrayList<String> sltModule) throws IOException {
+
+        List<Tbcoursemodule> tbCourseModuleList = new ArrayList<>();
+
+        Tbcourse maxCourseCode = courseService.getMaxCode();
+
+        String max = "";
+
+        if (maxCourseCode == null) {
+            max = "COURSE0001";
+        } else {
+            max = maxCourseCode.getCoursecode();
+            String temp = max.substring(6, 10);
+            int tempInt = Integer.parseInt(temp);
+            tempInt = tempInt + 1;
+            String newTempInt = String.valueOf(tempInt);
+            String kihieucourse = max.substring(0, 6).toString();
+
+            if (newTempInt.length() == 1) {
+                max = kihieucourse + "000" + newTempInt;
+            } else if (newTempInt.length() == 2) {
+                max = kihieucourse + "00" + newTempInt;
+            } else if (newTempInt.length() == 3) {
+                max = kihieucourse + "0" + newTempInt;
+            } else {
+                max = kihieucourse + newTempInt;
+            }
+        }
+
+        LocalDate StartLocalDate = startdates.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int monS = StartLocalDate.getMonth().getValue();
+        int yeaS = StartLocalDate.getYear();
+
+        Tbcourse newCourse = new Tbcourse();
+        newCourse.setCoursecode(max);
+        newCourse.setCoursename(coursename);
+        newCourse.setMonth(monS);
+        newCourse.setYear(yeaS);
+        newCourse.setOpentimecourse(opendates);
+        newCourse.setStartcourse(startdates);
+        newCourse.setEndcourse(enddates);
+        newCourse.setIsactive(1);
+
+        int totalnumber = 0;
+
+        for (String st : sltModule) {
+            Tbmodule mdl = moduleService.findModuleByCode(st);
+            totalnumber += Integer.parseInt(mdl.getModuletime().substring(0, 2));
+            TbcoursemodulePK cmpk = new TbcoursemodulePK();
+            cmpk.setCoursecode(max);
+            cmpk.setModulecode(st);
+            Tbcoursemodule cm = new Tbcoursemodule();
+            cm.setTbcoursemodulePK(cmpk);
+            cm.setMonth(monS);
+            cm.setYear(yeaS);
+            cm.setModulename(mdl.getModulename());
+            cm.setFromdate(startdates);
+            cm.setTodate(enddates);
+            tbCourseModuleList.add(cm);
+        }
+        newCourse.setNumberlesson(totalnumber);
+
+        courseService.save(newCourse);
+
+        for (Tbcoursemodule m : tbCourseModuleList) {
+            courseModuleService.save(m);
+        }
+
+        return "redirect:/admin/course";
+    }
+
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -408,6 +639,7 @@ public class HomeController {
         model.addAttribute("tbstaffdto", tbstaffdto);
         List<Tbpositiongroup> tbpositiongroup2List = positionGroupService.findAllPositionGroup();
         model.addAttribute("tbpositiongroup2List", tbpositiongroup2List);
+        //model.addAttribute("messag", tbpositiongroup2List);
         return "admin/profile";
     }
 
@@ -447,13 +679,13 @@ public class HomeController {
     List<Tbmodule> getModuleByCourse(Model model, @RequestParam("idCourse") String idCourse) {
         List<Tbcoursemodule> dtcoursemodule = courseModuleService.findCourseModuleByCourse(idCourse);
         List<Tbmodule> dtmodule = new ArrayList<>();
-        for(Tbcoursemodule k : dtcoursemodule){
+        for (Tbcoursemodule k : dtcoursemodule) {
             Tbmodule objMD = moduleService.findModuleByCode(k.getTbcoursemodulePK().getModulecode());
             dtmodule.add(objMD);
         }
         return dtmodule;
     }
-    
+
     @RequestMapping({"/loadStaffList"})
     public @ResponseBody
     List<Tbstaffdto> loadStaffList(Model model) {

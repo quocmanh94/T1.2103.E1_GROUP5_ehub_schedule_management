@@ -22,7 +22,9 @@ public interface tbStaffInterface {
     public Tbstaff findStaffByCode(String code);
     public List<Tbstaff> findStaffByTypeCode(String code);
     public List<Tbstaff> findTeacherCreateClass(Date startday, Date endday, String dow, String room);
-    public List<Tbstaff> findTeacherHaveClassInTime(Date startday, Date endday, String dow, String room, String shift);
+//    public List<Tbstaff> findTeacherHaveClassInTime(Date startday, Date endday, String dow, String room, String shift);
+    public List<Tbstaff> findTeacherHaveClassInTime(Date startday, Date endday, String dow, String shift);
     public void updateProfile(Tbstaff tbstaff);
     public String getMaxCodeStaff();
+    public List<Tbstaff> getStaffListStillWorking();
 }

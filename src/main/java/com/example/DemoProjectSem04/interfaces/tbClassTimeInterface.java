@@ -17,4 +17,6 @@ public interface tbClassTimeInterface {
     public List<Tbclasstime> finClassTimeCreatClass(Date StartDay, Date EndDay, String DayofWeek, String Room);
     public Tbclasstime getClassTimeLessonByCode(String code);
     public Tbclasstime getCLassTimeByCode(String code);
+    public List<Tbclasstime> getListClasstimeByIslock();
+    public List<Tbclasstime> getClasstimebyShift(String id);
 }

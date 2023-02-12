@@ -403,6 +403,7 @@
     </body>
 </html>
 <script type="text/javascript">
+    
     $(document).ready(function () {
         var active = localStorage.getItem('active');
         var actives = active.substr(0, 11);
@@ -410,8 +411,8 @@
         $('#leftsidebarMenu li').removeClass('active');
         $('#leftsidebarMenu li.' + actives).addClass('active');
     });
-
-     function getEndDate(day) {
+    
+    function getEndDate(day) {
          const startDate = $('#classStartDate').val();
          const course = $('#sltcourse').val();
          const checkBox = day;

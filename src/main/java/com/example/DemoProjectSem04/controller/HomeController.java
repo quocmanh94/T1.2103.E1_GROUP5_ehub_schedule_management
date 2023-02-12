@@ -166,7 +166,7 @@ public class HomeController {
             Tbcourse dtc = courseService.findCourseByCode(dtcl.getTbcourseclassPK().getCoursecode());
             List<Tbclassschedule> dtlClassSchedule = classScheduleService.getListClassScheduleByClassCode(dt.getClasscode());
             Format formatter = new SimpleDateFormat("dd-MM-yyyy");
-            String coursetime = formatter.format(dtc.getStartcourse()) + " - " + formatter.format(dtc.getEndcourse());
+            String coursetime = formatter.format(dtcl.getStartDate()) + " - " + formatter.format(dtcl.getEndDate());
             Tbclassdto classDTO = new Tbclassdto();
             classDTO.setClasscode(dt.getClasscode());
             classDTO.setClassname(dt.getClassname());
@@ -187,20 +187,29 @@ public class HomeController {
             classDTO.setClassroomname(roomname);
             Date date = new Date();
 
-            int result = dtc.getOpentimecourse().compareTo(date);
-            int result2 = dtc.getStartcourse().compareTo(date);
-            int result3 = dtc.getEndcourse().compareTo(date);
+//            int result = dtc.getOpentimecourse().compareTo(date);
+            int result2 = dtcl.getStartDate().compareTo(date);
+            int result3 = dtcl.getEndDate().compareTo(date);
 
             String trangthailop = "";
-            if (result > 0 && result2 > 0 && result3 > 0) {
-                trangthailop = "Will Open";
-            } else if (result <= 0 && result2 > 0 && result3 > 0) {
+//            if (result > 0 && result2 > 0 && result3 > 0) {
+//                trangthailop = "Will Open";
+//            } else if (result <= 0 && result2 > 0 && result3 > 0) {
+//                trangthailop = "Opening";
+//            } else if (result < 0 && result2 <= 0 && result3 >= 0) {
+//                trangthailop = "In Processing";
+//            } else if (result < 0 && result2 < 0 && result3 < 0) {
+//                trangthailop = "Close";
+//            }
+            
+            if (result2 > 0 && result3 > 0) {
                 trangthailop = "Opening";
-            } else if (result < 0 && result2 <= 0 && result3 >= 0) {
+            } else if (result2 <= 0 && result3 >= 0) {
                 trangthailop = "In Processing";
-            } else if (result < 0 && result2 < 0 && result3 < 0) {
-                trangthailop = "Close";
+            } else if (result2 < 0 && result3 < 0) {
+                trangthailop = "Finished";
             }
+            
             classDTO.setClassstatus(trangthailop);
             classDTOList.add(classDTO);
         }

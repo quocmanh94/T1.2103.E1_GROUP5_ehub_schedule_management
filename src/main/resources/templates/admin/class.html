@@ -78,14 +78,24 @@
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_employee"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                         </div>
                                     </div>
-                                    <div class="m-t-2 text-muted row" style="font-weight: bold;"><a th:href="@{/admin/detailclass/{id}(id=${t.classcode})}" style="color: red !important">Class Name: <span th:text="${t.classname}"></span></a></div>
-                                    <div class="small text-muted row">Course Name: <span th:text="${t.coursename}"></span></div>
-                                    <div class="m-t-2 text-muted row">Course Time: <span th:text="${t.coursetime}"></span></div>
+                                    <div class="m-t-2 text-muted row" style="font-weight: bold;">
+                                        <div th:switch="${t.classstatus}"> 
+                                            <p th:case="'Opening'" style="margin-bottom: 0px"><a th:href="@{/admin/detailclass/{id}(id=${t.classcode})}" style="color: red !important;">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
+                                            <p th:case="'In Processing'" style="margin-bottom: 0px"><a th:href="@{/admin/detailclass/{id}(id=${t.classcode})}">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
+                                            <p th:case="'Finished'" style="margin-bottom: 0px"><a th:href="@{/admin/detailclass/{id}(id=${t.classcode})}" style="color: red !important;">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
+                                        </div>
+                                    </div>
+                                    <div class="small text-muted row" style="font-size: 12px">Course Name &#160;: &#160; <span th:text="${t.coursename}"></span></div>
+                                    <div class="m-t-2 text-muted row">Class Time &#160;: &#160; <span th:text="${t.coursetime}"></span></div>
                                     <div class="row">
-                                        <div class="user-name m-t-2 mb-0 text-ellipsis text-muted">Classroom : <span th:text="${t.classroomname}"></span></div>
+                                        <div class="user-name m-t-2 mb-0 text-ellipsis text-muted">Classroom &#160;: &#160; <span th:text="${t.classroomname}"></span></div>
                                     </div>
                                     <div class="row">
-                                        <i class="fa fa-dot-circle-o text-danger" style="margin-top: 2px"> <span th:text="${t.classstatus}"></span> </i>
+                                        <div th:switch="${t.classstatus}"> 
+                                            <p th:case="'Opening'"><i class="fa fa-dot-circle-o text-success" style="margin-top: 2px"> <span th:text="${t.classstatus}"></span> </i></p>
+                                            <p th:case="'In Processing'"><i class="fa fa-dot-circle-o text-success" style="margin-top: 2px"> <span th:text="${t.classstatus}"></span> </i></p>
+                                            <p th:case="'Finished'"><i class="fa fa-dot-circle-o text-danger" style="margin-top: 2px"> <span th:text="${t.classstatus}"></span> </i></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

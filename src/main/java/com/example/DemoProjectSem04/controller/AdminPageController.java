@@ -81,15 +81,29 @@ public class AdminPageController {
     tbClassTimeLessonService classTimeLessonService;
 
     @Autowired
+    tbUserService userService;
+    
+    @Autowired
     tbDayService dayService;
 
     @RequestMapping({"/dashboard", "/"})
     public String dashboardPage(Model model) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
-        model.addAttribute("userLogin", user.getUsername());
-
-        return "admin/dashboard";
+        String uEmail = user.getUsername();
+        Tbuser tbu = userService.findUserByEmail(uEmail);
+        if(tbu.getPermision().getPgcode().equals("PG00000005")){
+            model.addAttribute("userLogin", user.getUsername());
+            return "admin/dashboard";
+        }else if(tbu.getPermision().getPgcode().equals("PG00000001")){
+            return "admin/staffdashboard";
+        }else if(tbu.getPermision().getPgcode().equals("PG00000004")){
+            return "admin/teacherdashboard";
+        }else{
+            model.addAttribute("userLogin", user.getUsername());
+            return "admin/teacherdashboard";
+        }
+        
     }
 
     @RequestMapping({"/staffdashboard"})

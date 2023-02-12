@@ -979,7 +979,11 @@
                 var tbody = "";
                 $.each(result, function (index, value) {
                     tbody = "<tr>";
-                    tbody += "<td><h2 class=\"table-avatar\"><a href=\"profile.html\" class=\"avatar\"><img alt=\"\" src=\"assets/img/user.jpg\"/></a><a href=\"profile.html\">" + value.staffname + "</a></h2></td>";
+                    if(value.staffimg === null){
+                        tbody += "<td><h2 class=\"table-avatar\"><a href=\"profile.html\" class=\"avatar\"><img alt=\"\" src=\"/admin/assets/img/user.jpg\"/></a><a href=\"profile.html\">" + value.staffname + "</a></h2></td>";
+                    }else{
+                        tbody += "<td><h2 class=\"table-avatar\"><a href=\"profile.html\" class=\"avatar\"><img alt=\"\" src=\"/admin/assets/img/" + value.staffimg + "\"/></a><a href=\"profile.html\">" + value.staffname + "</a></h2></td>";
+                    }
 
                     var fromdate = new Date(yearF + "-" + monthF + "-" + dayF);
                     var todate = new Date(yearT + "-" + monthT + "-" + dayT);
@@ -999,7 +1003,8 @@
 
                             if (dd === value.listworkingschedule[i].day && mm === value.listworkingschedule[i].month && yyyy === value.listworkingschedule[i].year && check === 1) {
 //                                tbody += "<td><div class=\"user-add-shedule-list\"><h2><a href=\"#\" data-toggle=\"modal\" data-target=\"#edit_schedule\" style=\"border:2px dashed #1eb53a\" th:attr=\"onclick=|addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')|\">";
-                                tbody += "<td><div class=\"user-add-shedule-list\"><h2><a href=\"#\" style=\"border:2px dashed #1eb53a\" onclick=\"addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')\">";
+//                                tbody += "<td><div class=\"user-add-shedule-list\"><h2><a href=\"#\" style=\"border:2px dashed #1eb53a\" onclick=\"addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')\">";
+                                tbody += "<td><div class=\"user-add-shedule-list\"><h2><a style=\"border:2px dashed #1eb53a\">";
                                 tbody += "<span class=\"username-info m-b-10\"> Room : " + value.listworkingschedule[i].classroomname + " - Class Time : " + value.listworkingschedule[i].classtimename + "</span>";
                             } else if (dd === value.listworkingschedule[i].day && mm === value.listworkingschedule[i].month && yyyy === value.listworkingschedule[i].year && check > 1) {
                                 tbody += "<span class=\"username-info m-b-10\"> Room : " + value.listworkingschedule[i].classroomname + " - Class Time : " + value.listworkingschedule[i].classtimename + "</span>";
@@ -1013,7 +1018,7 @@
                         }
 
                         if (check === 0) {
-                            tbody += "<td><a href=\"#\"><span><i class=\"fa fa-close\"></i></span></a></td>";
+                            tbody += "<td><a><span><i class=\"fa fa-close\"></i></span></a></td>";
 //                            tbody += "<td><div class=\"user-add-shedule-list\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#add_schedule\"><span><i class=\"fa fa-plus\"></i></span></a></div></td>";
 //                            tbody += "<td><div class=\"user-add-shedule-list\"><a onclick=\"addEven('"+value.staffcode+""+dd+""+mm+""+yyyy+"')\" href=\"#\"><span><i class=\"fa fa-plus\"></i></span></a></div></td>";
                         }

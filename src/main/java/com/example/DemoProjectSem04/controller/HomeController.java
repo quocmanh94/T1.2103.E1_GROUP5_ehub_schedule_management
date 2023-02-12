@@ -491,7 +491,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createNewCourse", method = RequestMethod.POST)
-    public String createNewCourse(Model model, @RequestParam(required = false, value = "coursename") String coursename, @RequestParam(required = false, value = "opendates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date opendates, @RequestParam(required = false, value = "startdates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startdates, @RequestParam(required = false, value = "enddates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date enddates, @RequestParam(required = false, value = "sltModule") ArrayList<String> sltModule) throws IOException {
+    public String createNewCourse(Model model, @RequestParam(required = false, value = "coursename") String coursename, @RequestParam(required = false, value = "opendates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date opendates, @RequestParam(required = false, value = "startdates") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startdates, @RequestParam(required = false, value = "sltModule") ArrayList<String> sltModule) throws IOException {
 
         List<Tbcoursemodule> tbCourseModuleList = new ArrayList<>();
 
@@ -531,7 +531,9 @@ public class HomeController {
         newCourse.setYear(yeaS);
         newCourse.setOpentimecourse(opendates);
         newCourse.setStartcourse(startdates);
-        newCourse.setEndcourse(enddates);
+        LocalDate EndLocalDate = StartLocalDate.plusDays(1);
+        Date newEndDate = Date.from(EndLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        newCourse.setEndcourse(newEndDate);
         newCourse.setIsactive(1);
 
         int totalnumber = 0;
@@ -548,7 +550,7 @@ public class HomeController {
             cm.setYear(yeaS);
             cm.setModulename(mdl.getModulename());
             cm.setFromdate(startdates);
-            cm.setTodate(enddates);
+            cm.setTodate(newEndDate);
             tbCourseModuleList.add(cm);
         }
         newCourse.setNumberlesson(totalnumber);

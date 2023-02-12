@@ -125,7 +125,8 @@ public class AdminPageController {
     }
 
     @RequestMapping({"/loadAllDay"})
-    public @ResponseBody List<Tbday> loadAllDay(Model model) {
+    public @ResponseBody
+    List<Tbday> loadAllDay(Model model) {
         List<Tbday> dayList = dayService.getAllDay();
 //        List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
 //        model.addAttribute("giohoc", giohoc);
@@ -245,10 +246,51 @@ public class AdminPageController {
     public @ResponseBody
     List<Tbclasstime> getShiftCreateClass(Model model, @RequestParam("vlSelectCourse") String vlSelectCourse, @RequestParam("cbDOW") String cbDOW, @RequestParam("vlSelectRoom") String vlSelectRoom) {
 
-        Tbcourse tbcourseTemp = courseService.findCourseByCode(vlSelectCourse);
-        String startday = tbcourseTemp.getStartcourse().toString();
-        String endday = tbcourseTemp.getEndcourse().toString();
-        List<Tbclasstime> tbclasstime = classTimeService.finClassTimeCreatClass(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom);
+        Date newEndDate = new Date();
+        Date newStartDate = new Date();
+        //try {
+        //DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+//            newStartDate = df.parse(startDate);
+        List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
+        Tbcourse tbcourse = courseService.findCourseByCode(vlSelectCourse);
+        Date std = tbcourse.getStartcourse();
+        LocalDate StartLocalDate = std.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int start = StartLocalDate.getDayOfMonth();
+        for (int i = start, a = 1; a <= tbcourse.getNumberlesson(); i++) {
+
+            int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
+            LocalDate workingDay = StartLocalDate.plusDays(i - start);
+            Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            if (a == 1) {
+                newStartDate = workingDate;
+            }
+
+            if (a == tbcourse.getNumberlesson()) {
+                newEndDate = workingDate;
+            }
+
+            if ("DAY0000002".equals(cbDOW) && dayOfWeek == 1) {
+                a++;
+            } else if ("DAY0000003".equals(cbDOW) && dayOfWeek == 2) {
+                a++;
+            } else if ("DAY0000004".equals(cbDOW) && dayOfWeek == 3) {
+                a++;
+            } else if ("DAY0000005".equals(cbDOW) && dayOfWeek == 4) {
+                a++;
+            } else if ("DAY0000006".equals(cbDOW) && dayOfWeek == 5) {
+                a++;
+            } else if ("DAY0000007".equals(cbDOW) && dayOfWeek == 6) {
+                a++;
+            } else if ("DAY0000008".equals(cbDOW) && dayOfWeek == 7) {
+                a++;
+            }
+        }
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        List<Tbclasstime> tbclasstime = classTimeService.finClassTimeCreatClass(newStartDate, newEndDate, cbDOW, vlSelectRoom);
 
         return tbclasstime;
     }
@@ -257,9 +299,50 @@ public class AdminPageController {
     public @ResponseBody
     List<Tbstaff> getTeacherCreateClass(Model model, @RequestParam("vlSelectCourse") String vlSelectCourse, @RequestParam("cbDOW") String cbDOW, @RequestParam("vlSelectRoom") String vlSelectRoom, @RequestParam("selectedValues") ArrayList<String> selectedValues) {
 
-        Tbcourse tbcourseTemp = courseService.findCourseByCode(vlSelectCourse);
-        String startday = tbcourseTemp.getStartcourse().toString();
-        String endday = tbcourseTemp.getEndcourse().toString();
+        Date newEndDate = new Date();
+        Date newStartDate = new Date();
+        //try {
+        //DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+//            newStartDate = df.parse(startDate);
+        List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
+        Tbcourse tbcourse = courseService.findCourseByCode(vlSelectCourse);
+        Date std = tbcourse.getStartcourse();
+        LocalDate StartLocalDate = std.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int start = StartLocalDate.getDayOfMonth();
+        for (int i = start, a = 1; a <= tbcourse.getNumberlesson(); i++) {
+
+            int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
+            LocalDate workingDay = StartLocalDate.plusDays(i - start);
+            Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            if (a == 1) {
+                newStartDate = workingDate;
+            }
+
+            if (a == tbcourse.getNumberlesson()) {
+                newEndDate = workingDate;
+            }
+
+            if ("DAY0000002".equals(cbDOW) && dayOfWeek == 1) {
+                a++;
+            } else if ("DAY0000003".equals(cbDOW) && dayOfWeek == 2) {
+                a++;
+            } else if ("DAY0000004".equals(cbDOW) && dayOfWeek == 3) {
+                a++;
+            } else if ("DAY0000005".equals(cbDOW) && dayOfWeek == 4) {
+                a++;
+            } else if ("DAY0000006".equals(cbDOW) && dayOfWeek == 5) {
+                a++;
+            } else if ("DAY0000007".equals(cbDOW) && dayOfWeek == 6) {
+                a++;
+            } else if ("DAY0000008".equals(cbDOW) && dayOfWeek == 7) {
+                a++;
+            }
+        }
+
+//        Tbcourse tbcourseTemp = courseService.findCourseByCode(vlSelectCourse);
+//        String startday = tbcourseTemp.getStartcourse().toString();
+//        String endday = tbcourseTemp.getEndcourse().toString();
         String shift = "";
         int i = selectedValues.size();
         int i2 = 1;
@@ -275,16 +358,15 @@ public class AdminPageController {
         }
         Tbclasstime classtime = classTimeService.getCLassTimeByCode(shift);
 //        List<Tbstaff> tbstaffTemp = staffService.findTeacherCreateClass(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom);
-        List<Tbstaff> tbstaffTemp = staffService.findTeacherCreateClass(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, classtime.getClasstimelesson().getCtlcode());
+        List<Tbstaff> tbstaffTemp = staffService.findTeacherCreateClass(newStartDate, newEndDate, cbDOW, classtime.getClasstimelesson().getCtlcode());
 //        List<Tbstaff> tbstaffHaveClassInTime = staffService.findTeacherHaveClassInTime(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, vlSelectRoom, classtime.getClasstimelesson().getCtlcode());
-        List<Tbstaff> tbstaffHaveClassInTime = staffService.findTeacherHaveClassInTime(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, classtime.getClasstimelesson().getCtlcode());
+//        List<Tbstaff> tbstaffHaveClassInTime = staffService.findTeacherHaveClassInTime(tbcourseTemp.getStartcourse(), tbcourseTemp.getEndcourse(), cbDOW, classtime.getClasstimelesson().getCtlcode());
 
 //        if (tbstaffHaveClassInTime != null) {
 //            for (Tbstaff tbsf : tbstaffHaveClassInTime) {
 //                tbstaffTemp.add(tbsf);
 //            }
 //        }
-
 //        for (String str : selectedValues) {
 //            for (Tbclassschedule cs : tbstaffHaveClassInTime) {
 //                if(str == "CLT0000001"){
@@ -318,7 +400,6 @@ public class AdminPageController {
 //                }
 //            }
 //        }
-
         return tbstaffTemp;
     }
 
@@ -469,12 +550,53 @@ public class AdminPageController {
     @RequestMapping(value = "/createClass", method = RequestMethod.POST)
     public String createClass(Model model, @RequestParam(required = false, value = "className") String className, @RequestParam(required = false, value = "sltcourse") String sltcourse, @RequestParam(required = false, value = "classDescription") String classDescription, @RequestParam(required = false, value = "sltRoom") String sltRoom, @RequestParam(required = false, value = "sltShift") ArrayList<String> sltShift, @RequestParam(required = false, value = "sltTeacherVNESE") String sltTeacherVNESE, @RequestParam(required = false, value = "sltRoomTuesday") String sltRoomTuesday, @RequestParam(required = false, value = "sltShiftTuesday") ArrayList<String> sltShiftTuesday, @RequestParam(required = false, value = "sltTeacherVNESETuesday") String sltTeacherVNESETuesday, @RequestParam(required = false, value = "sltRoomWednesday") String sltRoomWednesday, @RequestParam(required = false, value = "sltShiftWednesday") ArrayList<String> sltShiftWednesday, @RequestParam(required = false, value = "sltTeacherVNESEWednesday") String sltTeacherVNESEWednesday, @RequestParam(required = false, value = "sltRoomThursday") String sltRoomThursday, @RequestParam(required = false, value = "sltShiftThursday") ArrayList<String> sltShiftThursday, @RequestParam(required = false, value = "sltTeacherVNESEThursday") String sltTeacherVNESEThursday, @RequestParam(required = false, value = "sltRoomFriday") String sltRoomFriday, @RequestParam(required = false, value = "sltShiftFriday") ArrayList<String> sltShiftFriday, @RequestParam(required = false, value = "sltTeacherVNESEFriday") String sltTeacherVNESEFriday, @RequestParam(required = false, value = "sltRoomSaturday") String sltRoomSaturday, @RequestParam(required = false, value = "sltShiftSaturday") ArrayList<String> sltShiftSaturday, @RequestParam(required = false, value = "sltTeacherVNESESaturday") String sltTeacherVNESESaturday, @RequestParam(required = false, value = "sltRoomSunday") String sltRoomSunday, @RequestParam(required = false, value = "sltShiftSunday") ArrayList<String> sltShiftSunday, @RequestParam(required = false, value = "sltTeacherVNESESunday") String sltTeacherVNESESunday) {
 
-        Tbclass tbclass = classService.findMaxClassCode();
+//        Date newEndDate2 = new Date();
+//        Date newStartDate = new Date();
+        //try {
+        //DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+//            newStartDate = df.parse(startDate);
+        //List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
         Tbcourse tbcourse = courseService.findCourseByCode(sltcourse);
+//        Date std = tbcourse.getStartcourse();
+//        LocalDate StartLocalDate2 = std.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        int start2 = StartLocalDate2.getDayOfMonth();
+//        for (int i = start2, a = 1; a <= tbcourse.getNumberlesson(); i++) {
+//
+//            int dayOfWeek = StartLocalDate2.plusDays(i - start2).getDayOfWeek().getValue();
+//            LocalDate workingDay = StartLocalDate2.plusDays(i - start2);
+//            Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//
+//            if (a == 1) {
+//                newStartDate = workingDate;
+//            }
+//
+//            if (a == tbcourse.getNumberlesson()) {
+//                newEndDate2 = workingDate;
+//            }
+//
+//            if (sltTeacherVNESE != null && dayOfWeek == 1) {
+//                a++;
+//            } else if (sltTeacherVNESETuesday != null && dayOfWeek == 2) {
+//                a++;
+//            } else if (sltTeacherVNESEWednesday != null && dayOfWeek == 3) {
+//                a++;
+//            } else if (sltTeacherVNESEThursday != null && dayOfWeek == 4) {
+//                a++;
+//            } else if (sltTeacherVNESEFriday != null && dayOfWeek == 5) {
+//                a++;
+//            } else if (sltTeacherVNESESaturday != null && dayOfWeek == 6) {
+//                a++;
+//            } else if (sltTeacherVNESESunday != null && dayOfWeek == 7) {
+//                a++;
+//            }
+//        }
+        
+        Tbclass tbclass = classService.findMaxClassCode();
+        //Tbcourse tbcourse = courseService.findCourseByCode(sltcourse);
         List<Tbcoursemodule> listCourseModule = courseModuleService.findCourseModuleByCourse(sltcourse);
 
         Date StartDate = tbcourse.getStartcourse();
-        Date EndDate = tbcourse.getEndcourse();
+//        Date EndDate = tbcourse.getEndcourse();
 
         String strModuleCode = listCourseModule.get(0).getTbcoursemodulePK().getModulecode();
         Tbmodule tbmodule = moduleService.findModuleByCode(strModuleCode);
@@ -710,27 +832,13 @@ public class AdminPageController {
         }
 
         // end add Tbclassschedule
-        // begin add Tbcourseclass
-        TbcourseclassPK tbcourseclassPK = new TbcourseclassPK();
-        tbcourseclassPK.setClasscode(strClassCode);
-        tbcourseclassPK.setCoursecode(sltcourse);
-        Tbcourseclass tbcourseclass = new Tbcourseclass();
-        tbcourseclass.setTbcourseclassPK(tbcourseclassPK);
-        tbcourseclass.setDescrip(strClassContent);
-        tbcourseclass.setClassname(strClassName);
-
-        // them du lieu enddate va startdate
-        //tbcourseclass.setMonth(month);
-        //tbcourseclass.setYear(year);
-
-        courseClassService.saveCourseClass(tbcourseclass);
-        // end add Tbcourseclass
 
         LocalDate StartLocalDate = StartDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int start = StartLocalDate.getDayOfMonth();
         int end = start + tbcourse.getNumberlesson();
         //int a = 1;
         Date newEndDate = new Date();
+        Date newStartClass = new Date();
         List<Tbworkingschedule> workingscheduleList = new ArrayList<>();
 
         for (int i = start, a = 1; a <= tbcourse.getNumberlesson(); i++) {
@@ -739,6 +847,10 @@ public class AdminPageController {
             LocalDate workingDay = StartLocalDate.plusDays(i - start);
             Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
+            if (a == 1) {
+                newStartClass = workingDate;
+            }
+            
             if (a == tbcourse.getNumberlesson()) {
                 newEndDate = workingDate;
             }
@@ -764,8 +876,27 @@ public class AdminPageController {
             workingScheduleService.createWorkingSchedule(tbws);
         }
 
-        courseModuleService.updateEndDate(newEndDate, sltcourse);
-        courseService.updateEndDate(newEndDate, sltcourse);
+        // begin add Tbcourseclass
+        TbcourseclassPK tbcourseclassPK = new TbcourseclassPK();
+        tbcourseclassPK.setClasscode(strClassCode);
+        tbcourseclassPK.setCoursecode(sltcourse);
+        Tbcourseclass tbcourseclass = new Tbcourseclass();
+        tbcourseclass.setTbcourseclassPK(tbcourseclassPK);
+        tbcourseclass.setDescrip(strClassContent);
+        tbcourseclass.setClassname(strClassName);
+
+        // them du lieu enddate va startdate
+        tbcourseclass.setEndDate(newEndDate);
+        tbcourseclass.setStartDate(newStartClass);
+        courseClassService.saveCourseClass(tbcourseclass);
+        // end add Tbcourseclass
+        
+        LocalDate ec = tbcourse.getEndcourse().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate ecl = newEndDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(ec.isBefore(ecl)){
+            courseService.updateEndDate(newEndDate, sltcourse);
+            courseModuleService.updateEndDate(newEndDate, sltcourse);
+        }
 
         // end add Tbworkingschedule
         return "redirect:/admin/classes";
@@ -867,7 +998,8 @@ public class AdminPageController {
     }
 
     @RequestMapping(value = "/getEndDate", method = RequestMethod.GET)
-    public @ResponseBody Date getEndDate(@RequestParam("startDate") String startDate, @RequestParam("course") String course, @RequestParam("checkBox") String checkBox) {
+    public @ResponseBody
+    Date getEndDate(@RequestParam("startDate") String startDate, @RequestParam("course") String course, @RequestParam("checkBox") String checkBox) {
         Date newEndDate = new Date();
 
         try {

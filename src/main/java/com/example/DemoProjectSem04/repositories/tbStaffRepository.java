@@ -45,10 +45,9 @@ public interface tbStaffRepository extends JpaRepository<Tbstaff, String> {
 //            + "and haizz.classroomcode = :vlRoom)")
 //    public List<Tbstaff> getListStaffCreateClass(@Param("startday") Date startday, @Param("endday") Date endday, @Param("dayofweek") String dayofweek, @Param("vlRoom") String vlRoom);
     @Query("SELECT st FROM Tbstaff st WHERE st.stafftype = 'PG00000004' and st.staffcode not in ("
-            + "SELECT haizz.tbclassschedulePK.teachercode FROM Tbcourseclass t join Tbcourse c on t.tbcourseclassPK.coursecode = c.coursecode "
-            + "join Tbclassschedule haizz on haizz.tbclassschedulePK.classcode = t.tbcourseclassPK.classcode "
-            + "where (((:startday between c.startcourse and c.endcourse) and (:endday between c.startcourse and c.endcourse)) or ((:startday between c.startcourse and c.endcourse) and (:endday > c.endcourse))) and haizz.tbclassschedulePK.daycode = :dayofweek "
-            + "and haizz.classtimelessoncode in (:shift))")
+            + "SELECT a.tbclassschedulePK.teachercode FROM Tbclassschedule a join Tbcourseclass b on b.tbcourseclassPK.classcode = a.tbclassschedulePK.classcode "
+            + "where (((:startday between b.startdate and b.enddate) and (:endday between b.startdate and b.enddate)) or ((:startday between b.startdate and b.enddate) and (:endday > b.enddate))) and a.tbclassschedulePK.daycode = :dayofweek "
+            + "and a.classtimelessoncode in (:shift))")
     public List<Tbstaff> getListStaffCreateClass(@Param("startday") Date startday, @Param("endday") Date endday, @Param("dayofweek") String dayofweek, @Param("shift") String shift);
 
     @Query("SELECT st FROM Tbstaff st WHERE st.stafftype = 'PG00000004' and st.staffcode in ("

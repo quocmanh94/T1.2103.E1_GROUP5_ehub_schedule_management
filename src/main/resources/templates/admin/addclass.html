@@ -53,13 +53,21 @@
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 form-group">
-                                                    <label for="classStartDate">Start Date</label>
-                                                    <input class="form-control" id="classStartDate" name="classStartDate" type="date" />
-                                                </div>
-                                                <div class="col-md-6 col-sm-6 form-group">
+<!--                                                <div class="col-sm-6 col-md-6">  
+                                                    <div class="form-group form-focus focused">
+                                                        <div class="cal-icon">
+                                                            <input class="form-control floating datetimepicker" type="text" id="classStartDate" name="classStartDate"/>
+                                                        </div>
+                                                        <label class="focus-label">Start Date</label>
+                                                    </div>
+                                                </div>-->
+<!--                                                <div class="col-md-6 col-sm-6 form-group">
+                                                    <label for="classStartDate">Start Date <span class="text-danger">*</span></label>
+                                                    <input class="form-control floating datetimepicker" type="text" id="classStartDate" name="classStartDate"/>
+                                                </div>-->
+                                                <div class="col-md-12 col-sm-6 form-group">
                                                     <label for="classDescription">Description</label>
-                                                    <textarea class="form-control" id="classDescription" name="classDescription" rows="1"></textarea>
+                                                    <input class="form-control floating" type="text" id="classDescription" name="classDescription"/>
                                                 </div>  
                                             </div>
                                             <div class="modal-header text-center mb-3">
@@ -403,7 +411,7 @@
     </body>
 </html>
 <script type="text/javascript">
-    
+
     $(document).ready(function () {
         var active = localStorage.getItem('active');
         var actives = active.substr(0, 11);
@@ -411,26 +419,26 @@
         $('#leftsidebarMenu li').removeClass('active');
         $('#leftsidebarMenu li.' + actives).addClass('active');
     });
-    
-    function getEndDate(day) {
-         const startDate = $('#classStartDate').val();
-         const course = $('#sltcourse').val();
-         const checkBox = day;
-         $.ajax({
-             type: "GET",
-             data: {startDate: startDate, course: course, checkBox: checkBox},
-             url: "/admin/getEndDate",
-             success: function (result) {
-                 alert(result);
-             }
-         });
-    }
+
+//    function getEndDate(day) {
+//        const startDate = $('#classStartDate').val();
+//        const course = $('#sltcourse').val();
+//        const checkBox = day;
+//        $.ajax({
+//            type: "GET",
+//            data: {startDate: startDate, course: course, checkBox: checkBox},
+//            url: "/admin/getEndDate",
+//            success: function (result) {
+//                alert(result);
+//            }
+//        });
+//    }
 
     function loadRoomForMonday() {
         var valueSelectCourse = $('#sltcourse').val();
         var cbDayofWeek = $('#monday').val();
         if (!$('#monday').is(":checked")) {
-            getEndDate(cbDayofWeek);
+            //getEndDate(cbDayofWeek);
             $.ajax({
                 type: "GET",
                 data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
@@ -463,7 +471,8 @@
         var cbDayofWeek = $('#monday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoom').val();
-        getEndDate(cbDayofWeek);
+        //var startDate = $('#classStartDate').val();
+        //getEndDate(cbDayofWeek);
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -488,7 +497,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoom').val();
         var valueSelectShift = $('#sltShift').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShift').each(function (i, selected) {
             selectedValues[i] = $('#sltShift').val();
@@ -549,7 +558,7 @@
         var cbDayofWeek = $('#tuesday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomTuesday').val();
-
+        //var startDate = $('#classStartDate').val();
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -574,7 +583,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomTuesday').val();
         var valueSelectShift = $('#sltShiftTuesday').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShiftTuesday').each(function (i, selected) {
             selectedValues[i] = $('#sltShiftTuesday').val();
@@ -636,7 +645,7 @@
         var cbDayofWeek = $('#wednesday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomWednesday').val();
-
+        //var startDate = $('#classStartDate').val();
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -661,7 +670,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomWednesday').val();
         var valueSelectShift = $('#sltShiftWednesday').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShiftWednesday').each(function (i, selected) {
             selectedValues[i] = $('#sltShiftWednesday').val();
@@ -722,7 +731,7 @@
         var cbDayofWeek = $('#thursday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomThursday').val();
-
+        //var startDate = $('#classStartDate').val();
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -747,7 +756,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomThursday').val();
         var valueSelectShift = $('#sltShiftThursday').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShiftThursday').each(function (i, selected) {
             selectedValues[i] = $('#sltShiftThursday').val();
@@ -808,7 +817,7 @@
         var cbDayofWeek = $('#friday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomFriday').val();
-
+        //var startDate = $('#classStartDate').val();
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -833,7 +842,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomFriday').val();
         var valueSelectShift = $('#sltShiftFriday').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShiftFriday').each(function (i, selected) {
             selectedValues[i] = $('#sltShiftFriday').val();
@@ -894,7 +903,7 @@
         var cbDayofWeek = $('#saturday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomSaturday').val();
-
+        //var startDate = $('#classStartDate').val();
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -919,7 +928,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomSaturday').val();
         var valueSelectShift = $('#sltShiftSaturday').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShiftSaturday').each(function (i, selected) {
             selectedValues[i] = $('#sltShiftSaturday').val();
@@ -980,7 +989,7 @@
         var cbDayofWeek = $('#sunday').val();
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomSunday').val();
-
+        //var startDate = $('#classStartDate').val();
         $.ajax({
             type: "GET",
             data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
@@ -1005,7 +1014,7 @@
         var valueSelectCourse = $('#sltcourse').val();
         var valueSelectRoom = $('#sltRoomSunday').val();
         var valueSelectShift = $('#sltShiftSunday').val();
-
+        //var startDate = $('#classStartDate').val();
         var selectedValues = [];
         $('#sltShiftSunday').each(function (i, selected) {
             selectedValues[i] = $('#sltShiftSunday').val();
@@ -1072,5 +1081,5 @@
         document.getElementById("sltShiftSunday").options.length = 0;
         document.getElementById("sltTeacherVNESESunday").options.length = 0;
     }
-    
+
 </script>

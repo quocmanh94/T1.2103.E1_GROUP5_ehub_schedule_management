@@ -95,10 +95,10 @@ public class HomeController {
 
     @Autowired
     tbClassTimeService classTimeService;
-    
+
     @Autowired
     tbClassTimeLessonService classTimeLessonService;
-    
+
     @Autowired
     tbWorkingScheduleService workingScheduleService;
 
@@ -204,7 +204,7 @@ public class HomeController {
 //            } else if (result < 0 && result2 < 0 && result3 < 0) {
 //                trangthailop = "Close";
 //            }
-            
+
             if (result2 > 0 && result3 > 0) {
                 trangthailop = "Opening";
             } else if (result2 <= 0 && result3 >= 0) {
@@ -212,7 +212,7 @@ public class HomeController {
             } else if (result2 < 0 && result3 < 0) {
                 trangthailop = "Finished";
             }
-            
+
             classDTO.setClassstatus(trangthailop);
             classDTOList.add(classDTO);
         }
@@ -286,7 +286,7 @@ public class HomeController {
         model.addAttribute("dlModule", dlModule);
         return "admin/editstudent";
     }
-    
+
     @RequestMapping({"/detailclass/{id}"})
     public String detailclassPage(Model model, @PathVariable("id") String id) {
         Tbclass dtClass = classService.findClassByCode(id);
@@ -295,7 +295,7 @@ public class HomeController {
         List<Tbmodule> dlModule = moduleService.getModuleByCourseCode(dtcourse.getCoursecode());
         List<Tbstudent> dlStudent = studentService.getStudentListByClassCode(id);
         int actuallyseats = 0;
-        for(Tbstudent student : dlStudent){
+        for (Tbstudent student : dlStudent) {
             actuallyseats++;
         }
         Tbcourseclass dtCourseClass = courseClassService.getCourseClassByClassCode(id);
@@ -311,7 +311,7 @@ public class HomeController {
         tbclassinformationdto.setClassroomname(dtClassRoom.getRoomname());
         List<String> objTimeStudying = new ArrayList<>();
         List<String> objTeacher = new ArrayList<>();
-        for(Tbclassschedule tbclassschedule : dtClassSchedule){
+        for (Tbclassschedule tbclassschedule : dtClassSchedule) {
             String time = tbclassschedule.getDayofweek() + " : " + tbclassschedule.getClasstime();
             objTeacher.add(tbclassschedule.getTeachername());
             objTimeStudying.add(time);
@@ -319,12 +319,12 @@ public class HomeController {
         tbclassinformationdto.setTeacher(objTeacher);
         tbclassinformationdto.setTimestudying(objTimeStudying);
         tbclassinformationdto.setToalseats(dtClassRoom.getRoomnumberofseats());
-        
+
         model.addAttribute("dtcourse", dtcourse);
         model.addAttribute("dlModule", dlModule);
         model.addAttribute("dlStudent", dlStudent);
         model.addAttribute("classInfor", tbclassinformationdto);
-        
+
         return "admin/detailsclass";
     }
 
@@ -404,11 +404,11 @@ public class HomeController {
                     String dayss = todayAsStrings.substring(0, 2);
                     String monthss = todayAsStrings.substring(3, 5);
                     String yearss = todayAsStrings.substring(6, 10);
-                    
+
                     Tbclassroom crWD = classroomService.findClassroomByCode(u.getClassroomcode());
                     Tbclass clWD = classService.findClassByCode(u.getClasscode());
                     Tbclasstime ctWD = classTimeService.getCLassTimeByCode(u.getClasstimecode());
-                    
+
                     Tbteachingschedule tbTmp = new Tbteachingschedule();
                     tbTmp.setClasscode(u.getClasscode());
                     tbTmp.setClassroomcode(u.getClassroomcode());
@@ -510,6 +510,29 @@ public class HomeController {
         String codeStudent = "";
         if (maxCodeStudent == null) {
             codeStudent = "HV00000001";
+        } else {
+            String temp = maxCodeStudent.getStudentcode().substring(2, 10);
+            int tempInt = Integer.parseInt(temp);
+            tempInt = tempInt + 1;
+            String newTempInt = String.valueOf(tempInt);
+            String kihieuStudent = maxCodeStudent.getStudentcode().substring(0, 2).toString();
+            if (newTempInt.length() == 1) {
+                codeStudent = kihieuStudent + "0000000" + newTempInt;
+            } else if (newTempInt.length() == 2) {
+                codeStudent = kihieuStudent + "000000" + newTempInt;
+            } else if (newTempInt.length() == 3) {
+                codeStudent = kihieuStudent + "00000" + newTempInt;
+            } else if (newTempInt.length() == 4) {
+                codeStudent = kihieuStudent + "0000" + newTempInt;
+            } else if (newTempInt.length() == 5) {
+                codeStudent = kihieuStudent + "000" + newTempInt;
+            } else if (newTempInt.length() == 6) {
+                codeStudent = kihieuStudent + "00" + newTempInt;
+            } else if (newTempInt.length() == 7) {
+                codeStudent = kihieuStudent + "0" + newTempInt;
+            } else {
+                codeStudent = kihieuStudent + newTempInt;
+            }
         }
         model.addAttribute("dtClass", dtClass);
         model.addAttribute("roll", codeStudent);
@@ -887,7 +910,6 @@ public class HomeController {
         model.addAttribute("list", userService.findAllUser());
         return "index";
     }*/
-
     @GetMapping(value = "/403")
     public String erro403() {
         return "403";

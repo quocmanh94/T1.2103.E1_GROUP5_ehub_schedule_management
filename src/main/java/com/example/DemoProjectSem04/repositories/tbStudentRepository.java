@@ -24,5 +24,9 @@ public interface tbStudentRepository extends JpaRepository<Tbstudent, String> {
     
     @Query("SELECT t FROM Tbstudent t WHERE t.isdelete = 0")
     public List<Tbstudent> getListStudentIsStudying();
+    
+    @Query("SELECT t FROM Tbstudent t WHERE t.studentcode = :studentcode and  t.isdelete = 0")
+    public Tbstudent getStudentByCode(@Param("studentcode") String studentcode);
+    
     //public List<Tbstudent> getListCourseModuleByCourse(@Param("coursecode") String coursecode);
 }

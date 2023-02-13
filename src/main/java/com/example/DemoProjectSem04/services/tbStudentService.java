@@ -29,7 +29,7 @@ public class tbStudentService implements tbStudentInterface{
 
     @Override
     public Tbstudent getStudentByCode(String code) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return studentRepository.getStudentByCode(code);
     }
 
     @Override

@@ -518,17 +518,17 @@ public class AdminPageController {
 
                 if (dayOfWeek == 1 && y.getDayofweek().equals("Monday")) {
                     tbstudyingdatedto.add(newObj);
-                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Tuesday")) {
+                } else if (dayOfWeek == 2 && y.getDayofweek().equals("Tuesday")) {
                     tbstudyingdatedto.add(newObj);
-                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Wednesday")) {
+                } else if (dayOfWeek == 3 && y.getDayofweek().equals("Wednesday")) {
                     tbstudyingdatedto.add(newObj);
-                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Thursday")) {
+                } else if (dayOfWeek == 4 && y.getDayofweek().equals("Thursday")) {
                     tbstudyingdatedto.add(newObj);
-                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Friday")) {
+                } else if (dayOfWeek == 5 && y.getDayofweek().equals("Friday")) {
                     tbstudyingdatedto.add(newObj);
-                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Saturday")) {
+                } else if (dayOfWeek == 6 && y.getDayofweek().equals("Saturday")) {
                     tbstudyingdatedto.add(newObj);
-                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Sunday")) {
+                } else if (dayOfWeek == 7 && y.getDayofweek().equals("Sunday")) {
                     tbstudyingdatedto.add(newObj);
                 }
             }

@@ -9,11 +9,37 @@ and open the template in the editor.
         <title>Access Denied</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .bootstrap-btn {
+                display: inline-block;
+                font-weight: 400;
+                color: #212529;
+                text-align: center;
+                border: 1px solid transparent;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: .25rem;
+                color: #fff;
+                background-color: #007bff;
+            }
+
+
+            .bootstrap-btn:hover{
+                background-color: #0069d9;
+
+            }
+        </style>
     </head>
     <body>
         <div style="text-align: center">
             <h1>Sorry, You Dont Have Permission To Access This Page!</h1>
-            <a href="/admin/login">Back</a>
+            <div class="col-sm-12 d-flex justify-content-center">
+                <span><a class="bootstrap-btn" onclick="history.go(-1)"><span class="icon"> <i
+                                class="fas fa-angle-double-left mr-2"></i></span><span
+                            class="text">Back</span></a></span> || 
+                            <span><a class="bootstrap-btn" style="text-decoration: none !important;" href="/admin/logout">Log Out</a></span>
+            </div>
         </div>
     </body>
 </html>

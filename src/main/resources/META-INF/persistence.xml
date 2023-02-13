@@ -26,6 +26,7 @@
     <class>com.example.DemoProjectSem04.entities.Tbcourseclass</class>
     <class>com.example.DemoProjectSem04.entities.Tbworkingschedule</class>
     <class>com.example.DemoProjectSem04.entities.Tbstudent</class>
+    <class>com.example.DemoProjectSem04.entities.Tbstudyingschedule</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=eProjectSem04Test"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

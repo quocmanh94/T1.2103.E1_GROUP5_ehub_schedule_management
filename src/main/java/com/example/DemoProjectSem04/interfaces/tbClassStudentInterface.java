@@ -6,6 +6,7 @@
 package com.example.DemoProjectSem04.interfaces;
 
 import com.example.DemoProjectSem04.entities.Tbclassstudent;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,5 @@ import com.example.DemoProjectSem04.entities.Tbclassstudent;
  */
 public interface tbClassStudentInterface {
     public void save(Tbclassstudent tbclassstudent);
+    public List<Tbclassstudent> getListClassStudentByStudentCode(String studentcode);
 }

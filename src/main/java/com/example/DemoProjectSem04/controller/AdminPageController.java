@@ -8,6 +8,7 @@ package com.example.DemoProjectSem04.controller;
 import com.example.DemoProjectSem04.DTO.Tbcoursedto;
 import com.example.DemoProjectSem04.DTO.Tbfunctionandpositiondto;
 import com.example.DemoProjectSem04.DTO.Tbfunctiondto;
+import com.example.DemoProjectSem04.DTO.Tbstudyingdatedto;
 import com.example.DemoProjectSem04.entities.*;
 import com.example.DemoProjectSem04.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,11 +79,17 @@ public class AdminPageController {
     tbWorkingScheduleService workingScheduleService;
 
     @Autowired
+    tbStudyingScheduleService studyingScheduleService;
+
+    @Autowired
     tbClassTimeLessonService classTimeLessonService;
 
     @Autowired
     tbUserService userService;
-    
+
+    @Autowired
+    tbClassStudentService classStudentService;
+
     @Autowired
     tbDayService dayService;
 
@@ -92,18 +99,18 @@ public class AdminPageController {
         UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
         String uEmail = user.getUsername();
         Tbuser tbu = userService.findUserByEmail(uEmail);
-        if(tbu.getPermision().getPgcode().equals("PG00000005")){
+        if (tbu.getPermision().getPgcode().equals("PG00000005")) {
             model.addAttribute("userLogin", user.getUsername());
             return "admin/dashboard";
-        }else if(tbu.getPermision().getPgcode().equals("PG00000001")){
+        } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
             return "admin/staffdashboard";
-        }else if(tbu.getPermision().getPgcode().equals("PG00000004")){
+        } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
             return "admin/teacherdashboard";
-        }else{
+        } else {
             model.addAttribute("userLogin", user.getUsername());
             return "admin/teacherdashboard";
         }
-        
+
     }
 
     @RequestMapping({"/staffdashboard"})
@@ -489,6 +496,55 @@ public class AdminPageController {
 
     }
 
+    @RequestMapping({"/studenttimetable/{id}"})
+    public String studenttimetablePage(Model model, @PathVariable("id") String id) {
+        List<Tbstudyingschedule> StudyingScheduleList = studyingScheduleService.getListStudyingDateByStudentCode(id);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        List<Tbstudyingdatedto> tbstudyingdatedto = new ArrayList<>();
+        for (Tbstudyingschedule p : StudyingScheduleList) {
+            LocalDate studydate = p.getWorkingday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int dayOfWeek = studydate.getDayOfWeek().getValue();
+            List<Tbclassschedule> TbclassscheduleList = classScheduleService.getListClassScheduleByClassCode(p.getClasscode());
+            Date as = Date.from(studydate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            String todayAsString = df.format(as);
+            for (Tbclassschedule y : TbclassscheduleList) {
+                Tbstudyingdatedto newObj = new Tbstudyingdatedto();
+                newObj.setStudentcode(id);
+                newObj.setClasscode(id);
+                newObj.setClassname(y.getDayofweek());
+                newObj.setRoom(y.getRoom());
+                newObj.setTime(y.getClasstime());
+                newObj.setWorkingday(todayAsString);
+
+                if (dayOfWeek == 1 && y.getDayofweek().equals("Monday")) {
+                    tbstudyingdatedto.add(newObj);
+                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Tuesday")) {
+                    tbstudyingdatedto.add(newObj);
+                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Wednesday")) {
+                    tbstudyingdatedto.add(newObj);
+                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Thursday")) {
+                    tbstudyingdatedto.add(newObj);
+                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Friday")) {
+                    tbstudyingdatedto.add(newObj);
+                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Saturday")) {
+                    tbstudyingdatedto.add(newObj);
+                } else if (dayOfWeek == 1 && y.getDayofweek().equals("Sunday")) {
+                    tbstudyingdatedto.add(newObj);
+                }
+            }
+        }
+
+//        LocalDate StartLocalDate = std.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        int start = StartLocalDate.getDayOfMonth();
+//
+//        int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
+//        LocalDate workingDay = StartLocalDate.plusDays(i - start);
+//        Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        model.addAttribute("studyingDateList", tbstudyingdatedto);
+        return "admin/studenttimetable";
+
+    }
+
     @RequestMapping({"/role-permision"})
     public String rolePermisionPage(Model model) {
 
@@ -604,7 +660,7 @@ public class AdminPageController {
 //                a++;
 //            }
 //        }
-        
+
         Tbclass tbclass = classService.findMaxClassCode();
         //Tbcourse tbcourse = courseService.findCourseByCode(sltcourse);
         List<Tbcoursemodule> listCourseModule = courseModuleService.findCourseModuleByCourse(sltcourse);
@@ -846,7 +902,6 @@ public class AdminPageController {
         }
 
         // end add Tbclassschedule
-
         LocalDate StartLocalDate = StartDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int start = StartLocalDate.getDayOfMonth();
         int end = start + tbcourse.getNumberlesson();
@@ -864,7 +919,7 @@ public class AdminPageController {
             if (a == 1) {
                 newStartClass = workingDate;
             }
-            
+
             if (a == tbcourse.getNumberlesson()) {
                 newEndDate = workingDate;
             }
@@ -904,10 +959,10 @@ public class AdminPageController {
         tbcourseclass.setStartDate(newStartClass);
         courseClassService.saveCourseClass(tbcourseclass);
         // end add Tbcourseclass
-        
+
         LocalDate ec = tbcourse.getEndcourse().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate ecl = newEndDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        if(ec.isBefore(ecl)){
+        if (ec.isBefore(ecl)) {
             courseService.updateEndDate(newEndDate, sltcourse);
             courseModuleService.updateEndDate(newEndDate, sltcourse);
         }

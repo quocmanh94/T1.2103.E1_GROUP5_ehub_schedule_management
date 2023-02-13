@@ -6,6 +6,7 @@
 package com.example.DemoProjectSem04.interfaces;
 
 import com.example.DemoProjectSem04.entities.Tbstudyingschedule;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,5 @@ import com.example.DemoProjectSem04.entities.Tbstudyingschedule;
  */
 public interface tbStudyingScheduleInterface {
     public void save(Tbstudyingschedule tbstudyingschedule);
+    public List<Tbstudyingschedule> getListStudyingDateByStudentCode(String studentcode);
 }

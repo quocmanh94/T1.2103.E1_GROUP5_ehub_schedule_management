@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/admin_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="row align-items-center mt-3">
+                    <div class="col">
+                        <!--<h3 class="page-title">Module</h3>-->
+                        <ul class="breadcrumb" style="font-size: 18px">
+                            <li class="breadcrumb-item"><a href="/admin/staffdashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Student Timetable</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-table">
+                            <div class="card-header">
+                                <h3 class="card-title mb-0">Studying Time - Student : </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-nowrap custom-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Room</th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="e : ${studyingDateList}">
+                                                <td th:text="${e.getWorkingday()}"></td>
+                                                <td th:text="${e.getRoom()}"></td>
+                                                <td th:text="${e.getTime()}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var active = localStorage.getItem('active');
+        var actives = active.substr(0, 11);
+        $('#leftsidebarMenu li a').removeClass('active');
+        $('#leftsidebarMenu li').removeClass('active');
+        $('#leftsidebarMenu li.' + actives).addClass('active');
+    });
+</script>
+

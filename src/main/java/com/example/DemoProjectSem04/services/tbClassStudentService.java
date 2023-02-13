@@ -8,6 +8,7 @@ package com.example.DemoProjectSem04.services;
 import com.example.DemoProjectSem04.entities.Tbclassstudent;
 import com.example.DemoProjectSem04.interfaces.tbClassStudentInterface;
 import com.example.DemoProjectSem04.repositories.tbClassStudentRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,11 @@ public class tbClassStudentService implements tbClassStudentInterface{
     @Override
     public void save(Tbclassstudent tbclassstudent) {
         classStudentRepository.save(tbclassstudent);
+    }
+
+    @Override
+    public List<Tbclassstudent> getListClassStudentByStudentCode(String studentcode) {
+        return classStudentRepository.getListClassStudentByStudentCode(studentcode);
     }
     
 }

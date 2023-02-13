@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/admin/staffdashboard").hasAnyAuthority("FUNCT00025")
                 .antMatchers("/admin/teacherdashboard").hasAnyAuthority("FUNCT00018")
                 .antMatchers("/admin/teacherdashboard").hasAnyAuthority("FUNCT00027")
+                .antMatchers("/admin/studenttimetable").hasAnyAuthority("FUNCT00028")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginProcessingUrl("/j_spring_security_check").loginPage("/admin/login").defaultSuccessUrl("/admin/dashboard")

@@ -5,6 +5,7 @@
  */
 package com.example.DemoProjectSem04.controller;
 
+import com.example.DemoProjectSem04.DTO.Tbclassstaffpagedto;
 import com.example.DemoProjectSem04.DTO.Tbcoursedto;
 import com.example.DemoProjectSem04.DTO.Tbfunctionandpositiondto;
 import com.example.DemoProjectSem04.DTO.Tbfunctiondto;
@@ -197,7 +198,32 @@ public class AdminPageController {
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 //        model.addAttribute("userLogin", user.getUsername());
+        List<Tbclass> dlClass = classService.getClassesStillWorking();
+        List<Tbclassstaffpagedto> data = new ArrayList<>();
+        for (Tbclass k : dlClass) {
+            List<Tbclassschedule> dlClassSchedule = classScheduleService.getListClassScheduleByClassCode(k.getClasscode());
+            Tbcourseclass objCourseClass = courseClassService.getCourseClassByClassCode(k.getClasscode());
+            String pattern = "dd/MM/yyyy";
+            DateFormat df = new SimpleDateFormat(pattern);
+            String toStart = df.format(objCourseClass.getStartDate());
+            String toEnd = df.format(objCourseClass.getEndDate());
+            for (Tbclassschedule r : dlClassSchedule) {
+                if (k.getClasscode().equals(r.getTbclassschedulePK().getClasscode())) {
+                    Tbclassstaffpagedto objCSP = new Tbclassstaffpagedto();
+                    objCSP.setClasscode(k.getClasscode());
+                    objCSP.setClassname(k.getClassname());
+                    objCSP.setClasstime(r.getClasstime());
+                    objCSP.setRoom(r.getRoom());
+                    objCSP.setStart(toStart);
+                    objCSP.setEnd(toEnd);
+                    objCSP.setDow(r.getDayofweek());
+                    data.add(objCSP);
+                }
+            }
 
+        }
+
+        model.addAttribute("dlClass", data);
         return "admin/staffdashboardclass";
     }
 

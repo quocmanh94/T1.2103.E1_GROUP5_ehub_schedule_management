@@ -74,14 +74,20 @@
                                         <th>Name</th>
                                         <th>Time</th>
                                         <th>Room</th>
+                                        <th>Day of Week</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td><a href="job-details.html">Web Developer</a></td>
-                                        <td>Development</td>
-                                        <td>3 Mar 2019</td>
+                                    <tr th:each="cl : ${dlClass}">
+                                        <td th:text="${cl.getClasscode()}"></td>
+                                        <td th:text="${cl.getClassname()}"></td>
+                                        <td th:text="${cl.getClasstime()}"></td>
+                                        <td th:text="${cl.getRoom()}"></td>
+                                        <td th:text="${cl.getDow()}"></td>
+                                        <td th:text="${cl.getStart()}"></td>
+                                        <td th:text="${cl.getEnd()}"></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -97,6 +97,9 @@ public class HomeController {
     tbClassTimeService classTimeService;
     
     @Autowired
+    tbClassTimeLessonService classTimeLessonService;
+    
+    @Autowired
     tbWorkingScheduleService workingScheduleService;
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
@@ -274,13 +277,54 @@ public class HomeController {
         return "admin/changepassword";
     }
 
-    @RequestMapping({"/detailclass/{id}"})
-    public String detailclassPage(Model model, @PathVariable("id") String id) {
+    @RequestMapping({"/detailstudent/{id}"})
+    public String detailstudent(Model model, @PathVariable("id") String id) {
         Tbcourseclass dtcourseclass = courseClassService.getCourseClassByClassCode(id);
         Tbcourse dtcourse = courseService.findCourseByCode(dtcourseclass.getTbcourseclassPK().getCoursecode());
         List<Tbmodule> dlModule = moduleService.getModuleByCourseCode(dtcourse.getCoursecode());
         model.addAttribute("dtcourse", dtcourse);
         model.addAttribute("dlModule", dlModule);
+        return "admin/editstudent";
+    }
+    
+    @RequestMapping({"/detailclass/{id}"})
+    public String detailclassPage(Model model, @PathVariable("id") String id) {
+        Tbclass dtClass = classService.findClassByCode(id);
+        Tbcourseclass dtcourseclass = courseClassService.getCourseClassByClassCode(id);
+        Tbcourse dtcourse = courseService.findCourseByCode(dtcourseclass.getTbcourseclassPK().getCoursecode());
+        List<Tbmodule> dlModule = moduleService.getModuleByCourseCode(dtcourse.getCoursecode());
+        List<Tbstudent> dlStudent = studentService.getStudentListByClassCode(id);
+        int actuallyseats = 0;
+        for(Tbstudent student : dlStudent){
+            actuallyseats++;
+        }
+        Tbcourseclass dtCourseClass = courseClassService.getCourseClassByClassCode(id);
+        List<Tbclassschedule> dtClassSchedule = classScheduleService.getListClassScheduleByClassCode(id);
+        Tbclassroom dtClassRoom = classroomService.findClassroomByCode(dtClassSchedule.get(0).getClassroomcode());
+        Tbclasstimelesson dtShift = classTimeLessonService.getClassTimeLessonByCode(dtClassSchedule.get(0).getClasstimelessoncode());
+        Tbclassinformationdto tbclassinformationdto = new Tbclassinformationdto();
+        tbclassinformationdto.setClasscode(id);
+        tbclassinformationdto.setActuallyseats(actuallyseats);
+        tbclassinformationdto.setClassname(dtClass.getClassname());
+        tbclassinformationdto.setShiftcode(dtShift.getCtlcode());
+        tbclassinformationdto.setShiftname(dtShift.getCtlname());
+        tbclassinformationdto.setClassroomname(dtClassRoom.getRoomname());
+        List<String> objTimeStudying = new ArrayList<>();
+        List<String> objTeacher = new ArrayList<>();
+        for(Tbclassschedule tbclassschedule : dtClassSchedule){
+            String time = tbclassschedule.getDayofweek() + " : " + tbclassschedule.getClasstime();
+            objTeacher.add(tbclassschedule.getTeachername());
+            objTimeStudying.add(time);
+        }
+        tbclassinformationdto.setTeacher(objTeacher);
+        tbclassinformationdto.setTimestudying(objTimeStudying);
+        tbclassinformationdto.setToalseats(dtClassRoom.getRoomnumberofseats());
+        
+        model.addAttribute("dtcourse", dtcourse);
+        model.addAttribute("dlModule", dlModule);
+        model.addAttribute("dlStudent", dlStudent);
+        model.addAttribute("classInfor", tbclassinformationdto);
+        
         return "admin/detailsclass";
     }
 
@@ -474,7 +518,12 @@ public class HomeController {
 
     @RequestMapping(value = "/createNewStudent", method = RequestMethod.POST)
     public String createNewStudent(Model model, @RequestParam(required = false, value = "sltStudentPaid") String sltStudentPaid, @RequestParam(required = false, value = "studentcode") String studentcode, @RequestParam(required = false, value = "studentname") String studentname, @RequestParam(required = false, value = "sltGender") String sltGender, @RequestParam(required = false, value = "studentdob") Date studentdob, @RequestParam(required = false, value = "studentphone") String studentphone, @RequestParam(required = false, value = "studentemail") String studentemail, @RequestParam(required = false, value = "sltClass") String sltClass, @RequestParam(required = false, value = "sltStatusStudent") String sltStatusStudent, @RequestParam(required = false, value = "studentaddress") String studentaddress, @RequestParam(required = false, value = "parentname") String parentname, @RequestParam(required = false, value = "parentphone") String parentphone) throws IOException {
-
+        Tbcourseclass courseClassDt = courseClassService.getCourseClassByClassCode(sltClass);
+        String idCourse = courseClassDt.getTbcourseclassPK().getCoursecode();
+        String idModule = "";
+        List<Tbcoursemodule> courseModuleL = courseModuleService.findCourseModuleByCourse(idCourse);
+        idModule = courseModuleL.get(0).getTbcoursemodulePK().getModulecode();
+        Tbmodule moduleDt = moduleService.findModuleByCode(idModule);
         Tbstudent newStudent = new Tbstudent();
         newStudent.setStudentcode(studentcode);
         newStudent.setStudentname(studentname);
@@ -485,7 +534,7 @@ public class HomeController {
         newStudent.setStudentemail(studentemail);
         newStudent.setParentsname(parentname);
         newStudent.setParentsphone(parentphone);
-        //newStudent.setStudentlevel(sltStudentLevel);
+        newStudent.setStudentlevel(moduleDt.getClassblock());
         newStudent.setStudentdob(studentdob);
         newStudent.setCentercode(1);
         newStudent.setIsdelete(0);

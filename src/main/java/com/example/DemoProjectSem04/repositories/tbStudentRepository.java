@@ -6,6 +6,7 @@
 package com.example.DemoProjectSem04.repositories;
 
 import com.example.DemoProjectSem04.entities.Tbstudent;
+import io.lettuce.core.dynamic.annotation.Param;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface tbStudentRepository extends JpaRepository<Tbstudent, String> {
     @Query("SELECT MAX(t.studentcode) as studentcode FROM Tbstudent t")
     public Tbstudent getMaxCodeStudent();
+    
+    @Query("SELECT t FROM Tbstudent t WHERE t.classcode = :classcode and t.isdelete = 0")
+    public List<Tbstudent> getStudentListByClassCode(@Param("classcode") String classcode);
     
     @Query("SELECT t FROM Tbstudent t WHERE t.isdelete = 0")
     public List<Tbstudent> getListStudentIsStudying();

@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface tbClassTimeLessonInterface {
     List<Tbclasstimelesson> getListClassTimeLesson();
+    Tbclasstimelesson getClassTimeLessonByCode(String id);
 }

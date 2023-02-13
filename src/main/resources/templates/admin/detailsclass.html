@@ -32,20 +32,20 @@
                                 <div class="row">
                                     <div class="col-sm-6 m-b-20">
                                         <!--<img src="assets/img/logo2.png" class="inv-logo" alt="">-->
-                                        <ul class="list-unstyled">
+<!--                                        <ul class="list-unstyled">
                                             <li>Center: FPT APTECH ACADEMY</li>
                                             <li>Branch: CMT8</li>
                                             <li>Address: 590 CMT8 Q3 Tp HCM</li>
                                             <li>Hotline: 111-2222-333</li>
-                                        </ul>
+                                        </ul>-->
                                     </div>
                                     <div class="col-sm-6 m-b-20">
                                         <div class="invoice-details">
                                             <h3 class="text-uppercase">ROOM 1.1#CLASS0001</h3>
-                                            <ul class="list-unstyled">
+<!--                                            <ul class="list-unstyled">
                                                 <li>Date: <span>March 12, 2019</span></li>
                                                 <li>Due date: <span>April 25, 2019</span></li>
-                                            </ul>
+                                            </ul>-->
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                                         <p class="mb-0">Course Open:</p>
                                                         <p class="res-activity-time">
                                                             <i class="fa fa-clock-o"></i>
-                                                            
+
                                                             <span th:text="${#dates.format(dtcourse.getOpentimecourse(), 'dd-MM-yyyy')}"></span>
                                                         </p>
                                                     </li>
@@ -136,49 +136,45 @@
                                                         <p class="mb-0">Class Name:</p>
                                                         <p class="res-activity-time">
                                                             <i class="fa fa-check"></i>
-                                                            ASTF1FT English Practice.
+                                                            <span th:text="${classInfor.getClassname()}"></span>
                                                         </p>
                                                     </li>
                                                     <li>
-                                                        <p class="mb-0">Day of The Week & Class Time:</p>
-                                                        <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i>
-                                                            Monday : 15:30 - 17:00.
-                                                        </p>
-                                                        <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i>
-                                                            Tuesday : 15:30 - 17:00.
-                                                        </p>
+                                                        <p class="mb-0">Studying Time:</p>
+                                                        <div class="row" th:each="e: ${classInfor.getTimestudying()}" style="margin-left: 3px;">
+                                                            <p class="res-activity-time">
+                                                                <i class="fa fa-clock-o"></i>
+                                                                <span th:text="${e}"></span>
+                                                            </p>
+                                                        </div>
                                                     </li>
                                                     <li>
-                                                        <p class="mb-0">Class Time Lesson:</p>
+                                                        <p class="mb-0">Shift:</p>
                                                         <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i> 
-                                                            Shift 1
+                                                            <i class="fa fa-clock-o"></i> 
+                                                            <span th:text="${classInfor.getShiftname()}"></span>
                                                         </p>
 
                                                     </li>
                                                     <li>
                                                         <p class="mb-0">Seats:</p>
                                                         <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i> 
-                                                            Total : 20
+                                                            <i class="fa fa-check"></i> 
+                                                            Total : <span th:text="${classInfor.getToalseats()}"></span>
                                                         </p>
                                                         <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i> 
-                                                            Actually : 15
+                                                            <i class="fa fa-check"></i> 
+                                                            Actually : <span th:text="${classInfor.getActuallyseats()}"></span>
                                                         </p>
                                                     </li>
                                                     <li>
                                                         <p class="mb-0">Teacher:</p>
-                                                        <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i> 
-                                                            Vietnamese : code-name
-                                                        </p>
-                                                        <p class="res-activity-time">
-                                                            <i class="fa fa-book"></i> 
-                                                            Foreigner : code-name
-                                                        </p>
+                                                        <div class="row" th:each="e: ${classInfor.getTeacher()}" style="margin-left: 3px;">
+                                                            <p class="res-activity-time">
+                                                                <i class="fa fa-user"></i> 
+                                                                <span th:text="${e}"></span>
+                                                            </p>
+                                                        </div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -199,12 +195,12 @@
                                             <div class="btn-group btn-group-sm">
                                                 <button class="btn btn-white"> <i class="fa fa-search"></i> Search</button>
                                             </div>
-                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-white"> <i class="fa fa-plus"></i> Add Student</button>
-                                            </div>
-<!--                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-white"> <i class="fa fa-check"></i> Attendance</button>
-                                            </div>-->
+                                            <!--                                            <div class="btn-group btn-group-sm">
+                                                                                            <button class="btn btn-white"> <i class="fa fa-plus"></i> Add Student</button>
+                                                                                        </div>-->
+                                            <!--                                            <div class="btn-group btn-group-sm">
+                                                                                            <button class="btn btn-white"> <i class="fa fa-check"></i> Attendance</button>
+                                                                                        </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -214,34 +210,19 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <!--<th>Student Code</th>-->
-                                                <th>Student Code</th>
                                                 <th>Student Name</th>
+                                                <th>Student Phone</th>
                                                 <th>Parent Name</th>
                                                 <th>Parent Phone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>ST00000001</td>
-                                                <td>Pham Thi Chau</td>
-                                                <td>Pham Thi Chau as</td>
-                                                <td>1234545</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>ST00000001</td>
-                                                <td>Pham Thi Chau</td>
-                                                <td>Pham Thi Chau as</td>
-                                                <td>1234545</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>ST00000001</td>
-                                                <td>Pham Thi Chau</td>
-                                                <td>Pham Thi Chau as</td>
-                                                <td>1234545</td>
+                                            <tr th:each="e: ${dlStudent}">
+                                                <td th:text="${e.getStudentcode()}">1</td>
+                                                <td th:text="${e.getStudentname()}"></td>
+                                                <td th:text="${e.getStudentphone()}"></td>
+                                                <td th:text="${e.getParentsname()}"></td>
+                                                <td th:text="${e.getParentsphone()}"></td>
                                             </tr>
                                         </tbody>
                                     </table>

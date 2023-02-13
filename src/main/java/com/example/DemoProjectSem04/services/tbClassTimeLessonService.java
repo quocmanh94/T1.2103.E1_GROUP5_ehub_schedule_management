@@ -27,4 +27,9 @@ public class tbClassTimeLessonService implements tbClassTimeLessonInterface {
         return repository.getListClassTimeLessonIsLock();
     }
 
+    @Override
+    public Tbclasstimelesson getClassTimeLessonByCode(String id) {
+        return repository.getClassTimeLessonById(id);
+    }
+
 }

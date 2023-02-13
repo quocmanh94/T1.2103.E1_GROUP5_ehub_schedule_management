@@ -640,7 +640,25 @@ public class HomeController {
             }
         }
         
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
+        String uEmail = user.getUsername();
+        Tbuser tbu = userService.findUserByEmail(uEmail);
+        if (tbu.getPermision().getPgcode().equals("PG00000005")) {
+            model.addAttribute("userLogin", user.getUsername());
+            return "redirect:/admin/student";
+        }else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
+            return "redirect:/admin/staffdashboardstudent";
+        }
         return "redirect:/admin/student";
+//        else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
+//            return "admin/teacherdashboard";
+//        } else {
+//            model.addAttribute("userLogin", user.getUsername());
+//            return "admin/teacherdashboard";
+//        }
+        
+//        return "redirect:/admin/student";
     }
     
     @RequestMapping(value = "/createNewCourse", method = RequestMethod.POST)

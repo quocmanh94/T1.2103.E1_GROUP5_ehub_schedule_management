@@ -218,7 +218,7 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="e: ${dlStudent}">
-                                                <td><a th:href="@{/admin/studenttimetable/{id}(id=${e.getStudentcode})}" th:text="${e.getStudentcode()}"></a></td>
+                                                <td><a th:href="@{/admin/studenttimetable/{id}(id=${e.getStudentcode()})}" th:text="${e.getStudentcode()}"></a></td>
                                                 <td th:text="${e.getStudentname()}"></td>
                                                 <td th:text="${e.getStudentphone()}"></td>
                                                 <td th:text="${e.getParentsname()}"></td>

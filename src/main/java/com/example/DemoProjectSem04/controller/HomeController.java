@@ -110,7 +110,7 @@ public class HomeController {
     
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login() {
-        return "admin/login";
+        return "pages/login";
     }
     
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -136,7 +136,7 @@ public class HomeController {
             cookie.setSecure(isSecure);
             response.addCookie(cookie);
         }
-        return "admin/login";
+        return "pages/login";
     }
     
     @RequestMapping({"/users"})
@@ -146,7 +146,7 @@ public class HomeController {
         }
         List<Tbuser> listTbuser = userService.findAllUser();
         model.addAttribute("listTbuser", listTbuser);
-        return "admin/users";
+        return "pages/users";
     }
     
     @RequestMapping({"/classrooms"})
@@ -157,12 +157,12 @@ public class HomeController {
         }
         List<Tbclassroom> listTbclassroom = classroomService.findAllClassroom();
         model.addAttribute("listTbclassroom", listTbclassroom);
-        return "admin/classrooms";
+        return "pages/classrooms";
     }
     
     @RequestMapping({"/stafflist"})
     public String stafflistPage(Model model, @ModelAttribute("messageResult") String messageResult) {
-        return "admin/stafflist";
+        return "pages/stafflist";
     }
     
     @RequestMapping({"/classes"})
@@ -224,7 +224,7 @@ public class HomeController {
         }
         
         model.addAttribute("classList", classDTOList);
-        return "admin/class";
+        return "pages/class";
     }
     
     @RequestMapping({"/loadClassList"})
@@ -280,7 +280,7 @@ public class HomeController {
     
     @RequestMapping({"/changepassword"})
     public String changepasswordPage(Model model, @ModelAttribute("messageResult") String messageResult) {
-        return "admin/changepassword";
+        return "pages/changepassword";
     }
     
     @RequestMapping({"/detailstudent/{id}"})
@@ -290,7 +290,7 @@ public class HomeController {
         List<Tbmodule> dlModule = moduleService.getModuleByCourseCode(dtcourse.getCoursecode());
         model.addAttribute("dtcourse", dtcourse);
         model.addAttribute("dlModule", dlModule);
-        return "admin/editstudent";
+        return "pages/editstudent";
     }
     
     @RequestMapping({"/detailclass/{id}"})
@@ -331,12 +331,12 @@ public class HomeController {
         model.addAttribute("dlStudent", dlStudent);
         model.addAttribute("classInfor", tbclassinformationdto);
         
-        return "admin/detailsclass";
+        return "pages/detailsclass";
     }
     
     @RequestMapping({"/workingschedule"})
     public String workingschedulePage(Model model) {
-        return "admin/workingschedule";
+        return "pages/workingschedule";
     }
     
     @RequestMapping({"/getTHeadWorkingScheduleByTime"})
@@ -506,7 +506,7 @@ public class HomeController {
             }
         }
         model.addAttribute("listStudent", listStudentdto);
-        return "admin/student";
+        return "pages/student";
     }
     
     @RequestMapping({"/addstudent"})
@@ -542,7 +542,7 @@ public class HomeController {
         }
         model.addAttribute("dtClass", dtClass);
         model.addAttribute("roll", codeStudent);
-        return "admin/addstudent";
+        return "pages/addstudent";
     }
     
     @RequestMapping(value = "/createNewStudent", method = RequestMethod.POST)
@@ -652,13 +652,13 @@ public class HomeController {
         }
         return "redirect:/admin/student";
 //        else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
-//            return "admin/teacherdashboard";
+//            return "pages/teacherdashboard";
 //        } else {
 //            model.addAttribute("userLogin", user.getUsername());
-//            return "admin/teacherdashboard";
+//            return "pages/teacherdashboard";
 //        }
         
-//        return "redirect:/admin/student";
+//        return "redirect:/pages/student";
     }
     
     @RequestMapping(value = "/createNewCourse", method = RequestMethod.POST)
@@ -764,7 +764,7 @@ public class HomeController {
         List<Tbpositiongroup> tbpositiongroup2List = positionGroupService.findAllPositionGroup();
         model.addAttribute("tbpositiongroup2List", tbpositiongroup2List);
         //model.addAttribute("messag", tbpositiongroup2List);
-        return "admin/profile";
+        return "pages/profile";
     }
     
     @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
@@ -795,7 +795,7 @@ public class HomeController {
     public String modulecoursePage(Model model, @ModelAttribute("messageResult") String messageResult) {
         List<Tbcourse> dtcourse = courseService.findAllCourse();
         model.addAttribute("dtcourse", dtcourse);
-        return "admin/modulecourse";
+        return "pages/modulecourse";
     }
     
     @RequestMapping({"/getModuleByCourse"})

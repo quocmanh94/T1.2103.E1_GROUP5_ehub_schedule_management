@@ -105,14 +105,14 @@ public class AdminPageController {
         Tbuser tbu = userService.findUserByEmail(uEmail);
         if (tbu.getPermision().getPgcode().equals("PG00000005")) {
             model.addAttribute("userLogin", user.getUsername());
-            return "admin/dashboard";
+            return "pages/dashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
-            return "admin/staffdashboard";
+            return "pages/staffdashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
-            return "admin/teacherdashboard";
+            return "pages/teacherdashboard";
         } else {
             model.addAttribute("userLogin", user.getUsername());
-            return "admin/teacherdashboard";
+            return "pages/teacherdashboard";
         }
 
     }
@@ -125,16 +125,16 @@ public class AdminPageController {
 //        Tbuser tbu = userService.findUserByEmail(uEmail);
 //        if (tbu.getPermision().getPgcode().equals("PG00000005")) {
 //            model.addAttribute("userLogin", user.getUsername());
-//            return "admin/dashboard";
+//            return "pages/dashboard";
 //        } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
-//            return "admin/staffdashboard";
+//            return "pages/staffdashboard";
 //        } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
-//            return "admin/teacherdashboard";
+//            return "pages/teacherdashboard";
 //        } else {
 //            model.addAttribute("userLogin", user.getUsername());
-//            return "admin/teacherdashboard";
+//            return "pages/teacherdashboard";
 //        }
-        return "admin/dashboard";
+        return "pages/dashboard";
     }
 
     @RequestMapping({"/staffdashboard"})
@@ -143,12 +143,12 @@ public class AdminPageController {
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 //        model.addAttribute("userLogin", user.getUsername());
 
-        return "admin/staffdashboard";
+        return "pages/staffdashboard";
     }
 
     @RequestMapping({"/teacherdashboard"})
     public String teacherdashboard(Model model) {
-        return "admin/teacherdashboard";
+        return "pages/teacherdashboard";
     }
 
     @RequestMapping({"/timestudying"})
@@ -157,7 +157,7 @@ public class AdminPageController {
         List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
         model.addAttribute("giohoc", giohoc);
         model.addAttribute("ca", ca);
-        return "admin/timestudying";
+        return "pages/timestudying";
     }
 
     @RequestMapping({"/day"})
@@ -166,7 +166,7 @@ public class AdminPageController {
 //        List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
 //        model.addAttribute("giohoc", giohoc);
 //        model.addAttribute("ca", ca);
-        return "admin/day";
+        return "pages/day";
     }
 
     @RequestMapping({"/loadAllDay"})
@@ -224,7 +224,7 @@ public class AdminPageController {
         }
 
         model.addAttribute("dlClass", data);
-        return "admin/staffdashboardclass";
+        return "pages/staffdashboardclass";
     }
 
     @RequestMapping({"/staffdashboardstudent"})
@@ -234,7 +234,7 @@ public class AdminPageController {
 //        model.addAttribute("userLogin", user.getUsername());
         List<Tbstudent> dtStudent = studentService.getStudentList();
         model.addAttribute("dtStudent", dtStudent);
-        return "admin/staffdashboardstudent";
+        return "pages/staffdashboardstudent";
     }
 
     @RequestMapping({"/staffdashboardinterviewing"})
@@ -243,12 +243,12 @@ public class AdminPageController {
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 //        model.addAttribute("userLogin", user.getUsername());
 
-        return "admin/staffdashboardinterviewing";
+        return "pages/staffdashboardinterviewing";
     }
 
     @RequestMapping({"/clientsPage"})
     public String clientsPage(Model model) {
-        return "admin/clients";
+        return "pages/clients";
     }
 
     @RequestMapping({"/setting"})
@@ -261,7 +261,7 @@ public class AdminPageController {
         }
 
         model.addAttribute("centerList", centerService.findAllCenter());
-        return "admin/setting";
+        return "pages/setting";
     }
 
     @RequestMapping({"/addclass"})
@@ -298,7 +298,7 @@ public class AdminPageController {
         }
 
         model.addAttribute("tbcTemp", tbcTemp);
-        return "admin/addclass";
+        return "pages/addclass";
     }
 
     @RequestMapping({"/getRoomCreateClass"})
@@ -480,7 +480,7 @@ public class AdminPageController {
 //        model.addAttribute("module", new Tbmodule());
 //        model.addAttribute("moduleList", moduleService.findAllModule());
         model.addAttribute("moduleList", moduleService.findAllModule());
-        return "admin/module";
+        return "pages/module";
 
     }
 
@@ -535,14 +535,14 @@ public class AdminPageController {
             courseDTO.add(tbcoursedto);
         }
         model.addAttribute("courseList", courseDTO);
-        return "admin/course";
+        return "pages/course";
 
     }
 
     @RequestMapping({"/localization"})
     public String localizationPage(Model model) {
 
-        return "admin/abc";
+        return "pages/abc";
 
     }
 
@@ -591,7 +591,7 @@ public class AdminPageController {
 //        LocalDate workingDay = StartLocalDate.plusDays(i - start);
 //        Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
         model.addAttribute("studyingDateList", tbstudyingdatedto);
-        return "admin/studenttimetable";
+        return "pages/studenttimetable";
 
     }
 
@@ -599,7 +599,7 @@ public class AdminPageController {
     public String rolePermisionPage(Model model) {
 
         model.addAttribute("positiongroup", new Tbpositiongroup());
-        return "admin/role-permision";
+        return "pages/role-permision";
 
     }
 

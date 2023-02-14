@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface tbClassTimeRepository extends JpaRepository<Tbclasstime, String> {
     @Query("SELECT ct FROM Tbclasstime ct WHERE ct.classtimelesson not in "
             + "( SELECT a.classtimelessoncode FROM Tbclassschedule a join Tbcourseclass b on b.tbcourseclassPK.classcode = a.tbclassschedulePK.classcode "
-            + "where (((:startday between b.startdate and b.enddate) and (:endday between b.startdate and b.enddate)) or ((:startday between b.startdate and b.enddate) and (:endday > b.enddate))) and a.tbclassschedulePK.daycode = :dayofweek "
+            + "where (((:startday between b.startdate and b.enddate) and (:endday between b.startdate and b.enddate)) or ((:startday between b.startdate and b.enddate) and (b.enddate between :startday and :endday))) and a.tbclassschedulePK.daycode = :dayofweek "
             + "and a.classroomcode = :vlRoom)")
     public List<Tbclasstime> getListCLassTimeCreateClass(@Param("startday") Date startday,
             @Param("endday") Date endday, @Param("dayofweek") String dayofweek, @Param("vlRoom") String vlRoom);

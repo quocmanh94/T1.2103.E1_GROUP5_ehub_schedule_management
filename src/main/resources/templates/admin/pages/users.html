@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/admin_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="row align-items-center mt-3">
+                    <div class="col">
+                        <!--<h3 class="page-title">Users</h3>-->
+                        <ul class="breadcrumb" style="font-size: 18px">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Users</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <!-- Search Filter -->
+                <div class="row filter-row">
+                    <div class="col-sm-6 col-md-3">  
+                        <div class="form-group form-focus">
+                            <input type="text" class="form-control floating"/>
+                            <label class="focus-label">User Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3"> 
+                        <div class="form-group form-focus select-focus">
+                            <select class="select floating" id="sltToU"> 
+                                <option>--- Select ---</option>
+                                <!--                                <option>Web Developer</option>
+                                                                <option>Web Designer</option>
+                                                                <option>Android Developer</option>
+                                                                <option>Ios Developer</option>-->
+                            </select>
+                            <label class="focus-label">Type of User</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">  
+                        <a href="#" class="btn btn-success btn-block"> Search </a>  
+                    </div> 
+                    <div class="col-sm-6 col-md-3">  
+                        <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-target="#add_user"><i class="fa fa-plus"></i> Add User</a>
+                    </div>
+                </div>
+                <!-- /Search Filter -->
+
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table tblUserLists" id="tblUserList">
+                                <thead>
+                                    <tr>
+                                        <th>User Name</th>
+                                        <th>Staff Id</th>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Position</th>
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listUser">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Content -->
+
+            <!-- Add User Modal -->
+            <div id="add_user" class="modal custom-modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Username <span class="text-danger">*</span></label>
+                                            <input class="form-control" id="addusername" name="addusername" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Position <span class="text-danger">*</span></label>
+                                            <select class="select" id="addsltposition" onchange="loadStaffByPosition(this)">
+                                                <!--                                                <option>Admin</option>
+                                                                                                <option>Client</option>
+                                                                                                <option>Employee</option>-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Staff <span class="text-danger">*</span> </label>
+                                            <select class="select" id="addsltstaff" required="True">
+                                                <option value="">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="submit-section">
+                                    <button class="btn btn-primary submit-btn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Add User Modal -->
+
+            <!-- Edit User Modal -->
+            <div id="edit_user" class="modal custom-modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/templates/admin/pages/user/update}" method="POST">
+                                <div class="row">
+                                    <!--<input class="form-control" id="edituseremail" readonly="true" type="hidden">-->
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>User Email</label>
+                                            <input class="form-control" id="edituseremail" name="edituseremail" readonly="true" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>User Name</label>
+                                            <input class="form-control" id="editusername" name="editusername" readonly="true" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Staff Name</label>
+                                            <input class="form-control" id="editstaffname" name="editstaffname" readonly="true" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Select Position <span class="text-danger">*</span></label>
+                                            <select class="select" id="editposition" name="editposition">
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="submit-section">
+                                    <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Edit User Modal -->
+
+            <!-- Reset Password User Modal -->
+            <div class="modal custom-modal fade" id="reset_password" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-header">
+                                <h3>Reset Password</h3>
+                                <p>Are you sure want to reset?</p>
+                            </div>
+                            <div class="modal-btn delete-action">
+                                <form th:action="@{/templates/admin/pages/user/resetPassword}" method="POST" enctype="multipart/form-data">
+                                    <input hidden="true" id="userID" name="userID" class="form-control" type="text"/>
+                                    <div class="row">
+                                        <div class="col-2"></div>
+                                        <div class="col-4">
+                                            <button type="submit" class="btn btn-primary continue-btn">Reset</button>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                                        </div>
+                                        <div class="col-2"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Reset Password User Modal -->
+
+            <!-- Delete User Modal -->
+            <div class="modal custom-modal fade" id="delete_user" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-header">
+                                <h3>Delete User</h3>
+                                <p>Are you sure want to delete?</p>
+                            </div>
+                            <div class="modal-btn delete-action">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Delete User Modal -->
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+
+    function upadteUserModal(username, permision, staffname, useremail) {
+
+        $('#edituseremail').val(useremail);
+        $('#editusername').val(username);
+        $('#editstaffname').val(staffname);
+        $('#editposition').val(permision).change();
+        $('#edit_user').modal("show");
+    }
+
+    function loadStaffByPosition(obj)
+    {
+        var idPosition = obj.value;
+        $.ajax({
+            type: "GET",
+            url: "/admin/loadStaffByPosition",
+            data: {idPosition: idPosition},
+            success: function (result) {
+                var row = "";
+                $("#addsltstaff").empty();
+                var row1 = "<option value=\"\">Select</option>";
+                $("#addsltstaff").append(row1);
+                $.each(result, function (index, value) {
+                    row = "<option value=\"" + value.staffcode + "\">" + value.staffname + "</option>";
+                    $("#addsltstaff").append(row);
+                });
+            }
+        });
+    }
+
+    function updateUser() {
+        var uemail = $('#edituseremail').val();
+        var upermision = $('#editposition').val();
+//        alert(uname + upermision);
+        $.ajax({
+            type: "GET",
+            url: "/admin/user/update",
+            data: {uemail: uemail, upermision: upermision},
+            success: function (result) {
+                var titles = "";
+                var icons = "";
+                if (result === "true") {
+                    titles = "Update Successfully !";
+                    icons = "success";
+                } else {
+                    titles = "Update Fail !";
+                    icons = "warning";
+                }
+
+                Swal.fire({
+                    icon: icons,
+                    title: "Notification !",
+                    text: titles
+                });
+
+                $('#edit_user').modal("close");
+//                loadUserList();
+//                
+            }
+        });
+//        loadUserList();
+    }
+
+    function loadUserList() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/loadUsers",
+            success: function (result) {
+
+                var row = "";
+                var row2 = "";
+                var row3 = "";
+//                $('#editposition').empty();
+//                $('#sltToU').empty();
+//                $('#tblUserList').empty();
+
+                $.each(result.positionList, function (index2, value2) {
+                    row2 = "<option value=\"" + value2.pgcode + "\">" + value2.pgname + "</option>";
+                    $("#sltToU").append(row2);
+                    $("#editposition").append(row2);
+                    $("#addsltposition").append(row2);
+                });
+
+                $.each(result.staffList, function (index3, value3) {
+                    row3 = "<option value=\"" + value3.staffcode + "\">" + value3.staffname + "</option>";
+                    $("#addsltstaff").append(row3);
+                });
+
+//var sad = "<a href=\"profile.html\">\" + value.username + \" <span>User Id</span></a>\n\"";
+                $.each(result.user2List, function (index, value) {
+                    row += "<tr id=\"USER-" + value.username + "\">\n\
+                        <td>\n\
+                            <h2 class=\"table-avatar\">\n\
+                                    <span class=\"avatar\"><img src=\"/admin/assets/img/user.jpg\" alt=\"\"/></span>\n\
+                                    <strong>" + value.username + "</strong>\n\
+                            </h2>\n\
+                        </td>\n\
+                        <td><a href=\"/admin/stafflist\">" + value.staffid + "</a></td>\n\
+                        <td>" + value.fullname + "</td>\n\
+                        <td>" + value.useremail + "</td>\n\
+                        <td>\n\
+                            <span class=\"badge bg-inverse-danger\">" + value.pgname + "</span>\n\
+                        </td>\n\
+                        <td class=\"text-right\">\n\
+                            <div class=\"dropdown dropdown-action\">\n\
+                                <a href=\"#\" class=\"action-icon dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"material-icons\">more_vert</i></a>\n\
+                                <div class=\"dropdown-menu dropdown-menu-right\">\n\
+                                    <a class=\"dropdown-item\" href=\"#\" onclick=\"resetPasswordModal('" + value.useremail + "')\"><i class=\"fa fa-refresh m-r-5\"></i> Reset Password</a>\n\
+                                    <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#delete_user\"><i class=\"fa fa-lock m-r-5\"></i> Lock</a>\n\
+                                </div>\n\
+                            </div>\n\
+                        </td>\n\
+                    </tr>";
+                });
+//<a class=\"dropdown-item\" href=\"#\" onclick=\"upadteUserModal('" + value.username + "','" + value.pgcode + "','" + value.fullname + "','" + value.useremail + "')\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>\n\
+                $("#tblUserList tbody").append(row);
+            }
+        });
+    }
+
+    function resetPasswordModal(id) {
+        $('#userID').val(id);
+        $('#reset_password').modal("show");
+    }
+
+    $(document).ready(function () {
+        var active = localStorage.getItem('active');
+        var actives = active.substr(0, 11);
+        loadUserList();
+        $('#leftsidebarMenu li a').removeClass('active');
+        $('#leftsidebarMenu li').removeClass('active');
+        $('#leftsidebarMenu li.' + actives).addClass('active');
+
+        var title = "[[${messageResult}]]";
+        if (title !== null && title !== "") {
+            Swal.fire({
+                icon: 'success',
+                title: "Notification !",
+                text: title
+            });
+        }
+    });
+</script>

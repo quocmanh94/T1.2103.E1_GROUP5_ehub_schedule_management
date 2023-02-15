@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/admin_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+                <!-- Page Header -->
+                <div class="row align-items-center mt-3">
+                    <div class="col">
+                        <!--<h3 class="page-title">Class</h3>-->
+                        <ul class="breadcrumb" style="font-size: 18px">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Student</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <!-- Search Filter -->
+                <div class="row filter-row">
+                    <div class="col-sm-6 col-md-4">  
+                        <div class="form-group form-focus">
+                            <input type="text" class="form-control floating"/>
+                            <label class="focus-label">Student Name</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-2"> 
+                        <div class="form-group form-focus select-focus">
+                            <select class="select floating">
+                                <option>All</option>
+                                <option>Opening</option>
+                                <option>Finished</option>
+                                <option>In Progress</option>
+                            </select>
+                            <label class="focus-label">Class</label>
+                        </div>
+                    </div><div class="col-sm-6 col-md-2"> 
+                        <div class="form-group form-focus select-focus">
+                            <select class="select floating"> 
+                                <option>Select Status</option>
+                                <option>Pending</option>
+                                <option>Paid</option>
+                                <option>Partially Paid</option>
+                            </select>
+                            <label class="focus-label">Payment</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-2">  
+                        <a href="#" class="btn btn-success btn-block"> Search </a>  
+                    </div>
+
+                    <div class="col-sm-6 col-md-2">
+                        <a href="/admin/addstudent" class="btn btn-danger btn-block"><i class="fa fa-plus"></i> Add Student</a>
+                        <!--                        <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-target="#attendance_info"><i class="fa fa-plus"></i> Add Class</a>-->
+                    </div>
+                </div>
+
+                <!-- Search Filter -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Student Name</th>
+                                        <th>Class</th>
+                                        <th>Date of Birth</th>
+                                        <th>Parent Name</th>
+                                        <th>Parent Phone</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="e: ${listStudent}">
+                                        <td><a th:href="@{/admin/studenttimetable/{id}(id=${e.getStudentcode()})}"><span th:text="${e.getStudentcode()}"></span></a></td>
+                                        <td th:text="${e.getStudentname()}"></td>
+                                        <td th:text="${e.getClassname()}"></td>
+                                        <td th:text="${#dates.format(e.getDob(), 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${e.getParentname()}"></td>
+                                        <td th:text="${e.getParentphone()}"></td>
+                                        <td><span class="badge bg-inverse-success" th:text="${e.getStatuspaid()}"></span></td>
+                                        <td class="text-right">
+                                            <div class="dropdown dropdown-action">
+                                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" th:href="@{/templates/admin/pages/detailclass/{id}(id=${e.getStudentcode()})}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" href="invoice-view.html"><i class="fa fa-eye m-r-5"></i> View</a>
+                                                    <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o m-r-5"></i> Payment</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--                                    <tr>
+                                                                            <td>2</td>
+                                                                            <td><a href="invoice-view.html">#INV-0002</a></td>
+                                                                            <td>Delta Infotech</td>
+                                                                            <td>11 Mar 2019</td>
+                                                                            <td>17 Mar 2019</td>
+                                                                            <td>$2099</td>
+                                                                            <td><span class="badge bg-inverse-info">Sent</span></td>
+                                                                            <td class="text-right">
+                                                                                <div class="dropdown dropdown-action">
+                                                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                        <a class="dropdown-item" href="edit-invoice.html"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                                                        <a class="dropdown-item" href="invoice-view.html"><i class="fa fa-eye m-r-5"></i> View</a>
+                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o m-r-5"></i> Download</a>
+                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>-->
+<!--                                    <tr>
+                                        <td>3</td>
+                                        <td><a href="invoice-view.html">#INV-0003</a></td>
+                                        <td>Cream Inc</td>
+                                        <td>11 Mar 2019</td>
+                                        <td>17 Mar 2019</td>
+                                        <td>$2099</td>
+                                        <td><span class="badge bg-inverse-warning">Partially Paid</span></td>
+                                        <td class="text-right">
+                                            <div class="dropdown dropdown-action">
+                                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o m-r-5"></i> Payment</a>
+                                                    <a class="dropdown-item" href="edit-invoice.html"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                    <a class="dropdown-item" href="invoice-view.html"><i class="fa fa-eye m-r-5"></i> View</a>
+                                                    <a class="dropdown-item" href="#"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Content -->
+
+
+
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+//        var title = "[[${messageResult}]]";
+//        if (title !== null && title !== "") {
+//            Swal.fire({
+//                icon: 'success',
+//                title: "Notification !",
+//                text: title
+//            });
+//        }
+
+        var active = localStorage.getItem('active');
+        var actives = active.substr(0, 11);
+
+        $('#leftsidebarMenu li a').removeClass('active');
+        $('#leftsidebarMenu li').removeClass('active');
+        $('#leftsidebarMenu li.' + actives).addClass('active');
+    });
+</script>

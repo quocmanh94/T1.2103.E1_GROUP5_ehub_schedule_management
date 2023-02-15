@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/admin_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="row align-items-center mt-3">
+                    <div class="col">
+                        <!--<h3 class="page-title">Class</h3>-->
+                        <ul class="breadcrumb" style="font-size: 18px">
+                            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/classes">Class</a></li>
+                            <li class="breadcrumb-item active">Add Class</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <div class="row staff-grid-row">
+                    <div class="col-md-4 col-sm-12 col-12 col-lg-4 col-xl-12">
+                        <div class="profile-widget">
+                            <div class="row">
+                                <div class="modal-content" style="border-radius: 5px ">
+                                    <div class="modal-body">
+                                        <form th:action="@{/templates/admin/pages/createClass}" method="POST">
+                                            <div class="modal-header text-center mb-3">
+                                                <h3 class="review-title">Basic Information</h3>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 form-group">
+                                                    <label for="className">Class Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="className" name="className"/>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 form-group">
+                                                    <label for="doj">Select Course<span class="text-danger">*</span></label>
+                                                    <select class="form-control" name="sltcourse" id="sltcourse" onchange="reloadcheckbox()">
+
+                                                        <option value="" disabled="true" selected="true">-- Select Course --</option>
+                                                        <!--<option value="">-- Sasdasde --</option>-->
+                                                        <option th:each="d: ${tbcTemp}"
+                                                                th:text="${d.coursename}"
+                                                                th:value="${d.coursecode}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+<!--                                                <div class="col-sm-6 col-md-6">  
+                                                    <div class="form-group form-focus focused">
+                                                        <div class="cal-icon">
+                                                            <input class="form-control floating datetimepicker" type="text" id="classStartDate" name="classStartDate"/>
+                                                        </div>
+                                                        <label class="focus-label">Start Date</label>
+                                                    </div>
+                                                </div>-->
+<!--                                                <div class="col-md-6 col-sm-6 form-group">
+                                                    <label for="classStartDate">Start Date <span class="text-danger">*</span></label>
+                                                    <input class="form-control floating datetimepicker" type="text" id="classStartDate" name="classStartDate"/>
+                                                </div>-->
+                                                <div class="col-md-12 col-sm-6 form-group">
+                                                    <label for="classDescription">Description</label>
+                                                    <input class="form-control floating" type="text" id="classDescription" name="classDescription"/>
+                                                </div>  
+                                            </div>
+                                            <div class="modal-header text-center mb-3">
+                                                <h3 class="review-title">Time Studying</h3>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-nowrap review-table mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 250px">
+                                                                        <label>School Days <span class="text-danger">*</span></label>
+                                                                    </th>
+                                                                    <th style="width: 250px">
+                                                                        <label>Rooms <span class="text-danger">*</span></label>
+                                                                    </th>
+                                                                    <th>
+                                                                        <label>Shifts <span class="text-danger">*</span></label>
+                                                                    </th>
+                                                                    <th style="width: 250px">
+                                                                        <label>Teachers <span class="text-danger">*</span></label>
+                                                                    </th>
+                                                                    <!--                                                                    <th style="width: 250px">
+                                                                                                                                            <label>Foreigner Teacher</label>
+                                                                                                                                        </th>-->
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Monday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="monday" class="check" value="DAY0000002"/>
+                                                                                <label for="monday" class="checktoggle" onclick="loadRoomForMonday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoom" id="sltRoom" onchange="loadShiftForMonday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShift" id="sltShift" onchange="loadTeacherForMonday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <!--<label for="doj">Courses List <span class="text-danger">*</span></label>-->
+                                                                            <select class="select" name="sltTeacherVNESE" id="sltTeacherVNESE">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <label for="doj">Courses List <span class="text-danger">*</span></label>
+                                                                                                                                                <select class="select" name="sltTeacherForeigner" id="sltTeacherForeigner">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Tuesday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="tuesday" class="check" value="DAY0000003"/>
+                                                                                <label for="tuesday" class="checktoggle" onclick="loadRoomForTuesday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoomTuesday" id="sltRoomTuesday" onchange="loadShiftForTuesday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShiftTuesday" id="sltShiftTuesday" onchange="loadTeacherForTuesday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <!--<label for="doj">Courses List <span class="text-danger">*</span></label>-->
+                                                                            <select class="select" name="sltTeacherVNESETuesday" id="sltTeacherVNESETuesday">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <label for="doj">Courses List <span class="text-danger">*</span></label>
+                                                                                                                                                <select class="select">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Wednesday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="wednesday" class="check" value="DAY0000004"/>
+                                                                                <label for="wednesday" class="checktoggle" onclick="loadRoomForWednesday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoomWednesday" id="sltRoomWednesday" onchange="loadShiftForWednesday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShiftWednesday" id="sltShiftWednesday" onchange="loadTeacherForWednesday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <!--<label for="doj">Courses List <span class="text-danger">*</span></label>-->
+                                                                            <select class="select" name="sltTeacherVNESEWednesday" id="sltTeacherVNESEWednesday">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <select class="select">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Thursday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="thursday" class="check" value="DAY0000005"/>
+                                                                                <label for="thursday" class="checktoggle" onclick="loadRoomForThursday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoomThursday" id="sltRoomThursday" onchange="loadShiftForThursday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShiftThursday" id="sltShiftThursday" onchange="loadTeacherForThursday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltTeacherVNESEThursday" id="sltTeacherVNESEThursday">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <select class="select">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Friday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="friday" class="check" value="DAY0000006"/>
+                                                                                <label for="friday" class="checktoggle" onclick="loadRoomForFriday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoomFriday" id="sltRoomFriday" onchange="loadShiftForFriday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShiftFriday" id="sltShiftFriday" onchange="loadTeacherForFriday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltTeacherVNESEFriday" id="sltTeacherVNESEFriday">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <select class="select">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Saturday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="saturday" class="check" value="DAY0000007"/>
+                                                                                <label for="saturday" class="checktoggle" onclick="loadRoomForSartuday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoomSaturday" id="sltRoomSaturday" onchange="loadShiftForSartuday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShiftSaturday" id="sltShiftSaturday" onchange="loadTeacherForSartuday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltTeacherVNESESaturday" id="sltTeacherVNESESaturday">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <select class="select">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 12px">
+                                                                            <div style="float: left">Sunday</div>
+                                                                            <div class="status-toggle" style="float: right">
+                                                                                <input type="checkbox" id="sunday" class="check" value="DAY0000008"/>
+                                                                                <label for="sunday" class="checktoggle" onclick="loadRoomForSunday()">checkbox</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltRoomSunday" id="sltRoomSunday" onchange="loadShiftForSunday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" multiple="true" name="sltShiftSunday" id="sltShiftSunday" onchange="loadTeacherForSunday()">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 250px">
+                                                                        <div class="form-group" style="margin-top: 6px">
+                                                                            <select class="select" name="sltTeacherVNESESunday" id="sltTeacherVNESESunday">
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--                                                                    <td style="width: 250px">
+                                                                                                                                            <div class="form-group" style="margin-top: 6px">
+                                                                                                                                                <select class="select">
+                                                                                                                                                                                                        <option value="" selected="true" disabled="true">-</option>
+                                                                                                                                                                                                        <option>Course 1</option>
+                                                                                                                                                                                                        <option>Course 2</option>
+                                                                                                                                                </select>
+                                                                                                                                            </div>
+                                                                                                                                        </td>-->
+                                                                </tr>
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="submit-section">
+                                                <button class="btn btn-primary submit-btn" style="border-radius: 10px;font-size: 17px;padding: 5px 10px;min-width: 100px">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var active = localStorage.getItem('active');
+        var actives = active.substr(0, 11);
+        $('#leftsidebarMenu li a').removeClass('active');
+        $('#leftsidebarMenu li').removeClass('active');
+        $('#leftsidebarMenu li.' + actives).addClass('active');
+    });
+
+//    function getEndDate(day) {
+//        const startDate = $('#classStartDate').val();
+//        const course = $('#sltcourse').val();
+//        const checkBox = day;
+//        $.ajax({
+//            type: "GET",
+//            data: {startDate: startDate, course: course, checkBox: checkBox},
+//            url: "/pages/getEndDate",
+//            success: function (result) {
+//                alert(result);
+//            }
+//        });
+//    }
+
+    function loadRoomForMonday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#monday').val();
+        if (!$('#monday').is(":checked")) {
+            //getEndDate(cbDayofWeek);
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoom').empty();
+                    $("#sltRoom").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoom').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoom").options.length = 0;
+            document.getElementById("sltShift").options.length = 0;
+            document.getElementById("sltTeacherVNESE").options.length = 0;
+        }
+    }
+
+    function loadShiftForMonday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#monday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoom').val();
+        //var startDate = $('#classStartDate').val();
+        //getEndDate(cbDayofWeek);
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShift').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShift').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForMonday() {
+        var cbDayofWeek = $('#monday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoom').val();
+        var valueSelectShift = $('#sltShift').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShift').each(function (i, selected) {
+            selectedValues[i] = $('#sltShift').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESE').empty();
+                $("#sltTeacherVNESE").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESE').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function loadRoomForTuesday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#tuesday').val();
+        if (!$('#tuesday').is(":checked")) {
+
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoomTuesday').empty();
+                    $("#sltRoomTuesday").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoomTuesday').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoomTuesday").options.length = 0;
+            document.getElementById("sltShiftTuesday").options.length = 0;
+            document.getElementById("sltTeacherVNESETuesday").options.length = 0;
+        }
+    }
+
+    function loadShiftForTuesday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#tuesday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomTuesday').val();
+        //var startDate = $('#classStartDate').val();
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShiftTuesday').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShiftTuesday').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForTuesday() {
+        var cbDayofWeek = $('#tuesday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomTuesday').val();
+        var valueSelectShift = $('#sltShiftTuesday').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShiftTuesday').each(function (i, selected) {
+            selectedValues[i] = $('#sltShiftTuesday').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESETuesday').empty();
+                $("#sltTeacherVNESETuesday").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESETuesday').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function loadRoomForWednesday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#wednesday').val();
+        if (!$('#wednesday').is(":checked")) {
+
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoomWednesday').empty();
+                    $("#sltRoomWednesday").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoomWednesday').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoomWednesday").options.length = 0;
+            document.getElementById("sltShiftWednesday").options.length = 0;
+            document.getElementById("sltTeacherVNESEWednesday").options.length = 0;
+
+        }
+    }
+
+    function loadShiftForWednesday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#wednesday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomWednesday').val();
+        //var startDate = $('#classStartDate').val();
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShiftWednesday').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShiftWednesday').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForWednesday() {
+        var cbDayofWeek = $('#wednesday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomWednesday').val();
+        var valueSelectShift = $('#sltShiftWednesday').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShiftWednesday').each(function (i, selected) {
+            selectedValues[i] = $('#sltShiftWednesday').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESEWednesday').empty();
+                $("#sltTeacherVNESEWednesday").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESEWednesday').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function loadRoomForThursday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#thursday').val();
+        if (!$('#thursday').is(":checked")) {
+
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoomThursday').empty();
+                    $("#sltRoomThursday").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoomThursday').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoomThursday").options.length = 0;
+            document.getElementById("sltShiftThursday").options.length = 0;
+            document.getElementById("sltTeacherVNESEThursday").options.length = 0;
+        }
+    }
+
+    function loadShiftForThursday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#thursday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomThursday').val();
+        //var startDate = $('#classStartDate').val();
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShiftThursday').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShiftThursday').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForThursday() {
+        var cbDayofWeek = $('#thursday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomThursday').val();
+        var valueSelectShift = $('#sltShiftThursday').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShiftThursday').each(function (i, selected) {
+            selectedValues[i] = $('#sltShiftThursday').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESEThursday').empty();
+                $("#sltTeacherVNESEThursday").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESEThursday').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function loadRoomForFriday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#friday').val();
+        if (!$('#friday').is(":checked")) {
+
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoomFriday').empty();
+                    $("#sltRoomFriday").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoomFriday').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoomFriday").options.length = 0;
+            document.getElementById("sltShiftFriday").options.length = 0;
+            document.getElementById("sltTeacherVNESEFriday").options.length = 0;
+        }
+    }
+
+    function loadShiftForFriday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#friday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomFriday').val();
+        //var startDate = $('#classStartDate').val();
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShiftFriday').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShiftFriday').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForFriday() {
+        var cbDayofWeek = $('#friday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomFriday').val();
+        var valueSelectShift = $('#sltShiftFriday').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShiftFriday').each(function (i, selected) {
+            selectedValues[i] = $('#sltShiftFriday').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESEFriday').empty();
+                $("#sltTeacherVNESEFriday").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESEFriday').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function loadRoomForSartuday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#saturday').val();
+        if (!$('#saturday').is(":checked")) {
+
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoomSaturday').empty();
+                    $("#sltRoomSaturday").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoomSaturday').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoomSaturday").options.length = 0;
+            document.getElementById("sltShiftSaturday").options.length = 0;
+            document.getElementById("sltTeacherVNESESaturday").options.length = 0;
+        }
+    }
+
+    function loadShiftForSartuday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#saturday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomSaturday').val();
+        //var startDate = $('#classStartDate').val();
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShiftSaturday').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShiftSaturday').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForSartuday() {
+        var cbDayofWeek = $('#saturday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomSaturday').val();
+        var valueSelectShift = $('#sltShiftSaturday').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShiftSaturday').each(function (i, selected) {
+            selectedValues[i] = $('#sltShiftSaturday').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESESaturday').empty();
+                $("#sltTeacherVNESESaturday").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESESaturday').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function loadRoomForSunday() {
+        var valueSelectCourse = $('#sltcourse').val();
+        var cbDayofWeek = $('#sunday').val();
+        if (!$('#sunday').is(":checked")) {
+
+            $.ajax({
+                type: "GET",
+                data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek},
+                url: "/admin/getRoomCreateClass",
+                success: function (result) {
+                    $('#sltRoomSunday').empty();
+                    $("#sltRoomSunday").append("<option selected disabled value=\"\">-</option>");
+
+                    $.each(result, function (index, value) {
+
+                        $('#sltRoomSunday').append($('<option>', {
+                            value: value.roomcode,
+                            text: value.roomname
+                        }));
+
+                    });
+                }
+            });
+
+        } else {
+
+            document.getElementById("sltRoomSunday").options.length = 0;
+            document.getElementById("sltShiftSunday").options.length = 0;
+            document.getElementById("sltTeacherVNESESunday").options.length = 0;
+        }
+    }
+
+    function loadShiftForSunday() {
+//        alert('cbDayofWeek');
+        var cbDayofWeek = $('#sunday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomSunday').val();
+        //var startDate = $('#classStartDate').val();
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom},
+            url: "/admin/getShiftCreateClass",
+            success: function (result) {
+
+                $('#sltShiftSunday').empty();
+                $.each(result, function (index, value) {
+
+                    $('#sltShiftSunday').append($('<option>', {
+                        value: value.classtimecode,
+                        text: value.classtimename
+                    }));
+
+                });
+            }
+        });
+    }
+
+    function loadTeacherForSunday() {
+        var cbDayofWeek = $('#sunday').val();
+        var valueSelectCourse = $('#sltcourse').val();
+        var valueSelectRoom = $('#sltRoomSunday').val();
+        var valueSelectShift = $('#sltShiftSunday').val();
+        //var startDate = $('#classStartDate').val();
+        var selectedValues = [];
+        $('#sltShiftSunday').each(function (i, selected) {
+            selectedValues[i] = $('#sltShiftSunday').val();
+        });
+
+        $.ajax({
+            type: "GET",
+            data: {vlSelectCourse: valueSelectCourse, cbDOW: cbDayofWeek, vlSelectRoom: valueSelectRoom, selectedValues: selectedValues.toString()},
+            url: "/admin/getTeacherCreateClass",
+            success: function (result) {
+                $('#sltTeacherVNESESunday').empty();
+                $("#sltTeacherVNESESunday").append("<option selected disabled value=\"\">-</option>");
+                $.each(result, function (index, value) {
+
+                    $('#sltTeacherVNESESunday').append($('<option>', {
+                        value: value.staffcode,
+                        text: value.staffname
+                    }));
+                });
+            }
+        });
+    }
+
+    function reloadcheckbox() {
+        // monday
+        $('#monday').prop('checked', false);
+        document.getElementById("sltRoom").options.length = 0;
+        document.getElementById("sltShift").options.length = 0;
+        document.getElementById("sltTeacherVNESE").options.length = 0;
+
+        // tuesday
+        $('#tuesday').prop('checked', false);
+        document.getElementById("sltRoomTuesday").options.length = 0;
+        document.getElementById("sltShiftTuesday").options.length = 0;
+        document.getElementById("sltTeacherVNESETuesday").options.length = 0;
+
+        // wednesday
+        $('#wednesday').prop('checked', false);
+        document.getElementById("sltRoomWednesday").options.length = 0;
+        document.getElementById("sltShiftWednesday").options.length = 0;
+        document.getElementById("sltTeacherVNESEWednesday").options.length = 0;
+
+        // thursday
+        $('#thursday').prop('checked', false);
+        document.getElementById("sltRoomThursday").options.length = 0;
+        document.getElementById("sltShiftThursday").options.length = 0;
+        document.getElementById("sltTeacherVNESEThursday").options.length = 0;
+
+        // friday
+        $('#friday').prop('checked', false);
+        document.getElementById("sltRoomFriday").options.length = 0;
+        document.getElementById("sltShiftFriday").options.length = 0;
+        document.getElementById("sltTeacherVNESEFriday").options.length = 0;
+
+        // saturday
+        $('#saturday').prop('checked', false);
+        document.getElementById("sltRoomSaturday").options.length = 0;
+        document.getElementById("sltShiftSaturday").options.length = 0;
+        document.getElementById("sltTeacherVNESESaturday").options.length = 0;
+
+        // sunday
+        $('#sunday').prop('checked', false);
+        document.getElementById("sltRoomSunday").options.length = 0;
+        document.getElementById("sltShiftSunday").options.length = 0;
+        document.getElementById("sltTeacherVNESESunday").options.length = 0;
+    }
+
+</script>

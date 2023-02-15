@@ -76,7 +76,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/templates/admin/pages/setting/create}" th:object="${center}" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/admin/setting/create}" th:object="${center}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label>Center Name <span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" th:field="*{centername}">
@@ -110,7 +110,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/templates/admin/pages/setting/update}" th:object="${center}" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/admin/setting/update}" th:object="${center}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label>Center Code <span class="text-danger">*</span></label>
                                     <input id="centercodes" class="form-control" value="" type="text" th:field="*{centercode}" readonly="true">
@@ -150,7 +150,7 @@
                                 <p>Are you sure want to delete?</p>
                             </div>
                             <div class="modal-btn delete-action">
-                                <form th:action="@{/templates/admin/pages/setting/deleteCenterModal}" method="POST" enctype="multipart/form-data">
+                                <form th:action="@{/admin/setting/deleteCenterModal}" method="POST" enctype="multipart/form-data">
                                     <input hidden="true" id="idcenterDlt" name="idcenterDlt" class="form-control" type="text"/>
                                     <div class="row">
                                         <div class="col-6">

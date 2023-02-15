@@ -139,7 +139,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/templates/admin/pages/updateClassroom}" th:object="${classroom}" method="POST" enctype="multipart/form-data">
+                            <form th:action="@{/admin/updateClassroom}" th:object="${classroom}" method="POST" enctype="multipart/form-data">
                                 <input class="form-control" id="roomcode"  type="hidden" th:field="*{roomcode}"/>
                                 <input class="form-control" id="isstatus" type="hidden" th:field="*{isstatus}"/>
                                 <input class="form-control" id="centercode" type="hidden" th:field="*{centercode}"/>
@@ -204,7 +204,7 @@
                                 <p>Are you sure want to delete?</p>
                             </div>
                             <div class="modal-btn delete-action">
-                                <form th:action="@{/templates/admin/pages/deleteClassroom}" method="POST" enctype="multipart/form-data">
+                                <form th:action="@{/admin/deleteClassroom}" method="POST" enctype="multipart/form-data">
                                     <input hidden="true" id="idclassroomDlt" name="idclassroomDlt" class="form-control" type="text"/>
                                     <div class="row">
                                         <div class="col-6">

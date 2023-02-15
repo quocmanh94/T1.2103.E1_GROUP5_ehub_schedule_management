@@ -139,7 +139,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/templates/admin/pages/user/update}" method="POST">
+                            <form th:action="@{/admin/user/update}" method="POST">
                                 <div class="row">
                                     <!--<input class="form-control" id="edituseremail" readonly="true" type="hidden">-->
                                     <div class="col-sm-6">
@@ -191,7 +191,7 @@
                                 <p>Are you sure want to reset?</p>
                             </div>
                             <div class="modal-btn delete-action">
-                                <form th:action="@{/templates/admin/pages/user/resetPassword}" method="POST" enctype="multipart/form-data">
+                                <form th:action="@{/admin/user/resetPassword}" method="POST" enctype="multipart/form-data">
                                     <input hidden="true" id="userID" name="userID" class="form-control" type="text"/>
                                     <div class="row">
                                         <div class="col-2"></div>

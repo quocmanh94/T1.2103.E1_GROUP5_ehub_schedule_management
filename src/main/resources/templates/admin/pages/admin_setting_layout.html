@@ -10,15 +10,15 @@
         <meta name="author" content="Dreamguys - Bootstrap Admin Template"/>
         <meta name="robots" content="noindex, nofollow"/>
         <title layout:title-pattern="$CONTENT_TITLE - $DECORATOR_TITLE">Setting</title>    
-        <style th:replace="/admin/setting/style"></style>
+        <style th:replace="/admin/pages/setting/style"></style>
     </head>
     <body>
 
         <div class="main-wrapper">
 
-            <div th:replace="/admin/setting/header"></div>
+            <div th:replace="/admin/pages/setting/header"></div>
 
-            <div th:replace="/admin/setting/left_side"></div>
+            <div th:replace="/admin/pages/setting/left_side"></div>
 
             <!-- Page Wrapper -->
             <div class="page-wrapper">
@@ -30,7 +30,7 @@
             </div>
             <!-- /Page Wrapper -->
 
-            <div th:replace="/admin/setting/script"></div>
+            <div th:replace="/admin/pages/setting/script"></div>
             
             <div th:fragment="script"></div>
             

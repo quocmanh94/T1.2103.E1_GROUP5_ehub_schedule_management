@@ -105,14 +105,14 @@ public class AdminPageController {
         Tbuser tbu = userService.findUserByEmail(uEmail);
         if (tbu.getPermision().getPgcode().equals("PG00000005")) {
             model.addAttribute("userLogin", user.getUsername());
-            return "pages/dashboard";
+            return "admin/pages/dashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
-            return "pages/staffdashboard";
+            return "admin/pages/staffdashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
-            return "pages/teacherdashboard";
+            return "admin/pages/teacherdashboard";
         } else {
             model.addAttribute("userLogin", user.getUsername());
-            return "pages/teacherdashboard";
+            return "admin/pages/teacherdashboard";
         }
 
     }
@@ -134,7 +134,7 @@ public class AdminPageController {
 //            model.addAttribute("userLogin", user.getUsername());
 //            return "pages/teacherdashboard";
 //        }
-        return "pages/dashboard";
+        return "admin/pages/dashboard";
     }
 
     @RequestMapping({"/staffdashboard"})
@@ -143,12 +143,12 @@ public class AdminPageController {
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 //        model.addAttribute("userLogin", user.getUsername());
 
-        return "pages/staffdashboard";
+        return "admin/pages/staffdashboard";
     }
 
     @RequestMapping({"/teacherdashboard"})
     public String teacherdashboard(Model model) {
-        return "pages/teacherdashboard";
+        return "admin/pages/teacherdashboard";
     }
 
     @RequestMapping({"/timestudying"})
@@ -157,7 +157,7 @@ public class AdminPageController {
         List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
         model.addAttribute("giohoc", giohoc);
         model.addAttribute("ca", ca);
-        return "pages/timestudying";
+        return "admin/pages/timestudying";
     }
 
     @RequestMapping({"/day"})
@@ -166,7 +166,7 @@ public class AdminPageController {
 //        List<Tbclasstimelesson> ca = classTimeLessonService.getListClassTimeLesson();
 //        model.addAttribute("giohoc", giohoc);
 //        model.addAttribute("ca", ca);
-        return "pages/day";
+        return "admin/pages/day";
     }
 
     @RequestMapping({"/loadAllDay"})
@@ -224,7 +224,7 @@ public class AdminPageController {
         }
 
         model.addAttribute("dlClass", data);
-        return "pages/staffdashboardclass";
+        return "admin/pages/staffdashboardclass";
     }
 
     @RequestMapping({"/staffdashboardstudent"})
@@ -234,7 +234,7 @@ public class AdminPageController {
 //        model.addAttribute("userLogin", user.getUsername());
         List<Tbstudent> dtStudent = studentService.getStudentList();
         model.addAttribute("dtStudent", dtStudent);
-        return "pages/staffdashboardstudent";
+        return "admin/pages/staffdashboardstudent";
     }
 
     @RequestMapping({"/staffdashboardinterviewing"})
@@ -243,12 +243,12 @@ public class AdminPageController {
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 //        model.addAttribute("userLogin", user.getUsername());
 
-        return "pages/staffdashboardinterviewing";
+        return "admin/pages/staffdashboardinterviewing";
     }
 
     @RequestMapping({"/clientsPage"})
     public String clientsPage(Model model) {
-        return "pages/clients";
+        return "admin/pages/clients";
     }
 
     @RequestMapping({"/setting"})
@@ -261,7 +261,7 @@ public class AdminPageController {
         }
 
         model.addAttribute("centerList", centerService.findAllCenter());
-        return "pages/setting";
+        return "admin/pages/setting";
     }
 
     @RequestMapping({"/addclass"})
@@ -298,7 +298,7 @@ public class AdminPageController {
         }
 
         model.addAttribute("tbcTemp", tbcTemp);
-        return "pages/addclass";
+        return "admin/pages/addclass";
     }
 
     @RequestMapping({"/getRoomCreateClass"})
@@ -535,14 +535,14 @@ public class AdminPageController {
             courseDTO.add(tbcoursedto);
         }
         model.addAttribute("courseList", courseDTO);
-        return "pages/course";
+        return "admin/pages/course";
 
     }
 
     @RequestMapping({"/localization"})
     public String localizationPage(Model model) {
 
-        return "pages/abc";
+        return "admin/pages/abc";
 
     }
 
@@ -597,7 +597,7 @@ public class AdminPageController {
         model.addAttribute("studentname", sa);
         model.addAttribute("class", "Class : " + classs.getClassname());
         model.addAttribute("studyingDateList", tbstudyingdatedto);
-        return "pages/studenttimetable";
+        return "admin/pages/studenttimetable";
 
     }
 
@@ -605,7 +605,7 @@ public class AdminPageController {
     public String rolePermisionPage(Model model) {
 
         model.addAttribute("positiongroup", new Tbpositiongroup());
-        return "pages/role-permision";
+        return "admin/pages/role-permision";
 
     }
 
@@ -1032,7 +1032,7 @@ public class AdminPageController {
         }
 
         // end add Tbworkingschedule
-        return "redirect:/admin/classes";
+        return "redirect:/admin/pages/classes";
     }
 
     private int getShift(@RequestParam(required = false, value = "sltRoomSaturday") String sltRoomSaturday, @RequestParam(required = false, value = "sltShiftSaturday") ArrayList<String> sltShiftSaturday, @RequestParam(required = false, value = "sltTeacherVNESESaturday") String sltTeacherVNESESaturday, String strClassCode, int month, int year, List<Tbworkingschedule> workingscheduleList, int a, Date workingDate) {
@@ -1107,7 +1107,7 @@ public class AdminPageController {
         Tbcenter tbcenter = centerService.findCenterById(centerId);
         tbcenter.setIsdelete(1);
         centerService.saveCenter(tbcenter);
-        return "redirect:/admin/setting";
+        return "redirect:/admin/pages/setting";
 
     }
 
@@ -1117,7 +1117,7 @@ public class AdminPageController {
         tbcenter.setCenterdefault(0);
         tbcenter.setIsdelete(0);
         centerService.saveCenter(tbcenter);
-        return "redirect:/admin/setting";
+        return "redirect:/admin/pages/setting";
 
     }
 
@@ -1126,7 +1126,7 @@ public class AdminPageController {
 
         centerService.saveCenter(tbcenter);
         redirectAttributes.addFlashAttribute("messageResult", "Update Successfully !");
-        return "redirect:/admin/setting";
+        return "redirect:/admin/pages/setting";
 
     }
 

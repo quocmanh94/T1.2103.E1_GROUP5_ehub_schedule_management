@@ -17,7 +17,15 @@ public class Tbstudyingdatedto {
     private String workingday;
     private String room;
     private String time;
+    private String dow;
 
+    public String getDow() {
+        return dow;
+    }
+
+    public void setDow(String dow) {
+        this.dow = dow;
+    }
     public String getStudentcode() {
         return studentcode;
     }

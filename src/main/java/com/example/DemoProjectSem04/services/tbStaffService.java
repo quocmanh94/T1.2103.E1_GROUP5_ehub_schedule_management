@@ -21,13 +21,15 @@ import org.springframework.stereotype.Service;
  * @author Admin
  */
 @Service
-public class tbStaffService implements tbStaffInterface{
+public class tbStaffService implements tbStaffInterface {
+
     @Autowired
     tbStaffRepository staffRepository;
 
     @Override
     public List<Tbstaff> findAllStaff() {
-        return staffRepository.findAll();
+//        return staffRepository.findAll();
+        return staffRepository.getStaffListStillWorking();
     }
 
     @Override
@@ -59,22 +61,20 @@ public class tbStaffService implements tbStaffInterface{
 //    public List<Tbstaff> findTeacherCreateClass(Date startday, Date endday, String dow, String room) {
 //        return staffRepository.getListStaffCreateClass(startday, endday, dow, room);
 //    }
-
     @Override
     public List<Tbstaff> findTeacherCreateClass(Date startday, Date endday, String dow, String shift) {
         return staffRepository.getListStaffCreateClass(startday, endday, dow, shift);
     }
-    
+
 //    @Override
 //    public List<Tbstaff> findTeacherHaveClassInTime(Date startday, Date endday, String dow, String room, String shift) {
 //        return staffRepository.getListStaffHaveClassInTime(startday, endday, dow, room, shift);
 //    }
-
     @Override
     public List<Tbstaff> findTeacherHaveClassInTime(Date startday, Date endday, String dow, String shift) {
         return staffRepository.getListStaffHaveClassInTime(startday, endday, dow, shift);
     }
-    
+
     @Override
     public List<Tbstaff> getStaffListStillWorking() {
         return staffRepository.getStaffListStillWorking();

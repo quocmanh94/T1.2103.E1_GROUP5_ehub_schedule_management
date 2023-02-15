@@ -48,7 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
-        http.authorizeRequests()
+        http.csrf().disable()
+            .authorizeRequests()
+                .antMatchers("/aka/**").permitAll()
                 .antMatchers("/admin/dashboard").hasAnyAuthority("FUNCT00014")
                 .antMatchers("/admin/module").hasAnyAuthority("FUNCT00011")
                 .antMatchers("/admin/stafflist").hasAnyAuthority("FUNCT00002")

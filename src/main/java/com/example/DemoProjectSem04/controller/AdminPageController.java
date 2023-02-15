@@ -550,6 +550,8 @@ public class AdminPageController {
     public String studenttimetablePage(Model model, @PathVariable("id") String id) {
         List<Tbstudyingschedule> StudyingScheduleList = studyingScheduleService.getListStudyingDateByStudentCode(id);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Tbstudent student = studentService.getStudentByCode(id);
+        Tbclass classs = classService.findClassByCode(student.getClasscode());
         List<Tbstudyingdatedto> tbstudyingdatedto = new ArrayList<>();
         for (Tbstudyingschedule p : StudyingScheduleList) {
             LocalDate studydate = p.getWorkingday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -560,12 +562,13 @@ public class AdminPageController {
             for (Tbclassschedule y : TbclassscheduleList) {
                 Tbstudyingdatedto newObj = new Tbstudyingdatedto();
                 newObj.setStudentcode(id);
+                newObj.setStudentname(student.getStudentname());
                 newObj.setClasscode(id);
                 newObj.setClassname(y.getDayofweek());
                 newObj.setRoom(y.getRoom());
                 newObj.setTime(y.getClasstime());
                 newObj.setWorkingday(todayAsString);
-
+                newObj.setDow(y.getDayofweek());
                 if (dayOfWeek == 1 && y.getDayofweek().equals("Monday")) {
                     tbstudyingdatedto.add(newObj);
                 } else if (dayOfWeek == 2 && y.getDayofweek().equals("Tuesday")) {
@@ -590,6 +593,9 @@ public class AdminPageController {
 //        int dayOfWeek = StartLocalDate.plusDays(i - start).getDayOfWeek().getValue();
 //        LocalDate workingDay = StartLocalDate.plusDays(i - start);
 //        Date workingDate = Date.from(workingDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        String sa = student.getStudentname();
+        model.addAttribute("studentname", sa);
+        model.addAttribute("class", "Class : " + classs.getClassname());
         model.addAttribute("studyingDateList", tbstudyingdatedto);
         return "admin/studenttimetable";
 
@@ -603,6 +609,14 @@ public class AdminPageController {
 
     }
 
+    @RequestMapping({"/detailsteacher"})
+    public String detailsteacherPage() {
+
+//        model.addAttribute("positiongroup", new Tbpositiongroup());
+        return "admin/detailsteacher";
+
+    }
+    
     @RequestMapping({"/loadPositionGroup"})
     public @ResponseBody
     List<Tbpositiongroup> loadPositionGroup(Model model) {

@@ -83,7 +83,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="e: ${listStudent}">
-                                        <td><a href="invoice-view.html"><span th:text="${e.getStudentcode()}"></span></a></td>
+                                        <td><a th:href="@{/admin/studenttimetable/{id}(id=${e.getStudentcode()})}"><span th:text="${e.getStudentcode()}"></span></a></td>
                                         <td th:text="${e.getStudentname()}"></td>
                                         <td th:text="${e.getClassname()}"></td>
                                         <td th:text="${#dates.format(e.getDob(), 'dd-MM-yyyy')}"></td>

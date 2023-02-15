@@ -105,14 +105,14 @@ public class AdminPageController {
         Tbuser tbu = userService.findUserByEmail(uEmail);
         if (tbu.getPermision().getPgcode().equals("PG00000005")) {
             model.addAttribute("userLogin", user.getUsername());
-            return "admin/pages/dashboard";
+            return "redirect:/admin/dashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
-            return "admin/pages/staffdashboard";
+            return "redirect:/admin/staffdashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
-            return "admin/pages/teacherdashboard";
+            return "redirect:/admin/teacherdashboard";
         } else {
             model.addAttribute("userLogin", user.getUsername());
-            return "admin/pages/teacherdashboard";
+            return "redirect:/admin/teacherdashboard";
         }
 
     }
@@ -480,7 +480,7 @@ public class AdminPageController {
 //        model.addAttribute("module", new Tbmodule());
 //        model.addAttribute("moduleList", moduleService.findAllModule());
         model.addAttribute("moduleList", moduleService.findAllModule());
-        return "pages/module";
+        return "admin/pages/module";
 
     }
 
@@ -603,7 +603,6 @@ public class AdminPageController {
 
     @RequestMapping({"/role-permision"})
     public String rolePermisionPage(Model model) {
-
         model.addAttribute("positiongroup", new Tbpositiongroup());
         return "admin/pages/role-permision";
 

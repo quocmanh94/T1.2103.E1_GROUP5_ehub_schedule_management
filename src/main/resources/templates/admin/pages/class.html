@@ -80,9 +80,9 @@
                                     </div>
                                     <div class="m-t-2 text-muted row" style="font-weight: bold;">
                                         <div th:switch="${t.classstatus}"> 
-                                            <p th:case="'Opening'" style="margin-bottom: 0px"><a th:href="@{/templates/admin/pages/detailclass/{id}(id=${t.classcode})}" style="color: red !important; cursor: pointer">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
-                                            <p th:case="'In Processing'" style="margin-bottom: 0px"><a th:href="@{/templates/admin/pages/detailclass/{id}(id=${t.classcode})}" style="cursor: pointer">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
-                                            <p th:case="'Finished'" style="margin-bottom: 0px"><a th:href="@{/templates/admin/pages/detailclass/{id}(id=${t.classcode})}" style="color: red !important;cursor: pointer">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
+                                            <p th:case="'Opening'" style="margin-bottom: 0px"><a th:href="@{/admin/detailclass/{id}(id=${t.classcode})}" style="color: red !important; cursor: pointer">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
+                                            <p th:case="'In Processing'" style="margin-bottom: 0px"><a th:href="@{/admin/pages/detailclass/{id}(id=${t.classcode})}" style="cursor: pointer">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
+                                            <p th:case="'Finished'" style="margin-bottom: 0px"><a th:href="@{/admin/pages/detailclass/{id}(id=${t.classcode})}" style="color: red !important;cursor: pointer">Class Name &#160;: &#160; <span th:text="${t.classname}"></span></a></p>
                                         </div>
                                     </div>
                                     <div class="small text-muted row" style="font-size: 12px">Course Name &#160;: &#160; <span th:text="${t.coursename}"></span></div>

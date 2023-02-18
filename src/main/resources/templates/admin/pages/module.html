@@ -40,41 +40,11 @@
                         <div class="form-group form-focus select-focus">
                             <select class="select floating" id="sltclassblock">
                                 <option value="All">All</option>
-                                <option value="KL00000001">LG1</option>
-                                <option value="KL00000002">LG2</option>
-                                <option value="KL00000003">SC1</option>
-                                <option value="KL00000004">SC3</option>
-                                <option value="KL00000005">AS4</option>
-                                <option value="KL00000006">AS5</option>
-                                <option value="KL00000007">STA</option>
-                                <option value="KL00000008">MOV</option>
-                                <option value="KL00000009">FLY</option>
-                                <option value="KL00000010">KET</option>
-                                <option value="KL00000011">PET</option>
-                                <option value="KL00000012">K06</option>
-                                <option value="KL00000013">K07</option>
-                                <option value="KL00000014">K08</option>
-                                <option value="KL00000015">K09</option>
-                                <option value="KL00000016">K10</option>
-                                <option value="KL00000017">K11</option>
-                                <option value="KL00000018">K12</option>
-                                <option value="KL00000019">IGE</option>
-                                <option value="KL00000020">IIN</option>
-                                <option value="KL00000021">IFO</option>
-                                <option value="KL00000022">IGR</option>
-                                <option value="KL00000023">IPT</option>
-                                <option value="KL00000024">TOE</option>
-                                <option value="KL00000025">AEF</option>
-                                <option value="KL00000026">KEM</option>
-                                <option value="KL00000027">CTY</option>
-                                <option value="KL00000028">SC2</option>
-                                <option value="KL00000029">LBG</option>
-                                <option value="KL00000030">IPR</option>
-                                <option value="KL00000031">LS2</option>
-                                <option value="KL00000032">SC4</option>
-                                <option value="KL00000033">AST</option>
-                                <option value="KL00000034">AS1</option>
-                                <option value="KL00000035">IPR</option>
+                                <option value="KL00000001">English For Children</option>
+                                <option value="KL00000002">English For Teen</option>
+                                <option value="KL00000003">English For Student</option>
+                                <option value="KL00000004">English For Working People</option>
+                                <option value="KL00000005">IELTS</option>
                             </select>
                             <label class="focus-label">Class Block</label>
                         </div>
@@ -107,7 +77,7 @@
                                 </thead>
                                 <tbody id="bodyModule">
                                     <tr th:each="e: ${moduleList}">
-                                        <td th:text="${e.getModulecode()}"></td>
+                                        <td><a th:href="@{/admin/detailclasslecture/{id}(id=${e.getModulecode()})}" th:text="${e.getModulecode()}"></a></td>
                                         <td th:text="${e.getModulename()}"></td>
                                         <td th:text="${e.getModulenote()}"></td>
                                         <td th:text="${e.getModuletime()}"></td>

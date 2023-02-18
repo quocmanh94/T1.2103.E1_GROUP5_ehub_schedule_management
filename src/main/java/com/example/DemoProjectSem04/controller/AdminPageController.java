@@ -10,7 +10,9 @@ import com.example.DemoProjectSem04.DTO.Tbcoursedto;
 import com.example.DemoProjectSem04.DTO.Tbfunctionandpositiondto;
 import com.example.DemoProjectSem04.DTO.Tbfunctiondto;
 import com.example.DemoProjectSem04.DTO.Tbstudyingdatedto;
+import com.example.DemoProjectSem04.DTO.tbTeachingDatedto;
 import com.example.DemoProjectSem04.entities.*;
+import com.example.DemoProjectSem04.repositories.tbModuleLectureService;
 import com.example.DemoProjectSem04.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
@@ -96,6 +98,9 @@ public class AdminPageController {
 
     @Autowired
     tbDayService dayService;
+    
+    @Autowired
+    tbModuleLectureService moduleLectureService;
 
     @RequestMapping({"/rolepermission", "/"})
     public String rolepermissionPage(Model model) {
@@ -552,19 +557,46 @@ public class AdminPageController {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Tbstudent student = studentService.getStudentByCode(id);
         Tbclass classs = classService.findClassByCode(student.getClasscode());
+        Tbcourseclass tbcourseclassData = courseClassService.getCourseClassByClassCode(classs.getClasscode());
+        List<Tbcoursemodule> listMC = courseModuleService.findCourseModuleByCourse(tbcourseclassData.getTbcourseclassPK().getCoursecode());
+        
+//        String module = "";
+//        int r = 0;
+        
+//        for(Tbcoursemodule f: listMC){
+//            if(r == 0){
+//                module += "'" + f.getTbcoursemodulePK().getModulecode() + "'";
+//            }else{
+//                module += ",'" + f.getTbcoursemodulePK().getModulecode() + "'";
+//            }
+//            r++;
+//        }
+        
+        List<Tbmodulelecture> tbmodulelecturesList2 = new ArrayList<>();
+        for (Tbcoursemodule f : listMC) {
+            List<Tbmodulelecture> tbmodulelecturesList = moduleLectureService.getLectureListByModule(f.getTbcoursemodulePK().getModulecode());
+            for(Tbmodulelecture w:tbmodulelecturesList){
+                tbmodulelecturesList2.add(w);
+            }
+        }
+        
+//        List<Tbmodulelecture> tbmodulelecturesList = moduleLectureService.getLectureListByModule(module);
+        
         List<Tbstudyingdatedto> tbstudyingdatedto = new ArrayList<>();
+        int e = 0;
         for (Tbstudyingschedule p : StudyingScheduleList) {
             LocalDate studydate = p.getWorkingday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             int dayOfWeek = studydate.getDayOfWeek().getValue();
             List<Tbclassschedule> TbclassscheduleList = classScheduleService.getListClassScheduleByClassCode(p.getClasscode());
             Date as = Date.from(studydate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             String todayAsString = df.format(as);
+            
             for (Tbclassschedule y : TbclassscheduleList) {
                 Tbstudyingdatedto newObj = new Tbstudyingdatedto();
                 newObj.setStudentcode(id);
                 newObj.setStudentname(student.getStudentname());
                 newObj.setClasscode(id);
-                newObj.setClassname(y.getDayofweek());
+                newObj.setClassname(tbmodulelecturesList2.get(e).getLecturename());
                 newObj.setRoom(y.getRoom());
                 newObj.setTime(y.getClasstime());
                 newObj.setWorkingday(todayAsString);
@@ -584,7 +616,9 @@ public class AdminPageController {
                 } else if (dayOfWeek == 7 && y.getDayofweek().equals("Sunday")) {
                     tbstudyingdatedto.add(newObj);
                 }
+                
             }
+            e++;
         }
 
 //        LocalDate StartLocalDate = std.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -601,6 +635,64 @@ public class AdminPageController {
 
     }
 
+    @RequestMapping({"/detailclasslecture/{id}"})
+    public String detailclasslecturePage(Model model, @PathVariable("id") String id) {
+
+        List<Tbmodulelecture> tbmodulelecturesList = moduleLectureService.getLectureListByModule(id);
+        model.addAttribute("lectureList", tbmodulelecturesList);
+        return "admin/pages/detailmodulelecture";
+
+    }
+    
+    @RequestMapping({"/teachingDate"})
+    public String teachingDatePage(Model model) {
+
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
+        String uEmail = user.getUsername();
+        String sadassdasd = "STAFF00004";
+        Tbstaff t = staffService.findStaffByEmail(uEmail);
+        List<tbTeachingDatedto> listTeaching = new ArrayList<>();
+        List<Tbworkingschedule> tbworkingschedulesList = workingScheduleService.getWorkingDateByStaffCode(sadassdasd);
+        for(Tbworkingschedule w:tbworkingschedulesList){
+            Tbclasstime tbclasstime = classTimeService.getCLassTimeByCode(w.getClasstimecode());
+            Tbclass tbclass = classService.findClassByCode(w.getClasscode());
+            Tbclassroom tbclassroom = classroomService.findClassroomByCode(w.getClassroomcode());
+            LocalDate lDate = w.getWorkingday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String dayOfWeek = lDate.getDayOfWeek().toString();
+            String pattern = "dd/MM/yyyy";
+            DateFormat df = new SimpleDateFormat(pattern);
+            String todayAsString = df.format(w.getWorkingday());
+            tbTeachingDatedto datedto = new tbTeachingDatedto();
+            datedto.setClassname(tbclass.getClassname());
+            datedto.setDow(dayOfWeek);
+            datedto.setRoom(tbclassroom.getRoomname());
+            datedto.setTeachingdate(todayAsString);
+            datedto.setTime(tbclasstime.getClasstimename());
+            listTeaching.add(datedto);
+        }
+        
+        model.addAttribute("listTeaching", listTeaching);
+        return "admin/detailsteacher";
+
+    }
+    
+    @RequestMapping({"/detailclasslecturebycourse/{id}"})
+    public String detailclasslecturebycoursePage(Model model, @PathVariable("id") String id) {
+
+        List<Tbcoursemodule> listMC = courseModuleService.findCourseModuleByCourse(id);
+        List<Tbmodulelecture> tbmodulelecturesList2 = new ArrayList<>();
+        for (Tbcoursemodule f : listMC) {
+            List<Tbmodulelecture> tbmodulelecturesList = moduleLectureService.getLectureListByModule(f.getTbcoursemodulePK().getModulecode());
+            for(Tbmodulelecture w:tbmodulelecturesList){
+                tbmodulelecturesList2.add(w);
+            }
+        }
+        model.addAttribute("lectureList", tbmodulelecturesList2);
+        return "admin/pages/detailmodulelecture";
+
+    }
+    
     @RequestMapping({"/role-permision"})
     public String rolePermisionPage(Model model) {
         model.addAttribute("positiongroup", new Tbpositiongroup());
@@ -1031,7 +1123,7 @@ public class AdminPageController {
         }
 
         // end add Tbworkingschedule
-        return "redirect:/admin/pages/classes";
+        return "redirect:/admin/classes";
     }
 
     private int getShift(@RequestParam(required = false, value = "sltRoomSaturday") String sltRoomSaturday, @RequestParam(required = false, value = "sltShiftSaturday") ArrayList<String> sltShiftSaturday, @RequestParam(required = false, value = "sltTeacherVNESESaturday") String sltTeacherVNESESaturday, String strClassCode, int month, int year, List<Tbworkingschedule> workingscheduleList, int a, Date workingDate) {

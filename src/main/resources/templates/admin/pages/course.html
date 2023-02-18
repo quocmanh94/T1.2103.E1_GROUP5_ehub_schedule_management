@@ -129,8 +129,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
                                     <tr th:each="e: ${courseList}">
-                                        <td><a href="#" th:text="${e.getCoursecode()}"></a></td>
+                                        <td><a th:href="@{/admin/detailclasslecturebycourse/{id}(id=${e.getCoursecode()})}" th:text="${e.getCoursecode()}"></a></td>
                                         <td th:text="${e.getCoursename()}"></td>
                                         <td th:text="${#dates.format(e.getOpentimecourse(), 'dd-MM-yyyy')}"></td>
                                         <td th:text="${#dates.format(e.getStartcourse(), 'dd-MM-yyyy')}"></td>

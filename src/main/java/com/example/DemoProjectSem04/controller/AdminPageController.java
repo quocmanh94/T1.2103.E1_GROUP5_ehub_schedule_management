@@ -114,7 +114,7 @@ public class AdminPageController {
         } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
             return "redirect:/admin/staffdashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
-            return "redirect:/admin/teacherdashboard";
+            return "redirect:/admin/teachingDate";
         } else {
             model.addAttribute("userLogin", user.getUsername());
             return "redirect:/admin/teacherdashboard";

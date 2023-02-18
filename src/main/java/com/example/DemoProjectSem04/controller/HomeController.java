@@ -42,6 +42,9 @@ import java.util.Date;
 import java.util.List;
 
 import static com.example.DemoProjectSem04.utils.PasswordGenerator.encryptPassword;
+import com.example.DemoProjectSem04.utils.Utility;
+import java.io.UnsupportedEncodingException;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -54,6 +57,9 @@ public class HomeController {
     @Value("${upload.path}")
     private String fileUpload;
 
+    @Autowired
+    MailsService mailsService;
+    
     @Autowired
     tbCenterService centerService;
 
@@ -937,11 +943,18 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/user/resetPassword", method = RequestMethod.POST)
-    public String resetPassword(Model model, @RequestParam(required = false, name = "userID") String userID, RedirectAttributes redirectAttributes) {
+    public String resetPassword(Model model, @RequestParam(required = false, name = "userID") String userID, RedirectAttributes redirectAttributes, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         Tbuser tuser = userService.findUserByEmail(userID);
         tuser.setPassword(encryptPassword("123"));
         userService.save(tuser);
-        return "redirect:/admin/logout";
+        String siteURL = Utility.getSiteURL(request);
+        Tbstaff staffLogin = staffService.findStaffByEmail(userID);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
+        String uEmail = user.getUsername();
+        Tbuser tbu = userService.findUserByEmail(uEmail);
+        mailsService.sendEmail(tuser, siteURL);
+        return "redirect:/admin/users";
     }
 
     @RequestMapping(value = "/staff/updateDetails", method = RequestMethod.POST)

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/pages/admin_layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">DashBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <!-- Page Content -->
+            <div class="content container-fluid">
+
+                <!-- Page Header -->
+                <div class="row align-items-center mt-3">
+                    <div class="col">
+                        <!--<h3 class="page-title">Module</h3>-->
+                        <ul class="breadcrumb" style="font-size: 18px">
+                            <li class="breadcrumb-item"><a href="/admin/staffdashboard">Dashboard</a></li>
+                            <!--<li class="breadcrumb-item active">Module</li>-->
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+<!--                <div class="card">
+                    <div class="card-body">
+                         <h4 class="card-title">Solid justified</h4> 
+                        <ul class="nav nav-tabs nav-tabs-solid nav-justified">
+                            <li class="nav-item"><a class="nav-link active" href="/admin/staffdashboard">Dashboard</a></li>
+                                                        <li class="nav-item"><a class="nav-link" href="/pages/staffdashboardmodule">Module</a></li>
+                                                        <li class="nav-item"><a class="nav-link" href="/pages/staffdashboardcourse">Course</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardstudent">Student</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardclass">Class</a></li>
+
+                            <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardadvise">Advise</a></li>
+                                                        <li class="nav-item"><a class="nav-link" href="visited-jobs.html">Visitied </a></li>
+                                                        <li class="nav-item"><a class="nav-link" href="archived-jobs.html">Archived </a></li>
+                        </ul>
+                    </div>
+                </div>-->
+
+<!--                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                        <div class="card dash-widget">
+                            <div class="card-body">
+                                <span class="dash-widget-icon"><i class="fa fa-briefcase"></i></span>
+                                <div class="dash-widget-info">
+                                    <h3>110</h3>
+                                    <span>Advised - Student</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                        <div class="card dash-widget">
+                            <div class="card-body">
+                                <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
+                                <div class="dash-widget-info">
+                                    <h3>40</h3>
+                                    <span>Opening - Class</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                        <div class="card dash-widget">
+                            <div class="card-body">
+                                <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+                                <div class="dash-widget-info">
+                                    <h3>374</h3>
+                                    <span>In Progress - Class</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-table">
+                            <div class="card-header">
+                                <h3 class="card-title mb-0">Fee List</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-nowrap custom-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Class Block</th>
+                                                <th>Name</th>
+                                                <th>Cost</th>
+                                                <!--<th class="text-center">Status</th>-->
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="e : ${tbfeesList}">
+                                                <td th:text="${e.getFeecode()}"></td>
+                                                <td th:text="${e.getClassblock()}"></td>
+                                                <td th:text="${e.getObjectname()}"></td>
+                                                <td><span th:text="${#numbers.formatDecimal(e.getCost(), 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;VND</td>
+<!--                                                <td class="text-center">
+                                                    <div class="dropdown action-label" th:switch="${e.getAdivsestatus()}">
+                                                        <i class="fa fa-dot-circle-o text-info" th:case="'0'"></i>
+                                                        <i class="fa fa-dot-circle-o text-danger" th:case="'1'"></i>
+
+                                                    </div>
+                                                </td>-->
+                                                <td class="text-center">
+                                                    <div class="dropdown dropdown-action">
+                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var active = localStorage.getItem('active');
+        var actives = active.substr(0, 11);
+        $('#leftsidebarMenu li a').removeClass('active');
+        $('#leftsidebarMenu li').removeClass('active');
+        $('#leftsidebarMenu li.' + actives).addClass('active');
+    });
+</script>
+

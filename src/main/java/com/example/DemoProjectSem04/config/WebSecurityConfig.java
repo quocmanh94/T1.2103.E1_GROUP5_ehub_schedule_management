@@ -21,23 +21,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  * @author Admin
  */
-
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-    
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setUserDetailsService(userDetailsService());
@@ -47,10 +46,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        
+        String[] staticResources = {
+            "/admin/assets/css/**",
+            "/admin/assets/js/**",
+            "/admin/assets/plugins/**",
+            "/admin/assets/img/**","/admin/assets/fonts/**",};
+
         http.csrf().disable()
-            .authorizeRequests()
+                .authorizeRequests()
                 .antMatchers("/aka/**").permitAll()
+                .antMatchers("/client/**").permitAll()
+                .antMatchers(staticResources).permitAll()
                 .antMatchers("/admin/dashboard").hasAnyAuthority("FUNCT00014")
                 .antMatchers("/admin/module").hasAnyAuthority("FUNCT00011")
                 .antMatchers("/admin/stafflist").hasAnyAuthority("FUNCT00002")
@@ -59,14 +65,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/admin/classes").hasAnyAuthority("FUNCT00004")
                 .antMatchers("/admin/workingschedule").hasAnyAuthority("FUNCT00026")
                 .antMatchers("/admin/index").hasAnyAuthority("FUNCT00023")
-//                .antMatchers("/pages/staffdashboard").hasAnyAuthority("FUNCT00009")
+                //                .antMatchers("/pages/staffdashboard").hasAnyAuthority("FUNCT00009")
                 .antMatchers("/admin/index").hasAnyAuthority("FUNCT00013")
                 .antMatchers("/admin/setting").hasAnyAuthority("FUNCT00017")
                 .antMatchers("/admin/staffdashboard").hasAnyAuthority("FUNCT00025")
                 .antMatchers("/admin/teacherdashboard").hasAnyAuthority("FUNCT00018")
-//                .antMatchers("/pages/teacherdashboard").hasAnyAuthority("FUNCT00027")
+                //                .antMatchers("/pages/teacherdashboard").hasAnyAuthority("FUNCT00027")
                 .antMatchers("/admin/studenttimetable").hasAnyAuthority("FUNCT00028")
                 .antMatchers("/admin/teachingDate").hasAnyAuthority("FUNCT00029")
+                .antMatchers("/admin/fee").hasAnyAuthority("FUNCT00031")
+//                .antMatchers("/admin/fee").hasAnyAuthority("FUNCT00030")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginProcessingUrl("/j_spring_security_check").loginPage("/admin/login").defaultSuccessUrl("/admin/rolepermission")
@@ -77,14 +85,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .logout().logoutUrl("/logout").permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/admin/403")
-                ;
+                .exceptionHandling().accessDeniedPage("/admin/403");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
-    
-    
+
 }

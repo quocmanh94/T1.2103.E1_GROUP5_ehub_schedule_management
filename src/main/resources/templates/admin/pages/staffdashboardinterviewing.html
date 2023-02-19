@@ -34,7 +34,7 @@
                                                         <li class="nav-item"><a class="nav-link " href="/pages/staffdashboardcourse">Course</a></li>-->
                             <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardstudent">Student</a></li>
                             <li class="nav-item"><a class="nav-link " href="/admin/staffdashboardclass">Class</a></li>
-                            <li class="nav-item"><a class="nav-link active" href="/admin/staffdashboardinterviewing">Interviewing</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="/admin/staffdashboardadvise">Advise</a></li>
                             <!--                            <li class="nav-item"><a class="nav-link" href="visited-jobs.html">Visitied </a></li>
                                                         <li class="nav-item"><a class="nav-link" href="archived-jobs.html">Archived </a></li>-->
                         </ul>
@@ -53,68 +53,34 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Job Title</th>
-                                                        <th>Department</th>
-                                                        <th class="text-center">Job Type</th>
-                                                        <th class="text-center">Aptitude Test</th>
-                                                        <th class="text-center">Schedule Interview</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <!--                                                                                                                <th class="text-center">Job Type</th>
+                                                                                                                                                                        <th class="text-center">Aptitude Test</th>-->
+                                                        <th class="text-center">Schedule Advise</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td><a href="#">Web Developer</a></td>
-                                                        <td>Development</td>
-                                                        <td class="text-center">
-                                                            <div class="action-label">
-                                                                <a class="btn btn-white btn-sm btn-rounded" href="#">
-                                                                    <i class="fa fa-dot-circle-o text-danger"></i> Full Time
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0);" class="btn btn-primary disabled"><span>Selected</span></a>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0);" class="btn btn-primary aptitude-btn" data-toggle="modal" data-target="#selectMyTime"><span>Select Your Time Here</span></a>
-                                                        </td>
+                                                    <tr th:each="e : ${adviseList}">
+                                                        <td th:text="${e.getAdviseid()}"></td>
+                                                        <td th:text="${e.getAdvisename()}"></td>
+                                                        <td th:text="${e.getAdviseemail()}"></td>
+<!--                                                                                                                <td class="text-center">
+                                                                                                                    <div class="action-label">
+                                                                                                                        <a class="btn btn-white btn-sm btn-rounded" href="#">
+                                                                                                                            <i class="fa fa-dot-circle-o text-danger"></i> Full Time
+                                                                                                                        </a>
+                                                                                                                    </div>
+                                                                                                                </td>
+                                                                                                                <td class="text-center">
+                                                                                                                    <a href="javascript:void(0);" class="btn btn-primary disabled"><span>Selected</span></a>
+                                                                                                                </td>-->
+                                                                                                                <td class="text-center">
+                                                                                                                    <a href="javascript:void(0);" class="btn btn-primary aptitude-btn" data-toggle="modal" data-target="#selectMyTime"><span>Select Your Time Here</span></a>
+                                                                                                                </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td><a href="#">Web Designing</a></td>
-                                                        <td>Development</td>
-                                                        <td class="text-center">
-                                                            <div class="action-label">
-                                                                <a class="btn btn-white btn-sm btn-rounded" href="#">
-                                                                    <i class="fa fa-dot-circle-o text-warning"></i> Part Time
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0);" class="btn btn-primary disabled"><span>Selected</span></a>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0);" class="btn btn-primary aptitude-btn" data-toggle="modal" data-target="#selectMyTime"><span>Select Your Time Here</span></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td><a href="#">Web Developer</a></td>
-                                                        <td>Development</td>
-                                                        <td class="text-center">
-                                                            <div class="action-label">
-                                                                <a class="btn btn-white btn-sm btn-rounded" href="#">
-                                                                    <i class="fa fa-dot-circle-o text-warning"></i> Part Time
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0);" class="btn btn-primary disabled"><span>Selected</span></a>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0);" class="btn btn-primary aptitude-btn" data-toggle="modal" data-target="#selectMyTime"><span>Select Your Time Here</span></a>
-                                                        </td>
-                                                    </tr>
+
+
                                                 </tbody>
                                             </table>
                                         </div>

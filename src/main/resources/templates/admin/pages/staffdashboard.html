@@ -35,7 +35,7 @@
                             <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardstudent">Student</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardclass">Class</a></li>
 
-                            <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardinterviewing">Interviewing</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardadvise">Advise</a></li>
                             <!--                            <li class="nav-item"><a class="nav-link" href="visited-jobs.html">Visitied </a></li>
                                                         <li class="nav-item"><a class="nav-link" href="archived-jobs.html">Archived </a></li>-->
                         </ul>
@@ -91,97 +91,31 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Phone</th>
                                                 <th>Email</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                                        <a href="profile.html">John Doe <span>Web Designer</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td><a href="job-details.html">Web Developer</a></td>
-                                                <td>Development</td>
+                                            <tr th:each="e : ${adviseList}">
+                                                <td th:text="${e.getAdviseid()}"></td>
+                                                <td th:text="${e.getAdvisename()}"></td>
+                                                <td th:text="${e.getAdviseemail()}"></td>
                                                 <td class="text-center">
-                                                    <div class="dropdown action-label">
-                                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-dot-circle-o text-danger"></i> Open
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                                        <a href="profile.html">Richard Miles <span>Web Developer</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td><a href="job-details.html">Web Designer</a></td>
-                                                <td>Designing</td>
-                                                <td class="text-center">
-                                                    <div class="dropdown action-label">
-                                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-dot-circle-o text-success"></i> Closed
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                                        <a href="profile.html">John Smith <span>Android Developer</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td><a href="job-details.html">Android Developer</a></td>
-                                                <td>Android</td>
-                                                <td class="text-center">
-                                                    <div class="dropdown action-label">
-                                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-dot-circle-o text-danger"></i> Cancelled
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
-                                                        </div>
+                                                    <div class="dropdown action-label" th:switch="${e.getAdivsestatus()}">
+                                                        <i class="fa fa-dot-circle-o text-info" th:case="'0'"></i>
+                                                        <!--                                                        <a class="btn btn-white btn-sm btn-rounded" th:case="'0'" href="#">
+                                                                                                                    
+                                                                                                                </a>-->
+                                                        <i class="fa fa-dot-circle-o text-danger" th:case="'1'"></i>
+                                                        <!--                                                        <a class="btn btn-white btn-sm btn-rounded" th:case="'1'" href="#">
+                                                                                                                    
+                                                                                                                </a>-->
+                                                        <!--                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                                                                    <a class="dropdown-item" href="#" ><i class="fa fa-dot-circle-o text-info"></i></a>
+                                                                                                                    <a class="dropdown-item" href="#" th:case="1"><i class="fa fa-dot-circle-o text-success"></i></a>
+                                                                                                                    <a class="dropdown-item" href="#" th:case="'1'"><i class="fa fa-dot-circle-o text-danger"></i></a>
+                                                                                                                </div>-->
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
@@ -222,102 +156,102 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                                        <a href="profile.html">John Doe <span>Web Designer</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td><a href="job-details.html">Web Developer</a></td>
-                                                <td>Development</td>
-                                                <td class="text-center">
-                                                    <div class="dropdown action-label">
-                                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-dot-circle-o text-danger"></i> Open
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                                        <a href="profile.html">Richard Miles <span>Web Developer</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td><a href="job-details.html">Web Designer</a></td>
-                                                <td>Designing</td>
-                                                <td class="text-center">
-                                                    <div class="dropdown action-label">
-                                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-dot-circle-o text-success"></i> Closed
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                                        <a href="profile.html">John Smith <span>Android Developer</span></a>
-                                                    </h2>
-                                                </td>
-                                                <td><a href="job-details.html">Android Developer</a></td>
-                                                <td>Android</td>
-                                                <td class="text-center">
-                                                    <div class="dropdown action-label">
-                                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-dot-circle-o text-danger"></i> Cancelled
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
-                                                            <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            <!--                                            <tr>
+                                                                                            <td>1</td>
+                                                                                            <td>
+                                                                                                <h2 class="table-avatar">
+                                                                                                    <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                                                                                                    <a href="profile.html">John Doe <span>Web Designer</span></a>
+                                                                                                </h2>
+                                                                                            </td>
+                                                                                            <td><a href="job-details.html">Web Developer</a></td>
+                                                                                            <td>Development</td>
+                                                                                            <td class="text-center">
+                                                                                                <div class="dropdown action-label">
+                                                                                                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                                                                                        <i class="fa fa-dot-circle-o text-danger"></i> Open
+                                                                                                    </a>
+                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <div class="dropdown dropdown-action">
+                                                                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>-->
+                                            <!--                                            <tr>
+                                                                                            <td>2</td>
+                                                                                            <td>
+                                                                                                <h2 class="table-avatar">
+                                                                                                    <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
+                                                                                                    <a href="profile.html">Richard Miles <span>Web Developer</span></a>
+                                                                                                </h2>
+                                                                                            </td>
+                                                                                            <td><a href="job-details.html">Web Designer</a></td>
+                                                                                            <td>Designing</td>
+                                                                                            <td class="text-center">
+                                                                                                <div class="dropdown action-label">
+                                                                                                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                                                                                        <i class="fa fa-dot-circle-o text-success"></i> Closed
+                                                                                                    </a>
+                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <div class="dropdown dropdown-action">
+                                                                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>-->
+                                            <!--                                            <tr>
+                                                                                            <td>3</td>
+                                                                                            <td>
+                                                                                                <h2 class="table-avatar">
+                                                                                                    <a href="profile.html" class="avatar"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
+                                                                                                    <a href="profile.html">John Smith <span>Android Developer</span></a>
+                                                                                                </h2>
+                                                                                            </td>
+                                                                                            <td><a href="job-details.html">Android Developer</a></td>
+                                                                                            <td>Android</td>
+                                                                                            <td class="text-center">
+                                                                                                <div class="dropdown action-label">
+                                                                                                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                                                                                        <i class="fa fa-dot-circle-o text-danger"></i> Cancelled
+                                                                                                    </a>
+                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Open</a>
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Closed</a>
+                                                                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Cancelled</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td class="text-center">
+                                                                                                <div class="dropdown dropdown-action">
+                                                                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#edit_job"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#delete_job"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>-->
                                         </tbody>
                                     </table>
                                 </div>

@@ -12,6 +12,7 @@ import com.example.DemoProjectSem04.DTO.Tbfunctiondto;
 import com.example.DemoProjectSem04.DTO.Tbstudyingdatedto;
 import com.example.DemoProjectSem04.DTO.tbTeachingDatedto;
 import com.example.DemoProjectSem04.entities.*;
+import com.example.DemoProjectSem04.interfaces.tbFeeService;
 import com.example.DemoProjectSem04.repositories.tbModuleLectureService;
 import com.example.DemoProjectSem04.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,12 @@ public class AdminPageController {
     @Autowired
     tbModuleLectureService moduleLectureService;
 
+    @Autowired
+    tbAdviseService adviseService;
+    
+    @Autowired
+    tbFeeService feeService;
+    
     @RequestMapping({"/rolepermission", "/"})
     public String rolepermissionPage(Model model) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -110,7 +117,7 @@ public class AdminPageController {
         Tbuser tbu = userService.findUserByEmail(uEmail);
         if (tbu.getPermision().getPgcode().equals("PG00000005")) {
             model.addAttribute("userLogin", user.getUsername());
-            return "redirect:/admin/dashboard";
+            return "redirect:/admin/module";
         } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
             return "redirect:/admin/staffdashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
@@ -146,8 +153,10 @@ public class AdminPageController {
     public String staffdashboard(Model model) {
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
-//        model.addAttribute("userLogin", user.getUsername());
-
+        
+        List<Tbadvise> adviseList = adviseService.getAllAdvise();
+        model.addAttribute("adviseList", adviseList);
+        
         return "admin/pages/staffdashboard";
     }
 
@@ -242,12 +251,13 @@ public class AdminPageController {
         return "admin/pages/staffdashboardstudent";
     }
 
-    @RequestMapping({"/staffdashboardinterviewing"})
+    @RequestMapping({"/staffdashboardadvise"})
     public String staffdashboardinterviewing(Model model) {
 //        SecurityContext securityContext = SecurityContextHolder.getContext();
 //        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
 //        model.addAttribute("userLogin", user.getUsername());
-
+        List<Tbadvise> adviseList = adviseService.getAllAdvise();
+        model.addAttribute("adviseList", adviseList);
         return "admin/pages/staffdashboardinterviewing";
     }
 
@@ -255,7 +265,14 @@ public class AdminPageController {
     public String clientsPage(Model model) {
         return "admin/pages/clients";
     }
-
+    
+    @RequestMapping({"/fee"})
+    public String feePage(Model model) {
+        List<Tbfee> tbfeesList = feeService.getAllFee();
+        model.addAttribute("tbfeesList", tbfeesList);
+        return "admin/pages/fee";
+    }
+    
     @RequestMapping({"/setting"})
     public String settingPage(Model model, @ModelAttribute("messageResult") String messageResult) {
 

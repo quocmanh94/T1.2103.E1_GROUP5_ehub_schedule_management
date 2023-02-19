@@ -19,7 +19,7 @@
                         <!--<h3 class="page-title">Staff</h3>-->
                         <ul class="breadcrumb" style="font-size: 18px">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Staff</li>
+                            <li class="breadcrumb-item active">Teacher</li>
                         </ul>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3"> 
-                        <div class="form-group form-focus select-focus">
+<!--                        <div class="form-group form-focus select-focus">
                             <select class="select floating" id="sltPosition"> 
                                 <option value="">Select Position</option>
                                 <option value="PG00000001">Advise</option>
@@ -48,7 +48,7 @@
                                 <option value="PG00000008">Training</option>
                             </select>
                             <label class="focus-label">Position</label>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="col-sm-6 col-md-3">  
                         <a href="#" class="btn btn-success btn-block"> Search </a>  
@@ -60,7 +60,7 @@
                 <!-- Search Filter -->
 
                 <div class="row staff-grid-row" id="listStaff">
-                    
+
                 </div>
             </div>
             <!-- /Page Content -->
@@ -245,12 +245,11 @@
             success: function (result) {
                 $('#listStaff').empty();
                 var row = "";
-
                 $.each(result, function (index, value) {
 
                     row = "<div class=\"col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3\">\n\
-                        <div class=\"profile-widget\">\n\
-                            <div class=\"profile-img\">";
+                    <div class=\"profile-widget\">\n\
+<div class=\"profile-img\">";
                     if (value.image !== null) {
                         row += "<a href=\"#\" class=\"avatar\"><img width=\"80px\" height=\"80px\" src=" + value.image + "\"/admin/assets/img\" alt=\"\"/></a>";
                     } else {
@@ -258,34 +257,17 @@
                     }
 
                     row += "</div>\n\
-                            <div class=\"dropdown profile-action\">\n\
-                                <a href=\"#\" class=\"action-icon dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"material-icons\">more_vert</i></a>\n\
-                                <div class=\"dropdown-menu dropdown-menu-right\">\n\
-                                    <a class=\"dropdown-item\" href=\#\" onclick=\"loadStaffDetails('" + value.code + "')\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>\n\
-                                    <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#delete_employee\"><i class=\"fa fa-trash-o m-r-5\"></i> Delete</a>\n\
-                                </div>\n\
-                            </div>\n\
-                            <h4 class=\"user-name m-t-10 mb-0 text-ellipsis\"><a href=\"#\">" + value.name + "</a></h4>\n\
-                            <!--<div class=\"small text-muted\">" + value.typestaffname + "</div>-->\n\
-                        </div>\n\
-                    </div>";
-
-//                    row = "<div class=\"col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3\">\n\
-//                        <div class=\"profile-widget\">\n\
-//                            <div class=\"profile-img\">\n\
-//                                <a href=\"profile.html\" class=\"avatar\"><img src=\"/pages/assets/img/profiles/avatar-02.jpg\" alt=\"\"/></a>\n\
-//                            </div>\n\
-//                            <div class=\"dropdown profile-action\">\n\
-//                                <a href=\"#\" class=\"action-icon dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"material-icons\">more_vert</i></a>\n\
-//                                <div class=\"dropdown-menu dropdown-menu-right\">\n\
-//                                    <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#edit_employee\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>\n\
-//                                    <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#delete_employee\"><i class=\"fa fa-trash-o m-r-5\"></i> Delete</a>\n\
-//                                </div>\n\
-//                            </div>\n\
-//                            <h4 class=\"user-name m-t-10 mb-0 text-ellipsis\"><a href=\"profile.html\">" + value.staffname + "</a></h4>\n\
-//                            <div class=\"small text-muted\">Web Designer</div>\n\
-//                        </div>\n\
-//                    </div>";
+<div class=\"dropdown profile-action\">\n\
+    <a href=\"#\" class=\"action-icon dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"material-icons\">more_vert</i></a>\n\
+    <div class=\"dropdown-menu dropdown-menu-right\">\n\
+        <a class=\"dropdown-item\" href=\#\" onclick=\"loadStaffDetails('" + value.code + "')\"><i class=\"fa fa-pencil m-r-5\"></i> Edit</a>\n\
+        <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#delete_employee\"><i class=\"fa fa-trash-o m-r-5\"></i> Delete</a>\n\
+    </div>\n\
+</div>\n\
+<h4 class=\"user-name m-t-10 mb-0 text-ellipsis\"><a href=\"#\">" + value.name + "</a></h4>\n\
+<!--<div class=\"small text-muted\">" + value.typestaffname + "</div>-->\n\
+</div>\n\
+</div>";
 
                     $("#listStaff").append(row);
                 });

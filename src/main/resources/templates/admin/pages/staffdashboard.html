@@ -35,7 +35,7 @@
                             <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardstudent">Student</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardclass">Class</a></li>
 
-                            <li class="nav-item"><a class="nav-link" href="/admin/staffdashboardadvise">Advise</a></li>
+                            <!--<li class="nav-item"><a class="nav-link" href="/admin/staffdashboardadvise">Advise</a></li>-->
                             <!--                            <li class="nav-item"><a class="nav-link" href="visited-jobs.html">Visitied </a></li>
                                                         <li class="nav-item"><a class="nav-link" href="archived-jobs.html">Archived </a></li>-->
                         </ul>
@@ -48,7 +48,7 @@
                             <div class="card-body">
                                 <span class="dash-widget-icon"><i class="fa fa-briefcase"></i></span>
                                 <div class="dash-widget-info">
-                                    <h3>110</h3>
+                                    <h3><span th:text="${listsize}"></span></h3>
                                     <span>Advised - Student</span>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             <div class="card-body">
                                 <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
                                 <div class="dash-widget-info">
-                                    <h3>40</h3>
+                                    <h3><span th:text="${classOpening}"></span></h3>
                                     <span>Opening - Class</span>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                             <div class="card-body">
                                 <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
                                 <div class="dash-widget-info">
-                                    <h3>374</h3>
+                                    <h3><span th:text="${classProcessing}"></span></h3>
                                     <span>In Progress - Class</span>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+<!--                <div class="row">
                     <div class="col-md-12">
                         <div class="card card-table">
                             <div class="card-header">
@@ -156,7 +156,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!--                                            <tr>
+                                                                                        <tr>
                                                                                             <td>1</td>
                                                                                             <td>
                                                                                                 <h2 class="table-avatar">
@@ -187,8 +187,8 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </td>
-                                                                                        </tr>-->
-                                            <!--                                            <tr>
+                                                                                        </tr>
+                                                                                        <tr>
                                                                                             <td>2</td>
                                                                                             <td>
                                                                                                 <h2 class="table-avatar">
@@ -219,8 +219,8 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </td>
-                                                                                        </tr>-->
-                                            <!--                                            <tr>
+                                                                                        </tr>
+                                                                                        <tr>
                                                                                             <td>3</td>
                                                                                             <td>
                                                                                                 <h2 class="table-avatar">
@@ -251,15 +251,54 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </td>
-                                                                                        </tr>-->
+                                                                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
+            
+<!--            <div id="edit_department" class="modal custom-modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Center</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/admin/setting/update}" th:object="${center}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Center Code <span class="text-danger">*</span></label>
+                                    <input id="centercodes" class="form-control" value="" type="text" th:field="*{centercode}" readonly="true">
+                                </div>
+                                <div class="form-group">
+                                    <label>Center Name <span class="text-danger">*</span></label>
+                                    <input id="centernames" class="form-control" value="" th:field="*{centername}" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label>Center Phone <span class="text-danger">*</span></label>
+                                    <input id="centerphones" class="form-control" value="" th:field="*{centerphone}" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label>Center Address <span class="text-danger">*</span></label>
+                                    <textarea id="centeraddresss" class="form-control" th:field="*{centeraddress}"></textarea>
+                                </div>
+                                <input hidden="true" id="centernotes" class="form-control" value="" th:field="*{centernote}" type="text"> 
+                                    <input hidden="true" id="centerdefaults" class="form-control" th:field="*{centerdefault}" type="number"/>
+                                    <input hidden="true" id="isdeletes" class="form-control" th:field="*{isdelete}" type="number"/>
+                                    <div class="submit-section">
+                                        <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
             <!-- /Page Content -->
         </div>
     </body>

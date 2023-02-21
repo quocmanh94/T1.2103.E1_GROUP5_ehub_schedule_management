@@ -31,6 +31,7 @@
     <class>com.example.DemoProjectSem04.entities.Tbmodulelecture</class>
     <class>com.example.DemoProjectSem04.entities.Tbadvise</class>
     <class>com.example.DemoProjectSem04.entities.Tbfee</class>
+    <class>com.example.DemoProjectSem04.entities.Tbnotifications</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=eProjectSem04Test"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

@@ -43,9 +43,14 @@
         $('#idcenterDlt').val(id);
         $('#delete_department').modal("show");
     }
-
+    
     $('#leftsidebarMenuSetting li').on('click', function () {
         localStorage.setItem('active', this.className);
     });
+    
+    var localstore = "[[${localstore}]]";
+    if (localstore !== null && localstore !== "") {
+        localStorage.setItem('active', localstore);
+    }
 
 </script>

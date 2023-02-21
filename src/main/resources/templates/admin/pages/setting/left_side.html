@@ -4,22 +4,22 @@
         <div class="sidebar-menu">
             <ul id="leftsidebarMenuSetting">
                 <li> 
-                    <a href="/admin/dashboard/"><i class="la la-home"></i> <span>Back to Home</span></a>
+                    <a href="/admin/module"><i class="la la-home"></i> <span>Back to Home</span></a>
                 </li>
-                <li class="menu-title">Settings</li>
-                <li class="active abc"> 
+                <li class="menu-title" sec:authorize='hasAnyAuthority("FUNCT00016")'>Settings</li>
+                <li class="active abc" sec:authorize='hasAnyAuthority("FUNCT00011")'> 
                     <a href="/admin/setting"><i class="la la-building"></i> <span>Center Settings</span></a>
                 </li>
-                <li class="activehome4" sec:authorize='hasAnyAuthority("FUNCT00as")'>
+                <li class="activehome4" sec:authorize='hasAnyAuthority("FUNCT00012")'>
                     <a href="/admin/classrooms"><i class="la la-windows"></i> <span>Classrooms</span></a>
                 </li>
-                <li class="activehome5" sec:authorize='hasAnyAuthority("FUNCT00015")'>
+                <li class="activehome5" sec:authorize='hasAnyAuthority("FUNCT00013")'>
                     <a href="/admin/timestudying"><i class="la la-clock"></i> <span>Time Studying</span></a>
                 </li>
-                <li class="activehome6" sec:authorize='hasAnyAuthority("FUNCT00004")'>
+                <li class="activehome6" sec:authorize='hasAnyAuthority("FUNCT00014")'>
                     <a href="/admin/day"><i class="la la-calendar-week"></i> <span>Days</span></a>
                 </li>
-                <li class="active3"> 
+                <li class="active3" sec:authorize='hasAnyAuthority("FUNCT00015")'> 
                     <a href="/admin/role-permision"><i class="la la-key"></i> <span>Positions & Permissions</span></a>
                 </li>
             </ul>

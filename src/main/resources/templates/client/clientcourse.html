@@ -83,7 +83,7 @@
                     <div class="container">
                         <div class="main-content-wrapper clearfix">
                             <!-- Logo -->
-                            <div class="logo float-left"><a href="index.html"><img src="images/logo/logo.png" alt="Logo"></a></div>
+                            <div class="logo float-left"><a href="index.html"><img src="/admin/assets/img/Ehub-logos_transparent.png" width="100" height="100" alt="Logo"></a></div>
 
                             <!-- ============================ Theme Menu ========================= -->
                             <nav class="theme-main-menu navbar float-right" id="mega-menu-wrapper">
@@ -165,7 +165,13 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-6 col-xs-12" th:each="e : ${fee}">
                             <div class="single-course-block">
-                                <div class="image"><img src="images/course/englishforchildren.png" alt=""></div>
+                                <div class="image" th:switch="${e.getClassblock()}">
+                                    <img th:case="'KL00000001'" src="images/course/englishforchildren.png" alt=""/>
+                                    <img th:case="'KL00000002'" src="images/course/englishforteen.png" alt=""/>
+                                    <img th:case="'KL00000003'" src="images/course/englishforworker.png" alt=""/>
+                                    <img th:case="'KL00000004'" src="images/course/englishforworker.png" alt=""/>
+                                    <img th:case="'KL00000005'" src="images/course/ielts.png" alt=""/>
+                                </div>
                                 <form action="/client/registercourse" method="post">
                                     <div class="text-box">
 
@@ -189,120 +195,120 @@
                                 </form>
                             </div> <!-- /.single-course-block -->
                         </div> <!-- /.col- -->
-<!--                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="single-course-block">
-                                <div class="image"><img src="images/course/englishforteen.png" alt=""></div>
-                                <form action="/client/registercourse" method="post">
-                                    <div class="text-box">
-
-                                        <h5>
-                                            <input type="hidden" id="ids" name="ids" value="KL00000002"/>
-                                            <input type="hidden" id="name" name="name" value="English For Teen"/>
-                                            <i class="flaticon-bulb"></i><a href="course-details.html">English For Teen</a>
-                                        </h5>
-                                        <p></p>
-                                        <ul class="clearfix">
-                                            <li><i class="flaticon-hat"></i></li>
-                                            <li>
-                                                <img src="images/course/5.jpg" alt="">
-                                            </li>
-                                            <li>$65</li>
-                                        </ul>
-                                        <h6>
-                                            Mahfuz Riad
-                                        </h6>
-                                        <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
-
-                                    </div>  /.text-box 
-                                </form>
-                            </div>  /.single-course-block 
-                        </div>  /.col- -->
-<!--                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="single-course-block">
-                                <div class="image"><img src="images/course/englishforworker.png" alt=""></div>
-                                <form action="/client/registercourse" method="post">
-                                    <div class="text-box">
-
-                                        <h5>
-                                            <input type="hidden" id="ids" name="ids" value="KL00000003"/>
-                                            <input type="hidden" id="name" name="name" value="English For Student"/>
-                                            <i class="flaticon-book2"></i><a href="course-details.html">English For Student</a>
-                                        </h5>
-                                        <p></p>
-                                        <ul class="clearfix">
-                                            <li><i class="flaticon-flash"></i></li>
-                                            <li>
-                                                <img src="images/course/6.jpg" alt="">
-                                            </li>
-                                            <li>Free</li>
-                                        </ul>
-                                        <h6>
-                                            Je Faria
-                                        </h6>
-                                        <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
-
-
-                                    </div>  /.text-box 
-                                </form>
-                            </div>  /.single-course-block 
-                        </div>-->
-<!--                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="single-course-block">
-                                <div class="image"><img src="images/course/englishforworker.png" alt=""></div>
-                                <form action="/client/registercourse" method="post">
-                                    <div class="text-box">
-
-                                        <h5>
-                                            <input type="hidden" id="ids" name="ids" value="KL00000004"/>
-                                            <input type="hidden" id="name" name="name" value="English For Worker"/>
-                                            <i class="flaticon-book2"></i><a href="course-details.html">English For Worker</a>
-                                        </h5>
-                                        <p></p>
-                                        <ul class="clearfix">
-                                            <li><i class="flaticon-flash"></i></li>
-                                            <li>
-                                                <img src="images/course/6.jpg" alt="">
-                                            </li>
-                                            <li>Free</li>
-                                        </ul>
-                                        <h6>
-                                            Je Faria
-                                        </h6>
-                                        <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
-
-                                    </div>  /.text-box 
-                                </form>
-                            </div>  /.single-course-block 
-                        </div>-->
-<!--                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="single-course-block">
-                                <div class="image"><img src="images/course/ielts.png" alt=""></div>
-                                <form action="/client/registercourse" method="post">
-                                    <div class="text-box">
-
-                                        <h5>
-                                            <input type="hidden" id="ids" name="ids" value="KL00000005"/>
-                                            <input type="hidden" id="name" name="name" value="IELTS"/>
-                                            <i class="flaticon-book2"></i><a href="course-details.html">IELTS</a>
-                                        </h5>
-                                        <p></p>
-                                        <ul class="clearfix">
-                                            <li><i class="flaticon-flash"></i></li>
-                                            <li>
-                                                <img src="images/course/6.jpg" alt="">
-                                            </li>
-                                            <li>Free</li>
-                                        </ul>
-                                        <h6>
-                                            Je Faria
-                                        </h6>
-
-                                        <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
-
-                                    </div>  /.text-box 
-                                </form>
-                            </div>  /.single-course-block 
-                        </div>-->
+                        <!--                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="single-course-block">
+                                                        <div class="image"><img src="images/course/englishforteen.png" alt=""></div>
+                                                        <form action="/client/registercourse" method="post">
+                                                            <div class="text-box">
+                        
+                                                                <h5>
+                                                                    <input type="hidden" id="ids" name="ids" value="KL00000002"/>
+                                                                    <input type="hidden" id="name" name="name" value="English For Teen"/>
+                                                                    <i class="flaticon-bulb"></i><a href="course-details.html">English For Teen</a>
+                                                                </h5>
+                                                                <p></p>
+                                                                <ul class="clearfix">
+                                                                    <li><i class="flaticon-hat"></i></li>
+                                                                    <li>
+                                                                        <img src="images/course/5.jpg" alt="">
+                                                                    </li>
+                                                                    <li>$65</li>
+                                                                </ul>
+                                                                <h6>
+                                                                    Mahfuz Riad
+                                                                </h6>
+                                                                <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
+                        
+                                                            </div>  /.text-box 
+                                                        </form>
+                                                    </div>  /.single-course-block 
+                                                </div>  /.col- -->
+                        <!--                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="single-course-block">
+                                                        <div class="image"><img src="images/course/englishforworker.png" alt=""></div>
+                                                        <form action="/client/registercourse" method="post">
+                                                            <div class="text-box">
+                        
+                                                                <h5>
+                                                                    <input type="hidden" id="ids" name="ids" value="KL00000003"/>
+                                                                    <input type="hidden" id="name" name="name" value="English For Student"/>
+                                                                    <i class="flaticon-book2"></i><a href="course-details.html">English For Student</a>
+                                                                </h5>
+                                                                <p></p>
+                                                                <ul class="clearfix">
+                                                                    <li><i class="flaticon-flash"></i></li>
+                                                                    <li>
+                                                                        <img src="images/course/6.jpg" alt="">
+                                                                    </li>
+                                                                    <li>Free</li>
+                                                                </ul>
+                                                                <h6>
+                                                                    Je Faria
+                                                                </h6>
+                                                                <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
+                        
+                        
+                                                            </div>  /.text-box 
+                                                        </form>
+                                                    </div>  /.single-course-block 
+                                                </div>-->
+                        <!--                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="single-course-block">
+                                                        <div class="image"><img src="images/course/englishforworker.png" alt=""></div>
+                                                        <form action="/client/registercourse" method="post">
+                                                            <div class="text-box">
+                        
+                                                                <h5>
+                                                                    <input type="hidden" id="ids" name="ids" value="KL00000004"/>
+                                                                    <input type="hidden" id="name" name="name" value="English For Worker"/>
+                                                                    <i class="flaticon-book2"></i><a href="course-details.html">English For Worker</a>
+                                                                </h5>
+                                                                <p></p>
+                                                                <ul class="clearfix">
+                                                                    <li><i class="flaticon-flash"></i></li>
+                                                                    <li>
+                                                                        <img src="images/course/6.jpg" alt="">
+                                                                    </li>
+                                                                    <li>Free</li>
+                                                                </ul>
+                                                                <h6>
+                                                                    Je Faria
+                                                                </h6>
+                                                                <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
+                        
+                                                            </div>  /.text-box 
+                                                        </form>
+                                                    </div>  /.single-course-block 
+                                                </div>-->
+                        <!--                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="single-course-block">
+                                                        <div class="image"><img src="images/course/ielts.png" alt=""></div>
+                                                        <form action="/client/registercourse" method="post">
+                                                            <div class="text-box">
+                        
+                                                                <h5>
+                                                                    <input type="hidden" id="ids" name="ids" value="KL00000005"/>
+                                                                    <input type="hidden" id="name" name="name" value="IELTS"/>
+                                                                    <i class="flaticon-book2"></i><a href="course-details.html">IELTS</a>
+                                                                </h5>
+                                                                <p></p>
+                                                                <ul class="clearfix">
+                                                                    <li><i class="flaticon-flash"></i></li>
+                                                                    <li>
+                                                                        <img src="images/course/6.jpg" alt="">
+                                                                    </li>
+                                                                    <li>Free</li>
+                                                                </ul>
+                                                                <h6>
+                                                                    Je Faria
+                                                                </h6>
+                        
+                                                                <button type="submit" style="margin-left: auto;margin: auto" class="wow fadeInUp animated theme-line-button" data-wow-delay="0.1s">Register For Advise</button>
+                        
+                                                            </div>  /.text-box 
+                                                        </form>
+                                                    </div>  /.single-course-block 
+                                                </div>-->
                     </div> <!-- /.row -->
                     <!--					<div class="text-center show-more"><a href="#" class="wow fadeInUp animated theme-solid-button theme-button">Show More Courses</a></div>-->
                 </div> <!-- /.container -->
@@ -319,7 +325,7 @@
                     <h5 class="float-left">Sign up for Subscribe Newsletter</h5>
                     <form action="#" class="float-right">
                         <input type="email" placeholder="Your Email">
-                        <button class="theme-solid-button theme-button">Submit</button>
+                            <button class="theme-solid-button theme-button">Submit</button>
                     </form>
                 </div> <!-- /.container -->
             </div> <!-- /.newsletter-banner -->

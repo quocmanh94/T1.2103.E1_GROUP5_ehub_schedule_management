@@ -5,6 +5,7 @@
  */
 package com.example.DemoProjectSem04.controller;
 
+import com.example.DemoProjectSem04.DTO.Tbclassdto;
 import com.example.DemoProjectSem04.DTO.Tbclassstaffpagedto;
 import com.example.DemoProjectSem04.DTO.Tbcoursedto;
 import com.example.DemoProjectSem04.DTO.Tbfunctionandpositiondto;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -117,10 +119,13 @@ public class AdminPageController {
         Tbuser tbu = userService.findUserByEmail(uEmail);
         if (tbu.getPermision().getPgcode().equals("PG00000005")) {
             model.addAttribute("userLogin", user.getUsername());
+            model.addAttribute("localstore", "activehome1");
             return "redirect:/admin/module";
         } else if (tbu.getPermision().getPgcode().equals("PG00000001")) {
+            model.addAttribute("localstore", "activehome6");
             return "redirect:/admin/staffdashboard";
         } else if (tbu.getPermision().getPgcode().equals("PG00000004")) {
+            model.addAttribute("localstore", "activehome9");
             return "redirect:/admin/teachingDate";
         } else {
             model.addAttribute("userLogin", user.getUsername());
@@ -151,12 +156,61 @@ public class AdminPageController {
 
     @RequestMapping({"/staffdashboard"})
     public String staffdashboard(Model model) {
-//        SecurityContext securityContext = SecurityContextHolder.getContext();
-//        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
         
         List<Tbadvise> adviseList = adviseService.getAllAdvise();
         model.addAttribute("adviseList", adviseList);
-        
+        int classprogressing = 0;
+        int classopen = 0;
+        List<Tbclass> classList = classService.getClassesStillWorking();
+        List<Tbclassdto> classDTOList = new ArrayList<>();
+        for (Tbclass dt : classList) {
+            Tbcourseclass dtcl = courseClassService.getCourseClassByClassCode(dt.getClasscode());
+            Tbcourse dtc = courseService.findCourseByCode(dtcl.getTbcourseclassPK().getCoursecode());
+            List<Tbclassschedule> dtlClassSchedule = classScheduleService.getListClassScheduleByClassCode(dt.getClasscode());
+            Format formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String coursetime = formatter.format(dtcl.getStartDate()) + " - " + formatter.format(dtcl.getEndDate());
+            Tbclassdto classDTO = new Tbclassdto();
+            classDTO.setClasscode(dt.getClasscode());
+            classDTO.setClassname(dt.getClassname());
+            classDTO.setCoursecode(dtc.getCoursecode());
+            classDTO.setCoursename(dtc.getCoursename());
+            classDTO.setCoursetime(coursetime);
+            int k = dtlClassSchedule.size();
+            int a = 1;
+            String roomname = "";
+            for (Tbclassschedule cs : dtlClassSchedule) {
+                if (a != k) {
+                    roomname = ", " + cs.getRoom() + " - Date: " + cs.getDayofweek();
+                } else {
+                    roomname = cs.getRoom() + " - Date: " + cs.getDayofweek();
+                }
+                a++;
+            }
+            classDTO.setClassroomname(roomname);
+            Date date = new Date();
+
+            int result2 = dtcl.getStartDate().compareTo(date);
+            int result3 = dtcl.getEndDate().compareTo(date);
+            
+            String trangthailop = "";
+
+            if (result2 > 0 && result3 > 0) {
+                trangthailop = "Opening";
+                classopen = classopen + 1;
+            } else if (result2 <= 0 && result3 >= 0) {
+                trangthailop = "In Processing";
+                classprogressing = classprogressing + 1;
+            } else if (result2 < 0 && result3 < 0) {
+                trangthailop = "Finished";
+            }
+
+            classDTO.setClassstatus(trangthailop);
+            classDTOList.add(classDTO);
+        }
+        List<Tbadvise> tbadvisesList = adviseService.getAllAdvise();
+        model.addAttribute("listsize", tbadvisesList.size());
+        model.addAttribute("classOpening", classopen);
+        model.addAttribute("classProcessing", classprogressing);
         return "admin/pages/staffdashboard";
     }
 

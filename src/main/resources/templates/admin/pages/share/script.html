@@ -26,7 +26,13 @@
 <script src="/admin/assets/js/app.js"></script>
 
 <script type="text/javascript">
+    var localstore = "[[${localstore}]]";
+    
     $('#leftsidebarMenu li').on('click', function () {
         localStorage.setItem('active', this.className);
     });
+    
+    if (localstore !== null && localstore !== "") {
+        localStorage.setItem('active', localstore);
+    }
 </script>

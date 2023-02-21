@@ -43,6 +43,7 @@ import java.util.List;
 
 import static com.example.DemoProjectSem04.utils.PasswordGenerator.encryptPassword;
 import com.example.DemoProjectSem04.utils.Utility;
+import com.example.DemoProjectSem04.websocketconfig.NotificationServices;
 import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
@@ -118,7 +119,22 @@ public class HomeController {
     public String login() {
         return "admin/login";
     }
-
+    
+    @Autowired
+    NotificationServices notificationServices;
+    
+    @RequestMapping(value = "/index2", method = RequestMethod.GET)
+    public String index2(Model model) {
+        List<Tbnotifications> noti = notificationServices.findNotificationsTrue();
+        String count = "0";
+        if (noti != null && noti.size() > 0) {
+            count = String.valueOf(noti.size());
+        }
+        model.addAttribute("count", count);
+        model.addAttribute("noti", noti);
+        return "admin/pages/index2";
+    }
+    
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         boolean isSecure = false;

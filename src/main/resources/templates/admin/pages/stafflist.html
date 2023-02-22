@@ -251,7 +251,7 @@
                     <div class=\"profile-widget\">\n\
 <div class=\"profile-img\">";
                     if (value.image !== null) {
-                        row += "<a href=\"#\" class=\"avatar\"><img width=\"80px\" height=\"80px\" src=" + value.image + "\"/admin/assets/img\" alt=\"\"/></a>";
+                        row += "<a href=\"#\" class=\"avatar\"><img width=\"80px\" height=\"80px\" src=\"/admin/assets/img/" + value.image + "\" alt=\"\"/></a>";
                     } else {
                         row += "<a href=\"#\" class=\"avatar\"><img width=\"80px\" height=\"80px\" src=\"/admin/assets/img/user.jpg\" alt=\"\"/></a>";
                     }
@@ -264,7 +264,7 @@
         <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#delete_employee\"><i class=\"fa fa-trash-o m-r-5\"></i> Delete</a>\n\
     </div>\n\
 </div>\n\
-<h4 class=\"user-name m-t-10 mb-0 text-ellipsis\"><a href=\"#\">" + value.name + "</a></h4>\n\
+<h4 class=\"user-name m-t-10 mb-0 text-ellipsis\"><a href=\"/admin/teachingDateDetails/" + value.code + "\">" + value.name + "</a></h4>\n\
 <!--<div class=\"small text-muted\">" + value.typestaffname + "</div>-->\n\
 </div>\n\
 </div>";

@@ -92,6 +92,8 @@
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Course</th>
+                                                <th>Description</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -101,6 +103,8 @@
                                                 <td th:text="${e.getAdviseid()}"></td>
                                                 <td th:text="${e.getAdvisename()}"></td>
                                                 <td th:text="${e.getAdviseemail()}"></td>
+                                                <td th:text="${e.getAdvisecoursename()}"></td>
+                                                <td th:text="${e.getAdvisecontent()}"></td>
                                                 <td class="text-center">
                                                     <div class="dropdown action-label" th:switch="${e.getAdivsestatus()}">
                                                         <i class="fa fa-dot-circle-o text-info" th:case="'0'"></i>

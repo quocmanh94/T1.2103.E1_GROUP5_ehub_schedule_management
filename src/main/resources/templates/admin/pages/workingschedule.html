@@ -423,9 +423,9 @@
                 $.each(result, function (index, value) {
                     tbody = "<tr>";
                     if(value.staffimg === null){
-                        tbody += "<td><h2 class=\"table-avatar\"><a href=\"profile.html\" class=\"avatar\"><img alt=\"\" src=\"/admin/assets/img/user.jpg\"/></a><a href=\"profile.html\">" + value.staffname + "</a></h2></td>";
+                        tbody += "<td><h2 class=\"table-avatar\"><a href=\"#\" class=\"avatar\"><img alt=\"\" src=\"/admin/assets/img/user.jpg\"/></a><a href=\"/admin/teachingDateDetails/" + value.staffcode + "\">" + value.staffname + "</a></h2></td>";
                     }else{
-                        tbody += "<td><h2 class=\"table-avatar\"><a href=\"profile.html\" class=\"avatar\"><img alt=\"\" src=" + value.staffimg + "\"/admin/assets/img\"/></a><a href=\"profile.html\">" + value.staffname + "</a></h2></td>";
+                        tbody += "<td><h2 class=\"table-avatar\"><a href=\"#\" class=\"avatar\"><img alt=\"\" src=" + value.staffimg + "\"/admin/assets/img\"/></a><a href=\"/admin/teachingDateDetails/" + value.staffcode + "\">" + value.staffname + "</a></h2></td>";
                     }
 
                     var fromdate = new Date(yearF + "-" + monthF + "-" + dayF);

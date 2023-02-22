@@ -16,6 +16,6 @@ import org.springframework.data.jpa.repository.Query;
  * @author Admin
  */
 public interface tbWorkingScheduleRepository extends JpaRepository<Tbworkingschedule, Integer> {
-    @Query("SELECT t FROM Tbworkingschedule t WHERE t.staffcode = :staffcode order by t.workingday")
+    @Query("SELECT t FROM Tbworkingschedule t WHERE t.staffcode = :staffcode and t.completed = 0 order by t.workingday")
     public List<Tbworkingschedule> getWorkingDateByUserCode(@Param("staffcode") String staffcode);
 }

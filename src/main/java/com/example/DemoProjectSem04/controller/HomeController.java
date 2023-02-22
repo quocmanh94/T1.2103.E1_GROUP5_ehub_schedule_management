@@ -160,7 +160,7 @@ public class HomeController {
         }
         return "admin/login";
     }
-
+    
     @RequestMapping({"/users"})
     public String usersPage(Model model, @ModelAttribute("messageResult") String messageResult) {
         if (messageResult.equals("")) {
@@ -209,9 +209,9 @@ public class HomeController {
             String roomname = "";
             for (Tbclassschedule cs : dtlClassSchedule) {
                 if (a != k) {
-                    roomname = ", " + cs.getRoom() + " - Date: " + cs.getDayofweek();
+                    roomname += cs.getRoom() + " - Date: " + cs.getDayofweek();
                 } else {
-                    roomname = cs.getRoom() + " - Date: " + cs.getDayofweek();
+                    roomname += " & " + cs.getRoom() + " - Date: " + cs.getDayofweek();
                 }
                 a++;
             }

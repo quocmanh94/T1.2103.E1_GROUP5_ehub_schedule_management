@@ -724,7 +724,40 @@ public class AdminPageController {
         String sadassdasd = "STAFF00004";
         Tbstaff t = staffService.findStaffByEmail(uEmail);
         List<tbTeachingDatedto> listTeaching = new ArrayList<>();
-        List<Tbworkingschedule> tbworkingschedulesList = workingScheduleService.getWorkingDateByStaffCode(sadassdasd);
+        List<Tbworkingschedule> tbworkingschedulesList = workingScheduleService.getWorkingDateByStaffCode(t.getStaffcode());
+        for(Tbworkingschedule w:tbworkingschedulesList){
+            Tbclasstime tbclasstime = classTimeService.getCLassTimeByCode(w.getClasstimecode());
+            Tbclass tbclass = classService.findClassByCode(w.getClasscode());
+            Tbclassroom tbclassroom = classroomService.findClassroomByCode(w.getClassroomcode());
+            LocalDate lDate = w.getWorkingday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String dayOfWeek = lDate.getDayOfWeek().toString();
+            String pattern = "dd/MM/yyyy";
+            DateFormat df = new SimpleDateFormat(pattern);
+            String todayAsString = df.format(w.getWorkingday());
+            tbTeachingDatedto datedto = new tbTeachingDatedto();
+            datedto.setClassname(tbclass.getClassname());
+            datedto.setDow(dayOfWeek);
+            datedto.setRoom(tbclassroom.getRoomname());
+            datedto.setTeachingdate(todayAsString);
+            datedto.setTime(tbclasstime.getClasstimename());
+            listTeaching.add(datedto);
+        }
+        
+        model.addAttribute("listTeaching", listTeaching);
+        return "admin/detailsteacher";
+
+    }
+    
+    @RequestMapping({"/teachingDateDetails/{id}"})
+    public String teachingDateDetailsPage(Model model, @PathVariable("id") String id) {
+
+//        SecurityContext securityContext = SecurityContextHolder.getContext();
+//        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
+//        String uEmail = user.getUsername();
+//        String sadassdasd = "STAFF00004";
+//        Tbstaff t = staffService.findStaffByEmail(uEmail);
+        List<tbTeachingDatedto> listTeaching = new ArrayList<>();
+        List<Tbworkingschedule> tbworkingschedulesList = workingScheduleService.getWorkingDateByStaffCode(id);
         for(Tbworkingschedule w:tbworkingschedulesList){
             Tbclasstime tbclasstime = classTimeService.getCLassTimeByCode(w.getClasstimecode());
             Tbclass tbclass = classService.findClassByCode(w.getClasscode());

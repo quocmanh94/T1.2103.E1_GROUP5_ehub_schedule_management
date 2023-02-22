@@ -17,6 +17,6 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface tbStudyingScheduleRepository extends JpaRepository<Tbstudyingschedule, Integer> {
     
-    @Query("SELECT t FROM Tbstudyingschedule t WHERE t.studentcode = :studentcode")
+    @Query("SELECT t FROM Tbstudyingschedule t WHERE t.studentcode = :studentcode and t.completed = 0")
     public List<Tbstudyingschedule> getStudentListByStudentCode(@Param("studentcode") String studentcode);
 }
